@@ -25,7 +25,9 @@ const Contact = () => {
   const sendEmail = (e) => {
     e.preventDefault();
 
-    emailjs.sendForm('service_9tjxzn8', 'template_660uvud', form.current, 'JZRIOMXjgrzL_X9g-')
+    // create an account on EMailJS then use the service ID and template ID to send the email
+
+    emailjs.sendForm('service ID', 'template ID', form.current, 'JZRIOMXj')
 
     e.target.reset()
 
@@ -51,8 +53,8 @@ const Contact = () => {
 
             <GrMail className='contact_option_icon'/>
             <h4>Email</h4>
-            <h5>nazrul2517@gmail.com</h5>
-            <a href="mailto:nazrul2517@gmail.com" target=" rel='noreferrer'_blank">Send a Mail</a>
+            <h5>[email address]</h5>
+            <a href="mailto:[email address]" target=" rel='noreferrer'_blank">Send a Mail</a>
 
           </article>
 
@@ -60,8 +62,8 @@ const Contact = () => {
             
             <BsMessenger className='contact_option_icon'/>
             <h4>Messenger</h4>
-            <h5>MD Najrul Islam Sumon</h5>
-            <a href="https://m.me/nazrul2517/" target="_blank" rel='noreferrer'>Send a Message</a>
+            <h5>[name]</h5>
+            <a href="https://m.me/[username]/" target="_blank" rel='noreferrer'>Send a Message</a>
 
           </article>
           
@@ -69,7 +71,7 @@ const Contact = () => {
             
             <BsWhatsapp className='contact_option_icon'/>
             <h4>WhatsApp</h4>
-            <a href="https://api.whatsapp.com/send?phone=8801629457807" target="_blank" rel='noreferrer'>Send a Message</a>
+            <a href="https://api.whatsapp.com/send?phone=[phone number]" target="_blank" rel='noreferrer'>Send a Message</a>
 
           </article>
 

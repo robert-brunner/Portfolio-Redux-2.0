@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <footer>
       
-      <a href="#" className='footer_logo'> MD Najrul Islam Sumon</a>
+      <a href="#" className='footer_logo'>[Your Name]</a>
 
       <ul className='permalinks'>
 
@@ -34,29 +34,29 @@ const Footer = () => {
         <div
         whilehover={{scale:1.1}}
         >
-        <a href="https://www.facebook.com/nazrul2517/" target="_blank" rel='noreferrer'><CgFacebook/></a>
+        <a href="https://www.facebook.com/" target="_blank" rel='noreferrer'><CgFacebook/></a>
         </div>
         <div
         whilehover={{scale:1.1}}>
-        <a href="https://www.linkedin.com/in/najrul04/" target="_blank" rel='noreferrer'><FaLinkedin/></a>
+        <a href="https://www.linkedin.com/in/" target="_blank" rel='noreferrer'><FaLinkedin/></a>
         </div>
         <div
         whilehover={{scale:1.1}}>
-        <a href="https://www.instagram.com/najrul04/?hl=en" target="_blank" rel='noreferrer'><GrInstagram/></a>
+        <a href="https://www.instagram.com/" target="_blank" rel='noreferrer'><GrInstagram/></a>
         </div>
         <div
         whilehover={{scale:1.1}}>
-        <a href="https://twitter.com/najrul0" target="_blank" rel='noreferrer'><FaTwitter/></a>
+        <a href="https://twitter.com/" target="_blank" rel='noreferrer'><FaTwitter/></a>
         </div>
         <div
         whilehover={{scale:1.1}}>
-        <a href="https://github.com/najrul04" target="_blank" rel='noreferrer'><FaGithub/></a>
+        <a href="https://github.com/" target="_blank" rel='noreferrer'><FaGithub/></a>
         </div>
       </div>
 
       <div className="footer_copyright">
 
-        <small>&copy; MD Najrul Islam Sumon. All rights reserved {new Date().getFullYear()}</small>
+        <small>&copy; [Your Name]. All rights reserved {new Date().getFullYear()}</small>
 
       </div>
 

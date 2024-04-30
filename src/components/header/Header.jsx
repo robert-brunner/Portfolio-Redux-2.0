@@ -18,15 +18,20 @@ import tailwind_logo from "../../assets/tech_logos/tailwind.webp";
 import nodejs_logo from "../../assets/tech_logos/nodejs.webp";
 import expressjs_logo from "../../assets/tech_logos/expressjs.webp";
 import coffeeImage from "../../assets/coffee.webp";
+import cSharpLogo from "../../assets/tech_logos/cSharp.webp"; // Corrected import
+// import cSharpLogo from "../../assets/tech_logos/c#.webp";
+import sqlLogo from "../../assets/tech_logos/sql.png";
+
 
 const Header = () => {
   const logos = [
     { id: 1, name: "React", src: react_logo },
-    { id: 2, name: "TypeScript", src: ts_logo },
+    // { id: 2, name: "TypeScript", src: ts_logo },
+    { id: 2, name: "C#", src: cSharpLogo }, // Replaced TypeScript with C#
     { id: 3, name: "NextJS", src: next_logo },
     { id: 4, name: "TailwindCSS", src: tailwind_logo },
     { id: 5, name: "NodeJS", src: nodejs_logo },
-    { id: 6, name: "Express JS", src: expressjs_logo },
+    { id: 6, name: "SQL", src: sqlLogo },
   ];
 
   const particlesInit = useCallback(async (engine) => {

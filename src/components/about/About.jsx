@@ -74,7 +74,7 @@ const About = () => {
 
             <p>
 
-            Enthusiastic developer with a versatile background in multimedia, visual editing, and home automation.
+            Enthusiastic developer with a versatile background in multimedia, visual editing, and home security and automation.
 
             </p>
 

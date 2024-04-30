@@ -8,7 +8,7 @@ const Footer = () => {
   return (
     <footer>
       
-      <a href="#" className='footer_logo'>[Your Name]</a>
+      <a href="#" className='footer_logo'>[Robert Brunner]</a>
 
       <ul className='permalinks'>
 
@@ -24,7 +24,7 @@ const Footer = () => {
 
         <li><a href="#portfolio">Portfolio</a></li>
 
-        <li><a href="#testimonials">Testimonials</a></li>
+        {/* <li><a href="#testimonials">Testimonials</a></li> */}
 
         <li><a href="#contact">Contact</a></li>
 
@@ -34,7 +34,7 @@ const Footer = () => {
         <div
         whilehover={{scale:1.1}}
         >
-        <a href="https://www.facebook.com/" target="_blank" rel='noreferrer'><CgFacebook/></a>
+        {/* <a href="https://www.facebook.com/" target="_blank" rel='noreferrer'><CgFacebook/></a> */}
         </div>
         <div
         whilehover={{scale:1.1}}>
@@ -42,21 +42,21 @@ const Footer = () => {
         </div>
         <div
         whilehover={{scale:1.1}}>
-        <a href="https://www.instagram.com/" target="_blank" rel='noreferrer'><GrInstagram/></a>
+        {/* <a href="https://www.instagram.com/" target="_blank" rel='noreferrer'><GrInstagram/></a> */}
         </div>
         <div
         whilehover={{scale:1.1}}>
-        <a href="https://twitter.com/" target="_blank" rel='noreferrer'><FaTwitter/></a>
+        {/* <a href="https://codepen.io/robert-brunner" target="_blank" rel='noreferrer'><FaCodePen/></a> */}
         </div>
         <div
         whilehover={{scale:1.1}}>
-        <a href="https://github.com/" target="_blank" rel='noreferrer'><FaGithub/></a>
+        <a href="https://github.com/robert-brunner" target="_blank" rel='noreferrer'><FaGithub/></a>
         </div>
       </div>
 
       <div className="footer_copyright">
 
-        <small>&copy; [Your Name]. All rights reserved {new Date().getFullYear()}</small>
+        <small>&copy; [Robert Brunner]. All rights reserved {new Date().getFullYear()}</small>
 
       </div>
 

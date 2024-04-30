@@ -17,10 +17,12 @@ import next_logo from "../../assets/tech_logos/nextjs.webp";
 import tailwind_logo from "../../assets/tech_logos/tailwind.webp";
 import nodejs_logo from "../../assets/tech_logos/nodejs.webp";
 import expressjs_logo from "../../assets/tech_logos/expressjs.webp";
+import NET from "../../assets/tech_logos/NET.png";
 import coffeeImage from "../../assets/coffee.webp";
 import cSharpLogo from "../../assets/tech_logos/cSharp.webp"; // Corrected import
 // import cSharpLogo from "../../assets/tech_logos/c#.webp";
 import sqlLogo from "../../assets/tech_logos/sql.png";
+import Arduino from "../../assets/tech_logos/arduino.png";
 
 
 const Header = () => {
@@ -28,10 +30,10 @@ const Header = () => {
     { id: 1, name: "React", src: react_logo },
     // { id: 2, name: "TypeScript", src: ts_logo },
     { id: 2, name: "C#", src: cSharpLogo }, // Replaced TypeScript with C#
-    { id: 3, name: "NextJS", src: next_logo },
-    { id: 4, name: "TailwindCSS", src: tailwind_logo },
+    { id: 3, name: "NET", src: NET },
+    { id: 4, name: "sqlLogo", src: sqlLogo },
     { id: 5, name: "NodeJS", src: nodejs_logo },
-    { id: 6, name: "SQL", src: sqlLogo },
+    { id: 6, name: "arduino", src: Arduino },
   ];
 
   const particlesInit = useCallback(async (engine) => {

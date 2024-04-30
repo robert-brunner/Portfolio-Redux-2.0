@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import React from 'react'
-import { BsGithub, BsInstagram, BsLinkedin } from 'react-icons/bs'
+import { BsGithub,BsLinkedin } from 'react-icons/bs'
 
 const HeaderSocials = () => {
   return (
@@ -10,9 +10,9 @@ const HeaderSocials = () => {
         transition={{ type: 'spring', bounce:0.3, duration: 2 }}
     className='header_socials'>
 
-        <a href="https://www.linkedin.com/" target="_blank" rel="noreferrer"><BsLinkedin /></a>
-        <a href="https://github.com/" target="_blank" rel="noreferrer"><BsGithub/></a>
-        <a href="https://www.instagram.com/" target="_blank" rel="noreferrer"><BsInstagram/></a>
+        <a href="https://www.linkedin.com/in/robert-e-brunner/" target="_blank" rel="noreferrer"><BsLinkedin /></a>
+        <a href="https://github.com/robert-brunner" target="_blank" rel="noreferrer"><BsGithub/></a>
+        {/* <a href="https://www.instagram.com/" target="_blank" rel="noreferrer"><BsInstagram/></a> */}
 
     </motion.div>
   )

@@ -158,7 +158,7 @@ const Header = () => {
 
               <Typewriter
                 options={{
-                  strings: ["[Your Name]", "[Your Title]"],
+                  strings: ["Robert Brunner", "Full Stack Developer"],
                   autoStart: true,
                   loop: true,
                 }}

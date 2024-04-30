@@ -2,7 +2,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
 import emailjs from 'emailjs-com';
 import React, { useEffect, useRef } from 'react';
-import { BsMessenger, BsWhatsapp } from 'react-icons/bs';
+import { BsLinkedin} from 'react-icons/bs';
 import { GrMail } from 'react-icons/gr';
 import { useInView } from 'react-intersection-observer';
 import './Contact.css';
@@ -60,7 +60,7 @@ const Contact = () => {
 
           <article className="contact_option">
             
-            <BsMessenger className='contact_option_icon'/>
+            <BsLinkedin className='contact_option_icon'/>
             <h4>LinkedIn</h4>
             <h5></h5>
             <a href="https://www.linkedin.com/in/robert-e-brunner/" target="_blank" rel='noreferrer'>Send a Message</a>

@@ -44,7 +44,7 @@ const About = () => {
 
               <h5>Experience</h5>
 
-              <small>2+ Years Working</small>
+              <small>1 Year</small>
 
             </article>
             
@@ -53,9 +53,9 @@ const About = () => {
 
               <FiUsers className='about_icon'/>
 
-              <h5>Clients</h5>
+              {/* <h5>Clients</h5>
 
-              <small>5+ Worldwide</small>
+              <small>5+ Worldwide</small> */}
 
             </article>
             
@@ -66,7 +66,7 @@ const About = () => {
 
               <h5>Projects</h5>
 
-              <small>15+ Completed</small>
+              <small>3+ Completed</small>
 
             </article>
 
@@ -74,7 +74,7 @@ const About = () => {
 
             <p>
 
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+            Enthusiastic developer with a versatile background in multimedia, visual editing, and home automation.
 
             </p>
 

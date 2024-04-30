@@ -53,27 +53,27 @@ const Contact = () => {
 
             <GrMail className='contact_option_icon'/>
             <h4>Email</h4>
-            <h5>[email address]</h5>
-            <a href="mailto:[email address]" target=" rel='noreferrer'_blank">Send a Mail</a>
+            <h5></h5>
+            <a href="mailto:brunner.robert.work@gmail.com" target=" rel='noreferrer'_blank">Send Email</a>
 
           </article>
 
           <article className="contact_option">
             
             <BsMessenger className='contact_option_icon'/>
-            <h4>Messenger</h4>
-            <h5>[name]</h5>
-            <a href="https://m.me/[username]/" target="_blank" rel='noreferrer'>Send a Message</a>
+            <h4>LinkedIn</h4>
+            <h5></h5>
+            <a href="https://www.linkedin.com/in/robert-e-brunner/" target="_blank" rel='noreferrer'>Send a Message</a>
 
           </article>
           
-          <article className="contact_option">
+          {/* <article className="contact_option">
             
             <BsWhatsapp className='contact_option_icon'/>
             <h4>WhatsApp</h4>
-            <a href="https://api.whatsapp.com/send?phone=[phone number]" target="_blank" rel='noreferrer'>Send a Message</a>
+            <a href="https://api.whatsapp.com/send?phone=[8054044509]" target="_blank" rel='noreferrer'>Send a Message</a>
 
-          </article>
+          </article> */}
 
         </div>
 

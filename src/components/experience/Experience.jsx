@@ -80,7 +80,7 @@ const Experience = () => {
           What I have done so far
         </p>
         <h2 style={{textAlign: "center", color: "#b86df5"}}>
-          Work Experience
+          Experience
         </h2>
       </div>
 

@@ -261,6 +261,12 @@ const skills = [
           "https://www.vectorlogo.zone/logos/wordpress/wordpress-icon.svg",
       },
       {
+        id: 209,
+        name: "Flutter",
+        image:
+          "https://cdn-images-1.medium.com/max/1200/1*5-aoK8IBmXve5whBQM90GA.png",
+      },
+      {
         id: 207,
         name: "Adobe After Effects",
         image:
@@ -271,6 +277,12 @@ const skills = [
         name: "Adobe Premier Pro",
         image:
           "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Adobe_Premiere_Pro_CC_icon.svg/1200px-Adobe_Premiere_Pro_CC_icon.svg.png",
+      },
+      {
+        id: 207,
+        name: "Final Cut Pro",
+        image:
+          "https://upload.wikimedia.org/wikipedia/en/9/9f/2015_Final_Cut_Pro_Logo.png",
       },
       {
         id: 208,
@@ -292,15 +304,15 @@ const skills = [
       },
       {
         id: 209,
-        name: "Flutter",
-        image:
-          "https://cdn-images-1.medium.com/max/1200/1*5-aoK8IBmXve5whBQM90GA.png",
-      },
-      {
-        id: 209,
         name: "Blender",
         image:
           "https://www.wittystore.com/image/cache/data/brands_logos/blender-free-3d-creation-suite-wittystore-650x650.png",
+      },
+      {
+        id: 209,
+        name: "OBS",
+        image:
+          "https://www.logo.wine/a/logo/Open_Broadcaster_Software/Open_Broadcaster_Software-Logo.wine.svg",
       },
     ],
   },
@@ -325,50 +337,50 @@ const portfolio = [
     tag: "#Tech #Tech #Tech",
   },
   
-  {
-    id: 3,
-    gif: "https://uploads-ssl.webflow.com/624ffa8926c9b353747d449f/626117bf88153d043bf91d37_preview.gif",
-    title: "[Project]",
-    github: "https://github.com/",
-    demo: "https://www.google.co/",
-    tag: "#Tech #Tech #Tech",
-  },
+  // {
+  //   id: 3,
+  //   gif: "https://uploads-ssl.webflow.com/624ffa8926c9b353747d449f/626117bf88153d043bf91d37_preview.gif",
+  //   title: "[Project]",
+  //   github: "https://github.com/",
+  //   demo: "https://www.google.co/",
+  //   tag: "#Tech #Tech #Tech",
+  // },
   
-  {
-    id: 4,
-    gif: "https://uploads-ssl.webflow.com/624ffa8926c9b353747d449f/626117bf88153d043bf91d37_preview.gif",
-    title: "[Project]",
-    github: "https://github.com/",
-    demo: "https://www.google.co/",
-    tag: "#Tech #Tech #Tech",
-  },
+  // {
+  //   id: 4,
+  //   gif: "https://uploads-ssl.webflow.com/624ffa8926c9b353747d449f/626117bf88153d043bf91d37_preview.gif",
+  //   title: "[Project]",
+  //   github: "https://github.com/",
+  //   demo: "https://www.google.co/",
+  //   tag: "#Tech #Tech #Tech",
+  // },
   
-  {
-    id: 5,
-    gif: "https://uploads-ssl.webflow.com/624ffa8926c9b353747d449f/626117bf88153d043bf91d37_preview.gif",
-    title: "[Project]",
-    github: "https://github.com/",
-    demo: "https://www.google.co/",
-    tag: "#Tech #Tech #Tech",
-  },
+  // {
+  //   id: 5,
+  //   gif: "https://uploads-ssl.webflow.com/624ffa8926c9b353747d449f/626117bf88153d043bf91d37_preview.gif",
+  //   title: "[Project]",
+  //   github: "https://github.com/",
+  //   demo: "https://www.google.co/",
+  //   tag: "#Tech #Tech #Tech",
+  // },
   
-  {
-    id: 6,
-    gif: "https://uploads-ssl.webflow.com/624ffa8926c9b353747d449f/626117bf88153d043bf91d37_preview.gif",
-    title: "[Project]",
-    github: "https://github.com/",
-    demo: "https://www.google.co/",
-    tag: "#Tech #Tech #Tech",
-  },
+  // {
+  //   id: 6,
+  //   gif: "https://uploads-ssl.webflow.com/624ffa8926c9b353747d449f/626117bf88153d043bf91d37_preview.gif",
+  //   title: "[Project]",
+  //   github: "https://github.com/",
+  //   demo: "https://www.google.co/",
+  //   tag: "#Tech #Tech #Tech",
+  // },
   
-  {
-    id: 7,
-    gif: "https://uploads-ssl.webflow.com/624ffa8926c9b353747d449f/626117bf88153d043bf91d37_preview.gif",
-    title: "[Project]",
-    github: "https://github.com/",
-    demo: "https://www.google.co/",
-    tag: "#Tech #Tech #Tech",
-  },
+  // {
+  //   id: 7,
+  //   gif: "https://uploads-ssl.webflow.com/624ffa8926c9b353747d449f/626117bf88153d043bf91d37_preview.gif",
+  //   title: "[Project]",
+  //   github: "https://github.com/",
+  //   demo: "https://www.google.co/",
+  //   tag: "#Tech #Tech #Tech",
+  // },
   
 
 ];

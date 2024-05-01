@@ -1,5 +1,7 @@
 import { company, company1, company2, company3, client1, client2, client3, client4, client5, client6, client7, client21, client22, client23, linkedInLogo, upworkLogo } from "../assets";
 
+
+
 const experiences = [
   {
     title: "Full Stack Developer",
@@ -9,25 +11,49 @@ const experiences = [
     date: "June 2022 - January 2023",
     role_description: "Intensive full-time 6-month software development immersive training program focusing on full stack (C#/.NET) development fundamentals and problem solving. The final half of the program executed in a simulated company environment with SCRUM methodology.",
     points: [
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,"
+      "Applied JavaScript, HTML, and CSS fundamentals to build a feature-rich social media dashboard",
+      
+      "Created RESTful Web API with C#/ .NET Core and connected it to a React front-end",
+
+      "Developed a blog management platform in ASP.NET, MVC, and Razor templates in Visual Studio 2022",
+
+      "Built and interacted with databases using SQL and ADO.NET",
+
+      "Designed applications through white boarding dependencies and building ERD’s",
+
+      "Designed and built a web app with React using hooks capable of manipulating data using the C.R.U.D. methods. In addition, I incorporated aspects of CSS and SaSS to make it more visually appealing",
+
+      "Collaborated remotely on projects using Slack and Zoom ",
+
+      "Applied object-oriented programming fundamentals through team-based projects that reflect real world business problems",    
+
+      "Managed source code version control with Git / GitHub",      
+
     ],
   },
   {
-    title: "[Title]",
-    company_name: "[company Name]",
+    title: "Alarm Technician / Solar Site Surveyor",
+    company_name: "Northstar Alarm Services, LLC",
     icon: company1,
     iconBg: "#E6DEDD",
-    date: "[Date]",
+    date: "May 2014 - Present (Seasonal)",
     points: [
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, ",
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, "
+      "Trained and managed technicians in new techniques and assisted in installations ",
+      "Assisted customers concerning initial installs and service calls ",
+      "Trained customers to use alarm panel and associated apps",
+      "Strong at solving issues on over the phone for both customers and other technicians ",
+      "Programmed Home appliances to the specificiations of of customers ",
+      "Ran and diagnosed phone lines for panels",
+      "Installed and programmed smart thermostats, door locks, garage openers, indoor cameras, outdoor cameras, and doorbell cameras ",
+      "Fished wire thru walls, and traced wires ",
+      "Conducted a personal inventory count weekly",
+      "Took aerial photos of houses and businesses for solar sight surveys using drones",
+      "Photographed Main Service Panels and other electrical boxes inside and out",
+      "Photographed and measured roof pitch and rafter spacing inside attics",
+      "5+ years experience with alarm.com and MobileTech",
+      "Strong ability to work as an individual or as a team and manage time.",
+      "Ability to build and design timed or triggered events for the convenience of customers",
+
     ],
   },
   {

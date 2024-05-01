@@ -69,12 +69,12 @@ const Experience = () => {
     AOS.init({
       duration: 1200,
     });
-  }, [])
+  }, []);
+
   return (
-    < >
+    <>
       <div data-aos="fade-up" variants={textVariant()}
-      id='experience'
-      >
+      id='experience'>
         
         <p style={{textAlign: "center"}}>
           What I have done so far
@@ -87,10 +87,51 @@ const Experience = () => {
       <div style={{marginTop: "5rem", display: 'flex', flexDirection:'column'}} >
         <VerticalTimeline>
           {experiences.map((experience, index) => (
-            <ExperienceCard
+            <VerticalTimelineElement
               key={`experience-${index}`}
-              experience={experience}
-            />
+              className='verticalTimeline'
+              style={{ overflowX: "hidden" }}
+              contentStyle={{
+                background: "#030618",
+                color: "#f0f0f0"
+              }}
+              contentArrowStyle={{ borderRight: "7px solid  #232631" }}
+              date={experience.date}
+              iconStyle={{ background: experience.iconBg, marginTop: "5px" }}
+              icon={
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  width: '100%',
+                  height: '100%'
+                }}>
+                  <img
+                    src={experience.icon}
+                    alt={experience.company_name}
+                    style={{ width: '80%', height: '80%', objectFit: 'contain' }}
+                  />
+                </div>
+              }
+            >
+              <h3 style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: 'bold' }}>{experience.title}</h3>
+              <p style={{ fontSize: '16px', fontWeight: '600' }}>
+                {experience.company_name}
+              </p>
+              <p style={{ color: '#dcdcdc', fontSize: '15px', marginTop: '10px' }}>
+                {experience.role_description}
+              </p>
+              <ul style={{ marginTop: '1.25rem', marginLeft: '1.25rem' }}>
+                {experience.points.map((point, index) => (
+                  <li
+                    key={`experience-point-${index}`}
+                    style={{ color: '#fff', fontSize: '14px', listStyleType: 'disc', paddingLeft: '0.25rem', marginBottom: '0.50rem' }}
+                  >
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </VerticalTimelineElement>
           ))}
         </VerticalTimeline>
       </div>

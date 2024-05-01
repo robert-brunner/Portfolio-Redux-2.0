@@ -1,4 +1,10 @@
 import { company, company1, company2, company3, client1, client2, client3, client4, client5, client6, client7, client21, client22, client23, linkedInLogo, upworkLogo } from "../assets";
+import NewForce from '../assets/company/NewForce.jpeg';
+import NorthStar from '../assets/company/NorthStar.png';
+import Nussbaum from '../assets/company/Nussbaum.png';
+import VFD from '../assets/company/VFD.jpg';
+import LEDLLC from '../assets/company/LEDLLC.png';
+
 
 
 
@@ -6,7 +12,7 @@ const experiences = [
   {
     title: "Full Stack Developer",
     company_name: "NewForce",
-    icon: `"path/to/icon.png"`, // Make sure this path is correct
+    icon: NewForce, // Make sure this path is correct
     iconBg: "#E6DEDD",
     date: "June 2022 - January 2023",
     role_description: "Intensive full-time 6-month software development immersive training program focusing on full stack (C#/.NET) development fundamentals and problem solving. The final half of the program executed in a simulated company environment with SCRUM methodology.",
@@ -34,7 +40,7 @@ const experiences = [
   {
     title: "Alarm Technician / Solar Site Surveyor",
     company_name: "Northstar Alarm Services, LLC",
-    icon: company1,
+    icon: NorthStar,
     iconBg: "#E6DEDD",
     date: "May 2014 - Present (Seasonal)",
     points: [
@@ -59,7 +65,7 @@ const experiences = [
   {
     title: "Autobody Prepper",
     company_name: "Nussbaum Autobody and Glass, LLC",
-    icon: company2,
+    icon: Nussbaum,
     iconBg: "#E6DEDD",
     date: "2011-2014",
     points: [
@@ -71,7 +77,7 @@ const experiences = [
   {
     title: "Volunteer Firefighter",
     company_name: "Montpelier City Fire & Rescue / Bear Lake County Fire",
-    icon: company3,
+    icon: VFD,
     iconBg: "#E6DEDD",
     date: "2011 - 2014",
     points: [
@@ -82,7 +88,7 @@ const experiences = [
   {
     title: "Digtial Editor",
     company_name: "Leading Edge Duplication",
-    icon: company3,
+    icon: LEDLLC,
     iconBg: "#E6DEDD",
     date: "2008 - 2009",
     points: [

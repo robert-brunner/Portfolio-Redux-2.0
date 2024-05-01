@@ -1,8 +1,10 @@
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
-import React, { useEffect } from 'react'
-import Me from '../../assets/me.webp'
-import './About.css'
+import React, { useEffect } from 'react';
+// import Me from '../../assets/me.webp';
+import Selfie from '../../assets/Selfie.png';
+
+import './About.css';
 import { FiAward, FiUsers } from "react-icons/fi";
 import { ImFolderPlus } from "react-icons/im";
 
@@ -28,7 +30,7 @@ const About = () => {
           <div  className="about_me">
 
             <img 
-            className='about_me_image' src={Me} alt="AboutPicture" />
+            className='about_me_image' src={Selfie} alt="AboutPicture" />
 
           </div>
 

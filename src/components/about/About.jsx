@@ -13,7 +13,7 @@ const About = () => {
     AOS.init({
       duration: 1200,
     });
-  }, [])
+  }, []);
 
   return (
     <section className='about_section' data-aos="fade-up-left" id='about'>
@@ -32,16 +32,10 @@ const About = () => {
             <article className='about_card'>
               <FiAward className='about_icon'/>
               <h5>Experience</h5>
-              <small>1 Year</small>
+              <small>1 Year Development</small>
+              <small className="additional-info">10+ Years Video Editing</small>
             </article>
-            
-            {/* Comment out or remove this section to hide the Clients card */}
-            {/* <article className='about_card'>
-              <FiUsers className='about_icon'/>
-              <h5>Clients</h5>
-              <small>2 </small>
-            </article> */}
-            
+
             <article className='about_card'>
               <ImFolderPlus className='about_icon'/>
               <h5>Projects</h5>
@@ -55,7 +49,8 @@ const About = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
 export default About;
+

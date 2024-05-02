@@ -351,7 +351,7 @@ const portfolio = [
     gif: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzkydzh5MWVvYWVtNmhtdjY3ZDFhOHY3b2t5eDlheTVkeGtqamh4ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/IoR2RzYnmzr48znOFK/giphy.gif",
     title: "Nat-My-Problem",
     github: "https://github.com/robert-brunner/NatMYProblem",
-    demo: "https://www.google.co/",
+    demo: "https://www.loom.com/share/0d6331d96e274a0a92a1308dd166b357?t=1&sid=481f6130-a41e-405e-9dc0-286b20a6d88c",
     tag: "REACT Tailwind Axios OpenAi_api",
   },
 

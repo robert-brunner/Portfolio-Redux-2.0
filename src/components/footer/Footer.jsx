@@ -54,11 +54,11 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="footer_copyright">
+      {/* <div className="footer_copyright">
 
         <small>&copy; [Robert Brunner]. All rights reserved {new Date().getFullYear()}</small>
 
-      </div>
+      </div> */}
 
     </footer>
   )

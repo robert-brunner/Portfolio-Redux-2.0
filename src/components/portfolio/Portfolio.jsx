@@ -28,18 +28,14 @@ const Portfolio = () => {
 
     handleResize(); // Initial check
     window.addEventListener('resize', handleResize);
-
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   useEffect(() => {
-    AOS.init({
-      duration: 1500,
-    });
+    AOS.init({ duration: 1500 });
   }, []);
 
-
-SwiperCore.use([Pagination]);
+  SwiperCore.use([Pagination]);
 
   return (
     <section id="portfolio">
@@ -62,9 +58,8 @@ SwiperCore.use([Pagination]);
         pagination={{ clickable: true }}
         modules={[EffectCoverflow, Pagination]}
       >
-        {portfolio.map(({ id, gif, title, github, demo, tag }) => {
-          return (
-            <SwiperSlide
+        {portfolio.map(({ id, gif, title, github, demo, tag }) => (
+          <SwiperSlide
             style={{
               backgroundPosition: 'center',
               backgroundSize: 'cover',
@@ -72,42 +67,42 @@ SwiperCore.use([Pagination]);
               margin: isMobile ? '0px' : 'auto',
               height: '60vh'
             }}
-              whilehover={{ scale: 1.1 }}
-              key={id}
-            >
-              <div className="portfolio_item_image">
-                <img height={190} src={gif} alt={title} />
-                <div className="portfolio_item_content">
-                  <h3 style={{ textAlign: "center" }}>{title}</h3>
-
-                  <div className="portfolio_item_cta">
+            key={id}
+          >
+            <div className="portfolio_item_image">
+              <img height={190} src={gif} alt={title} />
+              <div className="portfolio_item_content">
+                <h3 style={{ textAlign: "center" }}>{title}</h3>
+                <div className="portfolio_item_cta">
+                  {github && (
                     <a
                       href={github}
                       rel="noreferrer"
-                      className="btn "
+                      className="btn"
                       target="_blank"
                     >
                       Github
                     </a>
+                  )}
+                  {/* Uncomment and use the below if demo links are also conditional */}
+                  {demo && (
                     <a
                       href={demo}
                       rel="noreferrer"
                       className="btn btn-primary"
                       target="_blank"
                     >
-                      Live Demo
+                      Demo
                     </a>
-                  </div>
-
-                  <p className="tag_css">{tag}</p>
+                  )}
+                 
                 </div>
+                <p className="tag_css">{tag}</p>
               </div>
-            </SwiperSlide>
-          );
-        })}
+            </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
-
-      
     </section>
   );
 };

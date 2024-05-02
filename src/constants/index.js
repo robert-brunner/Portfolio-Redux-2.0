@@ -339,6 +339,15 @@ const portfolio = [
   
   {
     id: 3,
+    gif: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzkydzh5MWVvYWVtNmhtdjY3ZDFhOHY3b2t5eDlheTVkeGtqamh4ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/IoR2RzYnmzr48znOFK/giphy.gif",
+    title: "Nat-My-Problem",
+    github: "https://github.com/robert-brunner/NatMYProblem",
+    demo: "https://www.google.co/",
+    tag: "REACT Tailwind Axios OpenAi api",
+  },
+  
+  {
+    id: 4,
     gif: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbWdrdGV2Y3NobmFtejI1d2Fob25ib3FmazRiYjBmZzM5djd4MHBhbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/PmFZWKn5AySg9vLuCn/giphy.gif",
     title: "Virtual Piano",
     // github: "https://github.com/",
@@ -346,14 +355,6 @@ const portfolio = [
     tag: "REACT",
   },
   
-  {
-    id: 4,
-    gif: "https://uploads-ssl.webflow.com/624ffa8926c9b353747d449f/626117bf88153d043bf91d37_preview.gif",
-    title: "[Project]",
-    github: "https://github.com/",
-    demo: "https://www.google.co/",
-    tag: "#Tech #Tech #Tech",
-  },
   
   // {
   //   id: 5,

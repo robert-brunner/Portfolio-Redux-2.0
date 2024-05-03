@@ -229,7 +229,8 @@ header {
 
   .background_Logos > img {
     height: 1.5rem;
-    
+    width: 19px;
+    height: 19px;
   }
 
   .header_info {

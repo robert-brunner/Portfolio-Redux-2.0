@@ -238,11 +238,12 @@ header {
     top: 33%;
     right: 7.5%;
   }
-
+/*row is a self defeating adversary of which there is no cure. stupendously better looking as a column*/
   .header_socials {
     display: flex;
-    flex-direction: row;
-    top: -450px;
+    flex-direction: column;
+    top: 80px;
+    left: -30px;
   }
 
   .scroll_down {

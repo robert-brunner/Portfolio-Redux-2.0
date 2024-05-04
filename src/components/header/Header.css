@@ -1,6 +1,7 @@
 header {
   /* height: 136vh; */
   /* padding-top: 7rem; */
+  
 }
 
 .background_Logos {
@@ -21,11 +22,6 @@ header {
   opacity: 70%;
 }
 
-.background_Logos > img {
-  width: fit-content;
-  height: 3rem;
-  opacity: 70%;
-}
 
 @keyframes wiggle {
   0%,
@@ -238,6 +234,8 @@ header {
     top: 33%;
     right: 7.5%;
   }
+
+  
 /*row is a self defeating adversary of which there is no cure. Stupendously better looking as a column*/
   .header_socials {
     display: flex;

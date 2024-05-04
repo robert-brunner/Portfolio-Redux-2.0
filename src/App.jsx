@@ -12,7 +12,9 @@ import Portfolio from './components/portfolio/Portfolio';
 import PreLoader from "./components/PreLoader/PreLoader";
 import Testimonials from "./components/testimonials/Testimonials";
 import Experience from './components/experience/Experience';
+import Apple from './components/testimonials/PortaPortfolio';
 // import Testimonials from "./components/testimonials/Testimonials";
+
 
 function Section({ children }) {
   const ref = useRef(null);
@@ -52,6 +54,8 @@ const App = () => {
       <Skills0/>
       {/* <Services/> */}
       <Portfolio/>
+
+      <Apple/>
 
       <Testimonials/>
 

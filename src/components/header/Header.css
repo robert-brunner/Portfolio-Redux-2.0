@@ -221,6 +221,7 @@ header {
 @media screen and (max-width: 600px) {
   header {
     height: 70vh;
+    overflow: hidden !important; 
   }
 
   .background_Logos > img {
@@ -235,6 +236,7 @@ header {
     right: 7.5%;
   }
 
+  
   
 /*row is a self defeating adversary of which there is no cure. Stupendously better looking as a column*/
   .header_socials {

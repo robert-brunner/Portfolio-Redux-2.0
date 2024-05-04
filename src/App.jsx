@@ -17,7 +17,7 @@ import Experience from './components/experience/Experience';
 function Section({ children }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
-
+  
   return (
     <section ref={ref}>
       <span

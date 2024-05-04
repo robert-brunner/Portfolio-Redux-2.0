@@ -262,3 +262,40 @@ header {
     top: 220%;
   }
 }
+
+/* ==================== Media Queries (Large Devices) ======================= */
+
+/* Target screens with a minimum width of 1920 pixels */
+@media screen and (min-width: 1900px) {
+  
+  .header_container {
+    text-align: center;
+    /* position: relative; */
+    /* height: 101vh; */
+    
+  }
+  
+  .header_info {
+    position: absolute;
+    top: 33%;
+    right: 43.3%;
+  }
+  
+
+}
+
+@media screen and (min-width:2560px) {
+
+  .header_container {
+    text-align: center;
+    /* position: relative; */
+    /* height: 101vh; */
+  }
+  
+  .header_info {
+    position: absolute;
+    top: 33%;
+    right: 45%;
+  }
+  
+}

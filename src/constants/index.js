@@ -178,13 +178,13 @@ const skills = [
     title: "Backend",
     skills: [
       {
-        id: 103,
+        id: 101,
         name: "C#",
         image:
           "https://www.codeguru.com/wp-content/uploads/2021/08/C-Sharp-Tutorials.png",
       },
       {
-        id: 101,
+        id: 102,
         name: "SQL Server",
         image: "https://user-images.githubusercontent.com/4249331/52232852-e2c4f780-28bd-11e9-835d-1e3cf3e43888.png",
       },
@@ -231,31 +231,31 @@ const skills = [
           "https://i.ibb.co/VjL9zJH/Vercel.png",
       },
       {
-        id: 203,
+        id: 204,
         name: "ExpoGo",
         image:
           "https://play-lh.googleusercontent.com/algsmuhitlyCU_Yy3IU7-7KYIhCBwx5UJG4Bln-hygBjjlUVCiGo1y8W5JNqYm9WW3s",
       },
       {
-        id: 204,
+        id: 205,
         name: "Arduino",
         image:
           "https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Arduino_IDE_logo.svg/2048px-Arduino_IDE_logo.svg.png",
       },
       {
-        id: 205,
+        id: 206,
         name: "VS Code",
         image:
           "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Visual_Studio_Code_1.35_icon.svg/512px-Visual_Studio_Code_1.35_icon.svg.png?20210804221519",
       },
       {
-        id: 205,
+        id: 207,
         name: "Visual Studio",
         image:
           "https://1000logos.net/wp-content/uploads/2023/04/Visual-Studio-logo.png",
       },
       {
-        id: 213,
+        id: 208,
         name: "WordPress",
         image:
           "https://www.vectorlogo.zone/logos/wordpress/wordpress-icon.svg",
@@ -267,49 +267,49 @@ const skills = [
           "https://cdn-images-1.medium.com/max/1200/1*5-aoK8IBmXve5whBQM90GA.png",
       },
       {
-        id: 207,
+        id: 210,
         name: "Adobe After Effects",
         image:
           "https://1000logos.net/wp-content/uploads/2020/07/After-Effects-Logo.png",
       },
       {
-        id: 207,
+        id: 211,
         name: "Adobe Premier Pro",
         image:
           "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/Adobe_Premiere_Pro_CC_icon.svg/1200px-Adobe_Premiere_Pro_CC_icon.svg.png",
       },
       {
-        id: 207,
+        id: 212,
         name: "Final Cut Pro",
         image:
           "https://upload.wikimedia.org/wikipedia/en/9/9f/2015_Final_Cut_Pro_Logo.png",
       },
       {
-        id: 208,
+        id: 213,
         name: "Figma",
         image:
           "https://i.pinimg.com/originals/63/a7/b1/63a7b1894b3210d07e434e9d12170586.png",
       },
       {
-        id: 208,
+        id: 214,
         name: "Miro",
         image:
           "https://store-images.s-microsoft.com/image/apps.47763.13959754522315136.87be3224-9693-4fd4-8cd4-af6362fb8d37.b3c24453-164b-4d03-b561-e77aec7c076a",
       },
       {
-        id: 209,
+        id: 215,
         name: "Canva",
         image:
           "https://www.vectorlogo.zone/logos/canva/canva-icon.svg",
       },
       {
-        id: 209,
+        id: 216,
         name: "Blender",
         image:
           "https://www.wittystore.com/image/cache/data/brands_logos/blender-free-3d-creation-suite-wittystore-650x650.png",
       },
       {
-        id: 209,
+        id: 217,
         name: "OBS",
         image:
           "https://www.logo.wine/a/logo/Open_Broadcaster_Software/Open_Broadcaster_Software-Logo.wine.svg",

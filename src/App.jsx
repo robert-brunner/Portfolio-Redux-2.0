@@ -57,7 +57,7 @@ const App = () => {
       {/* <Services/> */}
       <Portfolio/>
 
-      <Apple/>
+      {/* <Apple/> */}
 
       <Testimonials/>
 

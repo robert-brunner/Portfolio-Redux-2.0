@@ -1,30 +1,30 @@
-import React, { useEffect } from "react";
-import AOS from "aos";
-import "aos/dist/aos.css"; // You can also use <link> for styles
-import { useInView } from "react-intersection-observer";
-import { testimonial } from "../../constants";
-import "./Testimonials.css";
-
-
-// Where they have given me the reviews
-
-import linkedInLogo from "../../assets/LinkedIn.webp";
-import upworkLogo from "../../assets/UpWork.webp";
-
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Pagination } from "swiper";
-
-// Import Swiper styles
+import AOS from "aos";
+import "aos/dist/aos.css";
 import "swiper/css";
 import "swiper/css/pagination";
-import StarRating from "./StarRating";
 import "swiper/swiper-bundle.min.css";
-// import 'swiper/css/pagination'
-
+import { useInView } from "react-intersection-observer";
+import { portfolio } from "../../constants";
+import "./Testimonials.css";
 
 SwiperCore.use([Pagination]);
 
 const Apple = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 720);
+    };
+
+    handleResize(); // Initial check
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     AOS.init({
       duration: 1200,
@@ -37,81 +37,33 @@ const Apple = () => {
 
   return (
     <section ref={ref} id="testimonials">
-      <h5>Peer Reviews and Recommendations</h5>
+      <h5>My Recent Work</h5>
       <h2>Apple</h2>
 
       <Swiper
-        data-aos="zoom-in-up"
-        className="container testimonials_container" // install Swiper modules
-        style={{ overflowX: "visible" }}
+        data-aos="fade-up"
+        className="container apple_container"
         modules={[Pagination]}
         spaceBetween={30}
-        pagination={{ clickable: true }} // Enable clickable pagination
-        /* breakpoints={{
-        640: {
-          slidesPerView: 1
-        },
-        // Adjust the breakpoints to your desired screen widths
-        768: {
-          slidesPerView: 2, // Show 1 slide on screens with width 768px and below (mobile)
-        },
-        1024: {
-          slidesPerView: 1, // Show 3 slides on screens with width 1024px and above (desktop)
-        },
-      }} */
+        pagination={{ clickable: true }}
       >
-{testimonial.map(({ avatar, name, review, title, source }, index) => {
-  return (
-    <SwiperSlide key={index} className="testimonial">
-      <div className="client_avatar">
-        <img src={avatar} alt={name} />
-      </div>
-
-      <h4 className="client_name">{name}</h4>
-
-      {source !== "LinkedIn" && (
-        <span>
-          <StarRating />
-        </span>
-      )}
-
-      <small className="client_review">{review}</small>
-      <h5 className="client_title">{title}</h5>
-
-      <div className={`testimonial_source ${source.toLowerCase()}_source`}>
-        {source === "LinkedIn" && (
-          <div className="logo_and_text">
-            <img
-              src={linkedInLogo}
-              alt="LinkedIn"
-              className="testimonial_logo linkedin_logo" // Added a class for LinkedIn logo
-            />
-            <h4 className="testimonial_source_text">LinkedIn</h4>
-          </div>
-        )}
-
-        {source === "UpWork" && (
-          <div className="logo_and_text">
-            <img
-              src={upworkLogo}
-              alt="Upwork"
-              className="testimonial_logo upwork_logo" // Added a class for Upwork logo
-            />
-            <h4 className="testimonial_source_text">UpWork</h4>
-          </div>
-        )}
-
-        {source === "Local" && (
-          
-          <div className="logo_and_text">
-            <h4 className="testimonial_source_text">Local</h4>
-          </div>
-        )}
-      </div>
-    </SwiperSlide>
-  );
-})}
-
+        {portfolio.map(({ id, gif, title, github, demo, tag }, index) => (
+          <SwiperSlide key={id} className="testimonial">
+            <div className="client_avatar">
+              <img src={gif} alt={title} style={{ width: isMobile ? '100%' : 'auto', height: 'auto' }} />
+            </div>
+            <h4 className="client_name">{title}</h4>
+            <div className="portfolio_item_cta">
+              {github && (
+                <a href={github} className="btn" target="_blank" rel="noopener noreferrer">GitHub</a>
+              )}
+              {demo && (
+                <a href={demo} className="btn btn-primary" target="_blank" rel="noopener noreferrer">Demo</a>
+              )}
+            </div>
+            <p className="tag_css">{tag}</p>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </section>
   );

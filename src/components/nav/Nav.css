@@ -90,7 +90,7 @@ nav a.active {
     padding: 0.7rem 1.7rem;
     z-index: 2;
     position: fixed;
-    left: 58.7%; /* Center the starting point of the nav to the middle of the screen */
+    left: 57.3%; /* Center the starting point of the nav to the middle of the screen */
     transform: translateX(-50%); /* Move the nav back to the left by half its own width to center it */
     bottom: 2rem;
     display: flex;

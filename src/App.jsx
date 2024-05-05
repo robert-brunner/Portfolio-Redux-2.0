@@ -9,43 +9,69 @@ import Portfolio from './components/portfolio/Portfolio';
 import PreLoader from "./components/PreLoader/PreLoader";
 import Testimonials from "./components/testimonials/Testimonials";
 import Experience from './components/experience/Experience';
-import pleaseRotate from './assets/pleaseRotate.png';
+import pleaseRotate from './assets/pleaseRotate.png'; // Make sure this path is correct
 
-const App = () => {
-  const [isLandscape, setIsLandscape] = useState(window.matchMedia("(orientation: landscape)").matches);
+function App() {
+  const [orientation, setOrientation] = useState(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
+  const [initialOrientation, setInitialOrientation] = useState(orientation);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   useEffect(() => {
-    const handleOrientationChange = (e) => {
-      setIsLandscape(e.matches);
+    const handleResize = () => {
+      const newOrientation = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+      setOrientation(newOrientation);
+      setIsMobile(window.innerWidth < 768);
     };
-    const mql = window.matchMedia("(orientation: landscape)");
-    mql.addListener(handleOrientationChange);
 
-    return () => mql.removeListener(handleOrientationChange);
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
-  if (isLandscape) {
+  const renderContent = () => {
+    if (isMobile) {
+      if (initialOrientation === 'portrait' && orientation === 'landscape') {
+        // Show "please rotate" image if the device started in portrait and is now in landscape
+        return <img src={pleaseRotate} alt="Please rotate your device" />;
+      }
+      // For mobile, always return the rest of the components unless the specific condition is met
+      return (
+        <>
+          <Header />
+          <Nav />
+          <About />
+          <Experience />
+          <Skills0 />
+          <Portfolio />
+          <Testimonials />
+          <Contact />
+          <Footer />
+        </>
+      );
+    }
+    // For desktops, render all components normally
     return (
-      <div style={{ width: '100%', height: '100%', position: 'fixed', top: 0, left: 0 }}>
-        <img src={pleaseRotate} alt="Rotate Device" style={{ width: '100%', height: '100%' }} />
-      </div>
+      <>
+        <Header />
+        <Nav />
+        <About />
+        <Experience />
+        <Skills0 />
+        <Portfolio />
+        <Testimonials />
+        <Contact />
+        <Footer />
+      </>
     );
-  }
+  };
 
   return (
     <>
-      <PreLoader/>
-      <Header/>
-      <Nav/>
-      <About/>
-      <Experience/>
-      <Skills0/>
-      <Portfolio/>
-      <Testimonials/>
-      <Contact/>
-      <Footer/>
+      <PreLoader />
+      {renderContent()}
     </>
   );
-};
+}
 
 export default App;

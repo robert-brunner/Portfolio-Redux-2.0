@@ -187,3 +187,8 @@ html, body{
   overflow-x: hidden !important;
 }
 
+#rotateMe {
+  width: 60%;  /* Half the original width */
+  height: auto;  /* Maintain the aspect ratio */
+  display: flex;
+}

@@ -33,7 +33,10 @@ function App() {
     if (isMobile) {
       if (initialOrientation === 'portrait' && orientation === 'landscape') {
         // Show "please rotate" image if the device started in portrait and is now in landscape
-        return <img src={pleaseRotate} alt="Please rotate your device" />;
+        return <div class="container">
+    <img src="https://media.tenor.com/JNvOKP5bX6kAAAAM/rotate.gif" alt="rotateMe" id="rotateMe" />
+</div>
+;
       }
       // For mobile, always return the rest of the components unless the specific condition is met
       return (

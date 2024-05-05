@@ -1,72 +1,51 @@
-
-import React, { useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import About from './components/about/About';
 import Contact from './components/contact/Contact';
-// import Skills from './components/skills/Skills';
 import Skills0 from './components/skills0/Skills0';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import Nav from './components/nav/Nav';
 import Portfolio from './components/portfolio/Portfolio';
-// import Services from './components/services/Services'
 import PreLoader from "./components/PreLoader/PreLoader";
 import Testimonials from "./components/testimonials/Testimonials";
 import Experience from './components/experience/Experience';
-import Apple from './components/testimonials/PortaPortfolio';
-// import Testimonials from "./components/testimonials/Testimonials";
-
-
-function Section({ children }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  
-  return (
-    <section ref={ref}>
-      <span
-        style={{
-          transform: isInView ? "none" : "translateX(-200px)",
-          opacity: isInView ? 1 : 0,
-          transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
-        }}
-      >
-        {children}
-      </span>
-    </section>
-  );
-}
-
-
+import pleaseRotate from './assets/pleaseRotate.png';
 
 const App = () => {
+  const [isLandscape, setIsLandscape] = useState(window.matchMedia("(orientation: landscape)").matches);
+
+  useEffect(() => {
+    const handleOrientationChange = (e) => {
+      setIsLandscape(e.matches);
+    };
+    const mql = window.matchMedia("(orientation: landscape)");
+    mql.addListener(handleOrientationChange);
+
+    return () => mql.removeListener(handleOrientationChange);
+  }, []);
+
+  if (isLandscape) {
+    return (
+      <div style={{ width: '100%', height: '100%', position: 'fixed', top: 0, left: 0 }}>
+        <img src={pleaseRotate} alt="Rotate Device" style={{ width: '100%', height: '100%' }} />
+      </div>
+    );
+  }
 
   return (
     <>
-    <PreLoader/>
-
+      <PreLoader/>
       <Header/>
-      
       <Nav/>
-
       <About/>
-
       <Experience/>
-
-      {/* <Skills/> */}
-
       <Skills0/>
-      {/* <Services/> */}
       <Portfolio/>
-
-      {/* <Apple/> */}
-
       <Testimonials/>
-
       <Contact/>
-
       <Footer/>
-    
     </>
-  )
-}
+  );
+};
 
 export default App;

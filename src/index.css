@@ -59,6 +59,8 @@ body {
   background-image: url(../src/assets/bg-texture.png);
 }
 
+
+
 /* General Styles*/
 
 /* .container {
@@ -146,6 +148,8 @@ img {
   border-bottom-right-radius:19px;
  }
 
+ 
+
 /* ==================== Media Queries (Medium Devices) ======================= */
 
 @media screen and (max-width: 1024px) {
@@ -180,3 +184,4 @@ img {
 html, body{
   overflow-x: hidden !important;
 }
+

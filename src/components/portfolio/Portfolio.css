@@ -80,7 +80,26 @@
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+  .disable-interaction {
+    pointer-events: none; /* This disables all click, state and hover effects */
+  }
 }
-/*  width:80%;
-  left:5%;*/
+
+/* Keyframes for fade-in-out animation */
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Updated CSS for swiper buttons with initial position and color */
+#portfolio .swiper-watch-progress .swiper-button-next,
+#portfolio .swiper-watch-progress .swiper-button-prev {
+  top: 300px; /* Position at 300px from the top */
+  color: rgba(188, 10, 228, 0.122); /* Light purple color with low opacity */
+  animation: fadeInOut 1s ease-in-out forwards; /* Apply the fade-in-out animation */
+}
+

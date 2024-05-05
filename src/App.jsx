@@ -34,7 +34,8 @@ function App() {
       if (initialOrientation === 'portrait' && orientation === 'landscape') {
         // Show "please rotate" image if the device started in portrait and is now in landscape
         return <div class="container">
-    <img src="https://media.tenor.com/JNvOKP5bX6kAAAAM/rotate.gif" alt="rotateMe" id="rotateMe" />
+    <img src="https://media1.tenor.com/m/oHvIIZFUf7wAAAAd/shark-rotate.gif" alt="rotateMe" id="rotateMe" />
+    <div id='Flipper' class="overlay-text">Flip Me🔄</div>
 </div>
 ;
       }

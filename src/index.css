@@ -192,3 +192,16 @@ html, body{
   height: auto;  /* Maintain the aspect ratio */
   display: flex;
 }
+
+.overlay-text {
+  position: absolute;   /* Position the text absolutely within a relative container */
+  top: 50%;             /* Center vertically in the container or viewport */
+  right: 0;             /* Align to the right side of the container or viewport */
+  transform: translateY(-50%); /* Adjust the vertical position to truly center */
+  color: white;         /* Text color */
+  font-size: 20px;      /* Text size */
+  font-weight: bold;    /* Text weight */
+  font-family: 'Impact', sans-serif; /* Using Impact font */
+  background: rgba(0, 0, 0, 0); /* Optional: adds a semi-transparent background */
+  padding: 135px;        /* Adds padding around the text */
+}

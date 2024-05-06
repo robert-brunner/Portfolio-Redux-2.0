@@ -32,9 +32,9 @@ const Contact = () => {
     e.target.reset()
 
       .then((result) => {
-          console.log(result.text);
+          console.log('SUCCESS!',result.text);
       }, (error) => {
-          console.log(error.text);
+          console.log('FAILED...',error.text);
       });
   };
 

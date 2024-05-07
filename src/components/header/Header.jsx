@@ -22,7 +22,7 @@ import coffeeImage from "../../assets/coffee.webp";
 import cSharpLogo from "../../assets/tech_logos/cSharp.webp"; // Corrected import
 // import cSharpLogo from "../../assets/tech_logos/c#.webp";
 import sqlLogo from "../../assets/tech_logos/sql.png";
-import Arduino from "../../assets/tech_logos/arduino.png";
+import Arduino from "../../assets/tech_logos/Arduino.png";
 import { useMediaQuery } from "react-responsive";
 
 

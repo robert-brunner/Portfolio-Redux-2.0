@@ -1,66 +1,81 @@
-
-import React, { useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import About from './components/about/About';
 import Contact from './components/contact/Contact';
-// import Skills from './components/skills/Skills';
 import Skills0 from './components/skills0/Skills0';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import Nav from './components/nav/Nav';
 import Portfolio from './components/portfolio/Portfolio';
-// import Services from './components/services/Services'
 import PreLoader from "./components/PreLoader/PreLoader";
 import Testimonials from "./components/testimonials/Testimonials";
 import Experience from './components/experience/Experience';
-// import Testimonials from "./components/testimonials/Testimonials";
+import pleaseRotate from './assets/pleaseRotate.png'; // Make sure this path is correct
 
-function Section({ children }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+function App() {
+  const [orientation, setOrientation] = useState(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
+  const [initialOrientation, setInitialOrientation] = useState(orientation);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-  return (
-    <section ref={ref}>
-      <span
-        style={{
-          transform: isInView ? "none" : "translateX(-200px)",
-          opacity: isInView ? 1 : 0,
-          transition: "all 0.9s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s"
-        }}
-      >
-        {children}
-      </span>
-    </section>
-  );
-}
+  useEffect(() => {
+    const handleResize = () => {
+      const newOrientation = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+      setOrientation(newOrientation);
+      setIsMobile(window.innerWidth < 768);
+    };
 
-const App = () => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  const renderContent = () => {
+    if (isMobile) {
+      if (initialOrientation === 'portrait' && orientation === 'landscape') {
+        // Show "please rotate" image if the device started in portrait and is now in landscape
+        return <div class="container">
+    <img src="https://media1.tenor.com/m/oHvIIZFUf7wAAAAd/shark-rotate.gif" alt="rotateMe" id="rotateMe" />
+    <div id='Flipper' class="overlay-text">Flip Me🔄</div>
+</div>
+;
+      }
+      // For mobile, always return the rest of the components unless the specific condition is met
+      return (
+        <>
+          <Header />
+          <Nav />
+          <About />
+          <Experience />
+          <Skills0 />
+          <Portfolio />
+          <Testimonials />
+          <Contact />
+          <Footer />
+        </>
+      );
+    }
+    // For desktops, render all components normally
+    return (
+      <>
+        <Header />
+        <Nav />
+        <About />
+        <Experience />
+        <Skills0 />
+        <Portfolio />
+        <Testimonials />
+        <Contact />
+        <Footer />
+      </>
+    );
+  };
 
   return (
     <>
-    <PreLoader/>
-
-      <Header/>
-      
-      <Nav/>
-
-      <About/>
-
-      <Experience/>
-
-      {/* <Skills/> */}
-
-      <Skills0/>
-      {/* <Services/> */}
-      <Portfolio/>
-
-      <Testimonials/>
-
-      <Contact/>
-
-      <Footer/>
-    
+      <PreLoader />
+      {renderContent()}
     </>
-  )
+  );
 }
 
 export default App;

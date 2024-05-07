@@ -74,6 +74,12 @@
   color: var(--color-light);
 }
 
+.about_card .additional-info {
+  display: block; /* Ensures it appears on a new line */
+  font-size: 0.7rem; /* Keeps font size consistent with other <small> tags */
+  color: var(--color-light); /* Ensures color consistency */
+}
+
 .about_content p {
   margin: 1rem 0 1rem;
   color: var(--color-light);

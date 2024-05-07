@@ -2,7 +2,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
 import emailjs from 'emailjs-com';
 import React, { useEffect, useRef } from 'react';
-import { BsMessenger, BsWhatsapp } from 'react-icons/bs';
+import { BsLinkedin} from 'react-icons/bs';
 import { GrMail } from 'react-icons/gr';
 import { useInView } from 'react-intersection-observer';
 import './Contact.css';
@@ -27,14 +27,14 @@ const Contact = () => {
 
     // create an account on EMailJS then use the service ID and template ID to send the email
 
-    emailjs.sendForm('service ID', 'template ID', form.current, 'JZRIOMXj')
+    emailjs.sendForm('gmail', 'template_haziy4i', form.current, 'Kv8nOyeiROsarNF9x')
 
     e.target.reset()
 
       .then((result) => {
-          console.log(result.text);
+          console.log('SUCCESS!',result.text);
       }, (error) => {
-          console.log(error.text);
+          console.log('FAILED...',error.text);
       });
   };
 
@@ -53,27 +53,27 @@ const Contact = () => {
 
             <GrMail className='contact_option_icon'/>
             <h4>Email</h4>
-            <h5>[email address]</h5>
-            <a href="mailto:[email address]" target=" rel='noreferrer'_blank">Send a Mail</a>
+            <h5></h5>
+            <a href="mailto:brunner.robert.work@gmail.com" target=" rel='noreferrer'_blank">Send Email</a>
 
           </article>
 
           <article className="contact_option">
             
-            <BsMessenger className='contact_option_icon'/>
-            <h4>Messenger</h4>
-            <h5>[name]</h5>
-            <a href="https://m.me/[username]/" target="_blank" rel='noreferrer'>Send a Message</a>
+            <BsLinkedin className='contact_option_icon'/>
+            <h4>LinkedIn</h4>
+            <h5></h5>
+            <a href="https://www.linkedin.com/in/robert-e-brunner/" target="_blank" rel='noreferrer'>Send a Message</a>
 
           </article>
           
-          <article className="contact_option">
+          {/* <article className="contact_option">
             
             <BsWhatsapp className='contact_option_icon'/>
             <h4>WhatsApp</h4>
-            <a href="https://api.whatsapp.com/send?phone=[phone number]" target="_blank" rel='noreferrer'>Send a Message</a>
+            <a href="https://api.whatsapp.com/send?phone=[8054044509]" target="_blank" rel='noreferrer'>Send a Message</a>
 
-          </article>
+          </article> */}
 
         </div>
 
@@ -83,6 +83,7 @@ const Contact = () => {
 
             <input type="text" name='name' placeholder='Your Full name' required />
             <input type="email" name='email' placeholder='Your Email' required />
+            <input type="subject" name='subject' placeholder='Your Subject' required />
             <textarea name="message" rows="7" placeholder='Your Message' required></textarea>
             <button type='submit' className='btn btn-primary'>Send Message</button>
 

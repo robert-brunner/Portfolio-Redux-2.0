@@ -1,9 +1,10 @@
 {
   "name": "portfolio",
-  "homepage": "https://najruli.vercel.app/",
+  "homepage": "https://github.com/robert-brunner",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emailjs/browser": "^4.3.3",
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
     "@fortawesome/free-brands-svg-icons": "^6.1.2",
     "@fortawesome/free-regular-svg-icons": "^6.1.2",
@@ -23,6 +24,7 @@
     "react-icons": "^4.4.0",
     "react-intersection-observer": "^9.4.0",
     "react-loader-spinner": "^5.3.4",
+    "react-responsive": "^10.0.0",
     "react-router-dom": "6",
     "react-simple-typewriter": "^3.0.1",
     "react-tsparticles": "^2.12.2",
@@ -41,7 +43,8 @@
     "build": "vite build",
     "test": "vite test",
     "eject": "vite eject",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "dev": "vite --host"
   },
   "eslintConfig": {
     "extends": [

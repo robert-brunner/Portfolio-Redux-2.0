@@ -14,6 +14,7 @@
   border-radius: 2rem;
   border: 1px solid transparent;
   transition: var(--transition);
+  
 }
 
 .portfolio_item:hover {
@@ -39,12 +40,14 @@
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
-  margin-left: 12px;
+  justify-content: center; /* Center the items horizontally */
+  /* margin-left: 12px; */
 }
 
 .portfolio_item_content{
   display: grid;
   justify-content: center;
+  
 
 }
 
@@ -55,7 +58,11 @@
   margin-left: 12px;
   padding-bottom: 3px;
   color: rgb(96, 95, 133);
+  margin-left: -3px;
+  text-align:center;
+  align-items: center;
 }
+
 
 /* ==================== Media Queries (Medium Devices) ======================= */
 
@@ -73,4 +80,26 @@
     grid-template-columns: 1fr;
     gap: 1rem;
   }
+  .disable-interaction {
+    pointer-events: none; /* This disables all click, state and hover effects */
+  }
 }
+
+/* Keyframes for fade-in-out animation */
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Updated CSS for swiper buttons with initial position and color */
+#portfolio .swiper-watch-progress .swiper-button-next,
+#portfolio .swiper-watch-progress .swiper-button-prev {
+  top: 300px; /* Position at 300px from the top */
+  color: rgba(188, 10, 228, 0.122); /* Light purple color with low opacity */
+  animation: fadeInOut 1s ease-in-out forwards; /* Apply the fade-in-out animation */
+}
+

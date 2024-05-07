@@ -27,7 +27,7 @@ const Contact = () => {
 
     // create an account on EMailJS then use the service ID and template ID to send the email
 
-    emailjs.sendForm('service ID', 'template ID', form.current, 'JZRIOMXj')
+    emailjs.sendForm('gmail', 'template_haziy4i', form.current, 'Kv8nOyeiROsarNF9x')
 
     e.target.reset()
 
@@ -83,6 +83,7 @@ const Contact = () => {
 
             <input type="text" name='name' placeholder='Your Full name' required />
             <input type="email" name='email' placeholder='Your Email' required />
+            <input type="subject" name='subject' placeholder='Your Subject' required />
             <textarea name="message" rows="7" placeholder='Your Message' required></textarea>
             <button type='submit' className='btn btn-primary'>Send Message</button>
 

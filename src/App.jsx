@@ -9,7 +9,10 @@ import Portfolio from './components/portfolio/Portfolio';
 import PreLoader from "./components/PreLoader/PreLoader";
 import Testimonials from "./components/testimonials/Testimonials";
 import Experience from './components/experience/Experience';
-import pleaseRotate from './assets/pleaseRotate.png'; // Make sure this path is correct
+import pleaseRotate from './assets/pleaseRotate.png'; 
+import ReactGA from 'react-ga'; // google analytics
+
+
 
 function App() {
   const [orientation, setOrientation] = useState(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
@@ -27,6 +30,13 @@ function App() {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
+  }, []);
+
+  useEffect(() => {
+    // Initialize Google Analytics with your tracking ID
+    ReactGA.initialize('G-VFKWMVXKG9'); // Replace YOUR_TRACKING_ID with your actual Google Analytics tracking ID
+    // Track initial page view
+    ReactGA.pageview(window.location.pathname + window.location.search);
   }, []);
 
   const renderContent = () => {

@@ -5,11 +5,39 @@ import Nussbaum from '../assets/company/Nussbaum.png';
 import VFD from '../assets/company/VFD.jpg';
 import LEDLLC from '../assets/company/LEDLLC.png';
 import NajrulSumon from '../assets/clients/NajrulSumon.jpeg';
+import AW from '../assets/company/AW_Alpha.png';
 
 
 
 
 const experiences = [
+{
+    title: "Software Developer & Embedded Systems",
+    company_name: "Applied Wireless",
+    icon: AW, // Make sure this path/variable is correct
+    iconBg: "#E6DEDD",
+    date: "August 2024 - Present",
+    role_description: "Built a real-time Android application for embedded hardware control while working on RF and audio product lines at the embedded level. Built the communication protocol via ble, checksums and 10 byte packets, created and designed the user interface, and solved hardware issues.",
+    points: [
+      "Architected and solo-developed a real-time Android (Ionic React + Capacitor) application for embedded brake and vehicle control",
+      "Designed the entire 10-byte custom bidirectional packet structure and communication API from scratch to interface with the hardware engineer’s PIC16 ASM implementation",
+      "Owned the full phone and ESP32 side of the stack (JavaScript → BLE → ESP32 C++ → UART), including checksum validation, handshake protocol, and exponential backoff with guaranteed eventual delivery",
+      "Achieved 1.67-second average round-trip latency",
+      "Implemented selective optimistic UI, GPS + accelerometer-based vehicle profile auto-locking (>5 mph threshold requiring full stop to change), longPressHandler for continuous value adjustment, automatic profile recall on reconnect, PIN protection system, and safety-critical guaranteed brake command logic (queued and sent 2× with explicit latch)",
+      "Given full creative control, designed and built the complete UI/UX from scratch in Figma, including dark mode, custom animated Lottie splash screen (created in After Effects), dynamic text formatting/highlighting system, help menu, and a real-time linear gradient brake force visualization driven by stage voltage and vehicle profile",
+      "Self-taught C++, ESP32 development, binary/hexadecimal protocol design, and low-level BLE integration to deliver the entire application",
+      "Investigated and resolved a 12-year-old audio whine/grounding issue on the PAR900M legacy RF product line (now under my ownership)",
+      "Identified missing decoupling capacitors and improper grounding near the oscillator/RF section through systematic board probing and testing. Implemented fixes that enabled continued sale of existing inventory instead of total loss",
+      "Independently build and test every iteration of the PAR900M, PAT900, and related audio/RF products (including Si4703 FM receiver modules)",
+      "Took ownership of all sequential iterations of the Eagle Eye Transmitter/Receiver product line after initial rollout",
+      "Independently handle firmware flashing and modification (hex frequency band adjustments to prevent crosstalk), full assembly, CNC machining of cases, functional testing, and quality control",
+      "Delivered 200+ units with only one RMA (software-related bug)",
+      "Designed and implemented improved RF testing procedures, replacing ineffective Mylar bag testing with a modified Faraday cage + LED pass/fail indicators",
+      "The Faraday cage dramatically increased testing reliability and ensured consistent performance validation across all units",
+      "Created product manuals and custom visual artwork to improve customer understanding of product connections and setup",
+      "Self-taught Fusion 360 and produced accurate .STEP file models of multiple products for direct customer delivery"
+    ],
+},
   {
     title: "Full Stack Developer",
     company_name: "NewForce",
@@ -43,7 +71,7 @@ const experiences = [
     company_name: "Northstar Alarm Services, LLC",
     icon: NorthStar,
     iconBg: "#E6DEDD",
-    date: "May 2014 - Present (Seasonal)",
+    date: "May 2014 - June 2024)",
     points: [
       "Trained and managed technicians in new techniques and assisted in installations ",
       "Assisted customers concerning initial installs and service calls ",

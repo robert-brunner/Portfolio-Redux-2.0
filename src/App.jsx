@@ -8,6 +8,7 @@ import Header from './components/header/Header';
 // import Header from './components/header/PcbHeader2';
 // import Header from './components/header/PcbHeader3';
 // import Header from './components/header/PcbHeader4';
+// import Header from './components/header/GeminiHeader1';
 import Nav from './components/nav/Nav';
 import Portfolio from './components/portfolio/Portfolio';
 import PreLoader from "./components/PreLoader/PreLoader";
@@ -78,7 +79,7 @@ function App() {
 
   return (
     <>
-      {/* <PreLoader />  */}
+      <PreLoader /> 
       {renderContent()}
     </>
   );

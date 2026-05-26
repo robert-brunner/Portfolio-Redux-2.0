@@ -4,6 +4,10 @@ import Contact from './components/contact/Contact';
 import Skills0 from './components/skills0/Skills0';
 import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
+// import Header from './components/header/PcbHeader';
+// import Header from './components/header/PcbHeader2';
+// import Header from './components/header/PcbHeader3';
+// import Header from './components/header/PcbHeader4';
 import Nav from './components/nav/Nav';
 import Portfolio from './components/portfolio/Portfolio';
 import PreLoader from "./components/PreLoader/PreLoader";
@@ -74,10 +78,13 @@ function App() {
 
   return (
     <>
-      <PreLoader />
+      {/* <PreLoader />  */}
       {renderContent()}
     </>
   );
 }
 
 export default App;
+
+
+// turn preloader back on to see menu

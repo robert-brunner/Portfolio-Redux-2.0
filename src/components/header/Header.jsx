@@ -1,13 +1,10 @@
 import React from "react";
 import { AiOutlineCaretDown } from "react-icons/ai";
-// import Typical from 'react-typical'
 import CTA from "./CTA";
 import "./Header.css";
 import HeaderSocials from "./HeaderSocials";
-// import { Typewriter } from 'react-simple-typewriter'
 import { motion } from "framer-motion";
 import Typewriter from "typewriter-effect";
-// import videoBg from "../../assets/video_portfolio/videoBg1.m4v";
 import { useCallback } from "react";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
@@ -20,7 +17,6 @@ import expressjs_logo from "../../assets/tech_logos/expressjs.webp";
 import NET from "../../assets/tech_logos/NET.png";
 import coffeeImage from "../../assets/coffee.webp";
 import cSharpLogo from "../../assets/tech_logos/cSharp.webp"; // Corrected import
-// import cSharpLogo from "../../assets/tech_logos/c#.webp";
 import sqlLogo from "../../assets/tech_logos/sql.png";
 import Arduino from "../../assets/tech_logos/Arduino.png";
 import { useMediaQuery } from "react-responsive";
@@ -33,7 +29,6 @@ const Header = () => {
 
   const logos = [
     { id: 1, name: "React", src: react_logo },
-    // { id: 2, name: "TypeScript", src: ts_logo },
     { id: 2, name: "C#", src: cSharpLogo }, // Replaced TypeScript with C#
     { id: 3, name: "NET", src: NET },
     { id: 4, name: "sqlLogo", src: sqlLogo },

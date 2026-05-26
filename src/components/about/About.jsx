@@ -1,10 +1,10 @@
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
-import React, { useEffect } from 'react';
+import AOS from "aos";
+import "aos/dist/aos.css"; // You can also use <link> for styles
+import React, { useEffect } from "react";
 // import Me from '../../assets/me.webp';
-import Selfie from '../../assets/Selfie.png';
+import Selfie from "../../assets/Selfie.png";
 
-import './About.css';
+import "./About.css";
 import { FiAward, FiUsers } from "react-icons/fi";
 import { ImFolderPlus } from "react-icons/im";
 
@@ -16,36 +16,42 @@ const About = () => {
   }, []);
 
   return (
-    <section className='about_section' data-aos="fade-up-left" id='about'>
-      <h5>Get To Know</h5>
+    <section className="about_section" data-aos="fade-up-left" id="about">
       <h2>About Me</h2>
 
       <div className="container about_container">
         <div>
           <div className="about_me">
-            <img className='about_me_image' src={Selfie} alt="AboutPicture" />
+            <img className="about_me_image" src={Selfie} alt="AboutPicture" />
           </div>
         </div>
 
         <div className="about_content">
           <div className="about_cards">
-            <article className='about_card'>
-              <FiAward className='about_icon'/>
+            <article className="about_card">
+              <FiAward className="about_icon" />
               <h5>Experience</h5>
-              <small>1 Year Development</small>
-              <small className="additional-info">10+ Years Video Editing</small>
+              <small>
+                {new Date().getFullYear() - 2022}+ Years Development
+              </small>
+              <small className="additional-info">
+                {new Date().getFullYear() - 2012}+ Years Video Editing & After Effects
+              </small>
             </article>
 
-            <article className='about_card'>
-              <ImFolderPlus className='about_icon'/>
+            <article className="about_card">
+              <ImFolderPlus className="about_icon" />
               <h5>Projects</h5>
               <small>10+ Completed</small>
             </article>
           </div>
           <p>
-            Enthusiastic developer with a versatile background in multimedia, visual editing, and home security and automation.
+            Enthusiastic developer with a versatile background in multimedia,
+            visual editing, and home security and automation.
           </p>
-          <a href="#contact" className='btn btn-primary'>Let's Talk</a>
+          <a href="#contact" className="btn btn-primary">
+            Let's Talk
+          </a>
         </div>
       </div>
     </section>
@@ -53,4 +59,3 @@ const About = () => {
 };
 
 export default About;
-

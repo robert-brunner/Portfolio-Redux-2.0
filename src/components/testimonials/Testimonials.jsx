@@ -37,7 +37,7 @@ const Testimonials = () => {
 
   return (
     <section ref={ref} id="testimonials">
-      <h5>Peer Reviews and Recommendations</h5>
+      
       <h2>Testimonials</h2>
 
       <Swiper

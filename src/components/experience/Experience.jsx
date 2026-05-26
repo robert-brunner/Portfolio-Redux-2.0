@@ -50,14 +50,36 @@ const ExperienceCard = ({ experience }) => {
       </div>
 
       <ul style={{ marginTop: '1.25rem',  marginLeft: '1.25rem'}}>
-        {experience.points.map((point, index) => (
-          <li
-            key={`experience-point-${index}`}
-            style={{ color: '#fff', fontSize: '14px', listStyleType: 'disc', paddingLeft: '0.25rem', marginBottom: '0.50rem' }}
-          >
-            {point}
-          </li>
-        ))}
+        {experience.points.map((point, index) => {
+          if (point.startsWith("---") && point.endsWith("---")) {
+            return (
+              <h4 
+                key={`experience-header-${index}`}
+                style={{ 
+                  listStyleType: 'none', 
+                  marginLeft: '-20px', 
+                  marginTop: '25px',
+                  marginBottom: '12px',
+                  fontWeight: 'bold',
+                  fontSize: '15px',
+                  letterSpacing: '0.5px',
+                  color: '#b86df5' 
+                }}
+              >
+                {point.replace(/---/g, '').trim()}
+              </h4>
+            );
+          }
+
+          return (
+            <li
+              key={`experience-point-${index}`}
+              style={{ color: '#fff', fontSize: '14px', listStyleType: 'disc', paddingLeft: '0.25rem', marginBottom: '0.50rem' }}
+            >
+              {point}
+            </li>
+          );
+        })}
       </ul>
     </VerticalTimelineElement>
   );
@@ -76,9 +98,7 @@ const Experience = () => {
       <div data-aos="fade-up" variants={textVariant()}
       id='experience'>
         
-        <p style={{textAlign: "center"}}>
-          What I have done so far
-        </p>
+
         <h2 style={{textAlign: "center", color: "#b86df5"}}>
           Experience
         </h2>
@@ -122,14 +142,36 @@ const Experience = () => {
                 {experience.role_description}
               </p>
               <ul style={{ marginTop: '1.25rem', marginLeft: '1.25rem' }}>
-                {experience.points.map((point, index) => (
-                  <li
-                    key={`experience-point-${index}`}
-                    style={{ color: '#fff', fontSize: '14px', listStyleType: 'disc', paddingLeft: '0.25rem', marginBottom: '0.50rem' }}
-                  >
-                    {point}
-                  </li>
-                ))}
+                {experience.points.map((point, index) => {
+                  if (point.startsWith("---") && point.endsWith("---")) {
+                    return (
+                      <h4 
+                        key={`experience-header-${index}`}
+                        style={{ 
+                          listStyleType: 'none', 
+                          marginLeft: '-20px', 
+                          marginTop: '25px',
+                          marginBottom: '12px',
+                          fontWeight: 'bold',
+                          fontSize: '15px',
+                          letterSpacing: '0.5px',
+                          color: '#b86df5' 
+                        }}
+                      >
+                        {point.replace(/---/g, '').trim()}
+                      </h4>
+                    );
+                  }
+
+                  return (
+                    <li
+                      key={`experience-point-${index}`}
+                      style={{ color: '#fff', fontSize: '14px', listStyleType: 'disc', paddingLeft: '0.25rem', marginBottom: '0.50rem' }}
+                    >
+                      {point}
+                    </li>
+                  );
+                })}
               </ul>
             </VerticalTimelineElement>
           ))}

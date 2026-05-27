@@ -20,6 +20,7 @@ import cSharpLogo from "../../assets/tech_logos/cSharp.webp"; // Corrected impor
 import sqlLogo from "../../assets/tech_logos/sql.png";
 import Arduino from "../../assets/tech_logos/Arduino.png";
 import { useMediaQuery } from "react-responsive";
+import Traces from "./ElectricTraces";
 
 
 const Header = () => {
@@ -52,7 +53,7 @@ const Header = () => {
   return (
     <>
       <header>
-        <div className="background_Logos">
+        {/* <div className="background_Logos">
           <div className="background_Logos">
             {logos.map((logo) => (
               <img
@@ -63,9 +64,10 @@ const Header = () => {
               />
             ))}
           </div>
-        </div>
+        </div> */}
+        <Traces />
 
-        <Particles
+        {/* <Particles
           id="tsparticles"
           init={particlesInit}
           loaded={particlesLoaded}
@@ -145,7 +147,7 @@ const Header = () => {
 
             detectRetina: false,
           }}
-        />
+        /> */}
 
         <div className="container header_container">
           <div className="header_info">

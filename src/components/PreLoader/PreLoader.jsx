@@ -4,7 +4,7 @@ import './PreLoader.css';
 
 // ─────────────────────────────────────────────
 // EDIT THESE to control preloader timing
-const DISPLAY_DURATION = 6000;  // ms — how long oscilloscope plays before CRT effect
+const DISPLAY_DURATION = 7000;  // ms — how long oscilloscope plays before CRT effect
 const CRT_DURATION     = 200;  // ms — how long the CRT collapse animation takes
 const HOLD_DURATION    = 100;   // ms — how long the flash holds before fade
 const FADE_DURATION    = 100;   // ms — final fade out

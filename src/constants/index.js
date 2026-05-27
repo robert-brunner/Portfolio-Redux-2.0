@@ -1,76 +1,88 @@
-import { client1, client2, client3, client4, client5, client6, client7, client21, client22, client23, linkedInLogo, upworkLogo } from "../assets";
-import NewForce from '../assets/company/NewForce.jpeg';
-import NorthStar from '../assets/company/NorthStar.png';
-import Nussbaum from '../assets/company/Nussbaum.png';
-import VFD from '../assets/company/VFD.jpg';
-import LEDLLC from '../assets/company/LEDLLC.png';
-import NajrulSumon from '../assets/clients/NajrulSumon.jpeg';
-import AW from '../assets/company/AW_Alpha.png';
-import Arduino from '../assets/tech_logos/Arduino.png';
-import CSharp from '../assets/tech_logos/cSharp.webp';
-import ThreeJS from '../assets/tech_logos/threeJS.png';
-import cssLogo from '../assets/tech_logos/css.png';
-import jsLOGO from '../assets/tech_logos/JS.png';
-import fus360 from '../assets/tech_logos/fusion360.png';
-import VSCODE from '../assets/tech_logos/vsCodeLogo.png';
-import premPro from '../assets/tech_logos/premierPro.png';
-import CPlusPlus from '../assets/tech_logos/cPlusPlus.png';
-import ASM from '../assets/tech_logos/microChip.png';
-
-
-
+import {
+  client1,
+  client2,
+  client3,
+  client4,
+  client5,
+  client6,
+  client7,
+  client21,
+  client22,
+  client23,
+  linkedInLogo,
+  upworkLogo,
+} from "../assets";
+import NewForce from "../assets/company/NewForce.jpeg";
+import NorthStar from "../assets/company/NorthStar.png";
+import Nussbaum from "../assets/company/Nussbaum.png";
+import VFD from "../assets/company/VFD.jpg";
+import LEDLLC from "../assets/company/LEDLLC.png";
+import NajrulSumon from "../assets/clients/NajrulSumon.jpeg";
+import AW from "../assets/company/AW_Alpha.png";
+import Arduino from "../assets/tech_logos/Arduino.png";
+import CSharp from "../assets/tech_logos/cSharp.webp";
+import ThreeJS from "../assets/tech_logos/threeJS.png";
+import cssLogo from "../assets/tech_logos/css.png";
+import jsLOGO from "../assets/tech_logos/JS.png";
+import fus360 from "../assets/tech_logos/fusion360.png";
+import VSCODE from "../assets/tech_logos/vsCodeLogo.png";
+import premPro from "../assets/tech_logos/premierPro.png";
+import CPlusPlus from "../assets/tech_logos/cPlusPlus.png";
+import ASM from "../assets/tech_logos/microChip.png";
 
 const experiences = [
-{
+  {
     title: "Software Developer & Embedded Systems",
     company_name: "Applied Wireless",
     icon: AW, // Make sure this path/variable is correct
     iconBg: "#E6DEDD",
     date: "August 2024 - Present",
-    role_description: "Built a real-time Android application for embedded hardware control while working on RF and audio product lines at the embedded level. Built the communication protocol via ble, checksums and 10 byte packets, created and designed the user interface, and solved hardware issues.",
+    role_description:
+      "Built a real-time Android application for embedded hardware control while working on RF and audio product lines at the embedded level. Built the communication protocol via ble, checksums and 10 byte packets, created and designed the user interface, and solved hardware issues.",
     points: [
-        "--- EMBEDDED CONTROL APPLICATION & UI/UX ---",
-        "Architected and solo-developed a real-time Android (Ionic React + Capacitor) application for embedded brake and vehicle control.",
-        "Designed and built the complete UI/UX from scratch in Figma, including dark mode, custom animated Lottie splash screen (created in After Effects), dynamic text formatting/highlighting system, help menu, and a real-time linear gradient brake force visualization driven by stage voltage and vehicle profile.",
-        "Designed the entire 10-byte custom bidirectional packet structure and communication API from scratch to interface with the hardware engineer’s PIC16 ASM implementation.",
-        "Developed the full phone and ESP32 side of the stack (JavaScript → BLE → ESP32 C++ → UART), including checksum validation, handshake protocol, and exponential backoff with guaranteed eventual delivery.",
-        "Achieved 1.67-second average round-trip latency.",
-        "Implemented selective optimistic UI, GPS + accelerometer-based vehicle profile auto-locking (>5 mph threshold requiring full stop to change), longPressHandler for continuous value adjustment, automatic profile recall on reconnect, PIN protection system, and safety-critical guaranteed brake command logic (queued and sent 2× with explicit latch).",
-        "Self-taught C++, ESP32 development, binary/hexadecimal protocol design, and low-level BLE integration.",
-        
-        "--- PAR900M / PAT900 AUDIO PRODUCT LINE---",
-        "Investigated and resolved a 12-year-old audio whine/grounding issue on the PAR900M legacy RF product line.",
-        "Identified missing decoupling capacitors and improper grounding near the oscillator/RF section through systematic board probing and testing using a spectrum analyzer and oscilloscope.",
-        "Implemented fixes that enabled continued sale of existing inventory instead of total loss.",
-        "Extensively worked with Si4703 FM receiver developer modules, as well as the TEA5757— built and tested custom FM modules, diagnosed persistent whine issues, and traced problems back to the main board design.",
-        "Manage the physical assembly, flashing, and bench testing for all ongoing iterations of the PAR900M and PAT900 hardware lines.",
-        
-        "--- EAGLE EYE PRODUCT LINE ---",
-        "Build all sequential iterations of the Eagle Eye Transmitter/Receiver product line after initial rollout.",
-        "Independently handle firmware flashing and modification (hex frequency band adjustments to prevent crosstalk), full assembly, CNC machining of cases, functional testing, and quality control.",
-        "Delivered 200+ units with only one RMA (software-related bug).",
-        
-        "--- TESTING PROCEDURES ---",
-        "Designed and implemented improved RF testing procedures, replacing ineffective Mylar bag testing with a modified Faraday cage + LED pass/fail indicators.",
-        "The modified setup dramatically increased testing reliability and ensured consistent performance validation across all units.",
+      "--- EMBEDDED CONTROL APPLICATION & UI/UX ---",
+      "Architected and solo-developed a real-time Android application (Ionic React + Capacitor) for embedded brake and vehicle control systems.",
+      "Designed and built the complete UI/UX in Figma, including dark mode, custom animated Lottie splash screen (After Effects), dynamic text formatting/highlighting, integrated help system, and a real-time brake force visualization driven by stage voltage and vehicle profile data.",
+      "Designed the complete custom 10-byte bidirectional packet protocol and communication API used to interface with the hardware engineer’s PIC16 ASM firmware implementation.",
+      "Developed the full mobile and ESP32 communication stack (JavaScript → BLE → ESP32 C++ → UART), including checksum validation, handshake synchronization, retry/backoff handling, and reliable packet delivery.",
+      "Implemented selective optimistic UI updates, GPS + accelerometer-based motion detection and profile locking (>5 mph), automatic profile recall on reconnect, PIN-protected settings, long-press continuous value adjustment logic, and safety-critical brake command handling with queued redundant transmission.",
+      "Achieved low-latency real-time communication performance suitable for embedded control applications.",
+      "Self-taught C++, ESP32 development, BLE integration, binary/hexadecimal protocol design, and embedded communication debugging during project development.",
 
-        "--- MANUALS ---",
-        "Created product manuals and custom visual artwork to improve customer understanding of product connections and setup",
+      "--- PAR900M / PAT900 AUDIO PRODUCT LINE---",
+      "Independently learned and applied schematic analysis and board-level RF debugging techniques to investigate and resolve a 12-year-old audio whine and grounding issue in the legacy PAR900M RF product line.",
+      "Identified missing decoupling capacitors and improper grounding near the oscillator/RF section through systematic board probing and testing using a spectrum analyzer and oscilloscope.",
+      "Implemented fixes that enabled continued sale of existing inventory instead of total loss.",
+      "Extensively worked with Si4703 FM receiver developer modules, as well as the TEA5757— built and tested custom FM modules, diagnosed persistent whine issues, and traced problems back to the main board design.",
+      "Managed the physical assembly, flashing, and bench testing for all ongoing iterations of the PAR900M and PAT900 hardware lines.",
 
-        "--- FUSION 360 ---",
-        "Self-taught Fusion 360 and produced accurate .STEP file models of multiple products for direct customer delivery"
+      "--- EAGLE EYE PRODUCT LINE ---",
+      "Built all sequential iterations of the Eagle Eye Transmitter/Receiver product line after initial rollout.",
+      "Independently handled firmware flashing and modification (hex frequency band adjustments to prevent crosstalk), full assembly, CNC machining of cases, functional testing, and quality control.",
+      "Delivered 200+ production units with a 99%+ field reliability rate; sole RMA traced to unforeseen external RF interference conditions.",
+
+      "--- TESTING PROCEDURES ---",
+      "Designed and implemented improved RF testing procedures, replacing ineffective Mylar bag testing with a modified Faraday cage + LED pass/fail indicators.",
+      "The modified setup dramatically increased testing reliability and ensured consistent performance validation across all units.",
+
+      "--- MANUALS ---",
+      "Created product manuals and custom visual artwork to improve customer understanding of product connections and setup",
+
+      "--- FUSION 360 ---",
+      "Self-taught Fusion 360 and produced accurate .STEP file models of multiple products for direct customer delivery",
     ],
-},
+  },
   {
     title: "Full Stack Developer",
     company_name: "NewForce",
     icon: NewForce, // Make sure this path is correct
     iconBg: "#E6DEDD",
     date: "June 2022 - January 2023",
-    role_description: "Intensive full-time 6-month software development immersive training program focusing on full stack (C#/.NET) development fundamentals and problem solving. The final half of the program executed in a simulated company environment with SCRUM methodology.",
+    role_description:
+      "Intensive full-time 6-month software development immersive training program focusing on full stack (C#/.NET) development fundamentals and problem solving. The final half of the program executed in a simulated company environment with SCRUM methodology.",
     points: [
       "Applied JavaScript, HTML, and CSS fundamentals to build a feature-rich social media dashboard",
-      
+
       "Created RESTful Web API with C#/ .NET Core and connected it to a React front-end",
 
       "Developed a blog management platform in ASP.NET, MVC, and Razor templates in Visual Studio 2022",
@@ -83,10 +95,9 @@ const experiences = [
 
       "Collaborated remotely on projects using Slack and Zoom ",
 
-      "Applied object-oriented programming fundamentals through team-based projects that reflect real world business problems",    
+      "Applied object-oriented programming fundamentals through team-based projects that reflect real world business problems",
 
-      "Managed source code version control with Git / GitHub",      
-
+      "Managed source code version control with Git / GitHub",
     ],
   },
   {
@@ -111,7 +122,6 @@ const experiences = [
       "Photographed and measured roof pitch and rafter spacing inside attics",
       "Strong ability to work as an individual or as a team and manage time.",
       "Ability to build and design timed or triggered events for the convenience of customers",
-
     ],
   },
   {
@@ -160,16 +170,13 @@ const skills = [
       {
         id: 211,
         name: "C++",
-        image:
-          CPlusPlus,
+        image: CPlusPlus,
       },
       {
         id: 212,
         name: "Assembly",
-        image:
-          ASM,
+        image: ASM,
       },
-
     ],
   },
   {
@@ -186,10 +193,9 @@ const skills = [
       {
         id: 3,
         name: "Three.js",
-        image:
-          ThreeJS,
+        image: ThreeJS,
       },
-      
+
       // {
       //   id: 4,
       //   name: "Redux",
@@ -205,15 +211,13 @@ const skills = [
       {
         id: 6,
         name: "CSS",
-        image:
-          cssLogo,
+        image: cssLogo,
       },
-      
+
       {
         id: 7,
         name: "JavaScript",
-        image:
-          jsLOGO,
+        image: jsLOGO,
       },
 
       // {
@@ -244,13 +248,13 @@ const skills = [
       {
         id: 101,
         name: "C#",
-        image:
-          CSharp,
+        image: CSharp,
       },
       {
         id: 102,
         name: "SQL Server",
-        image: "https://user-images.githubusercontent.com/4249331/52232852-e2c4f780-28bd-11e9-835d-1e3cf3e43888.png",
+        image:
+          "https://user-images.githubusercontent.com/4249331/52232852-e2c4f780-28bd-11e9-835d-1e3cf3e43888.png",
       },
       // {
       //   id: 102,
@@ -262,8 +266,7 @@ const skills = [
       {
         id: 103,
         name: "Cloudinary",
-        image:
-          "https://s3.amazonaws.com/awsmp-logos/cloudinary.png",
+        image: "https://s3.amazonaws.com/awsmp-logos/cloudinary.png",
       },
       {
         id: 104,
@@ -275,116 +278,108 @@ const skills = [
   {
     id: 997,
     title: "Others",
-skills: [
-  {
-    id: 210,
-    name: "Adobe After Effects",
-    image:
-      "https://1000logos.net/wp-content/uploads/2020/07/After-Effects-Logo.png",
-  },
-  {
-    id: 211,
-    name: "Adobe Premier Pro",
-    image:
-      premPro,
-  },
-  {
-    id: 205,
-    name: "Arduino",
-    image:
-      Arduino,
-  },
-  {
-    id: 216,
-    name: "Blender",
-    image:
-      "https://www.wittystore.com/image/cache/data/brands_logos/blender-free-3d-creation-suite-wittystore-650x650.png",
-  },
-  {
-    id: 215,
-    name: "Canva",
-    image:
-      "https://www.vectorlogo.zone/logos/canva/canva-icon.svg",
-  },
-  {
-    id: 204,
-    name: "ExpoGo",
-    image:
-      "https://play-lh.googleusercontent.com/algsmuhitlyCU_Yy3IU7-7KYIhCBwx5UJG4Bln-hygBjjlUVCiGo1y8W5JNqYm9WW3s",
-  },
-  {
-    id: 212,
-    name: "Final Cut Pro",
-    image:
-      "https://upload.wikimedia.org/wikipedia/en/9/9f/2015_Final_Cut_Pro_Logo.png",
-  },
-  {
-    id: 213,
-    name: "Figma",
-    image:
-      "https://i.pinimg.com/originals/63/a7/b1/63a7b1894b3210d07e434e9d12170586.png",
-  },
-  {
-    id: 209,
-    name: "Flutter",
-    image:
-      "https://cdn-images-1.medium.com/max/1200/1*5-aoK8IBmXve5whBQM90GA.png",
-  },
-  {
-    id: 218,
-    name: "Fusion360",
-    image:
-      fus360,
-  },
-  {
-    id: 201,
-    name: "Git",
-    image:
-      "https://avatars.githubusercontent.com/u/18133?s=280&v=4",
-  },
-  {
-    id: 202,
-    name: "GitHub",
-    image:
-      "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
-  },
-  {
-    id: 214,
-    name: "Miro",
-    image:
-      "https://store-images.s-microsoft.com/image/apps.47763.13959754522315136.87be3224-9693-4fd4-8cd4-af6362fb8d37.b3c24453-164b-4d03-b561-e77aec7c076a",
-  },
-  {
-    id: 217,
-    name: "OBS",
-    image:
-      "https://www.logo.wine/a/logo/Open_Broadcaster_Software/Open_Broadcaster_Software-Logo.wine.svg",
-  },
-  {
-    id: 203,
-    name: "Vercel",
-    image:
-      "https://i.ibb.co/VjL9zJH/Vercel.png",
-  },
-  {
-    id: 206,
-    name: "VS Code",
-    image:
-      VSCODE,
-  },
-  {
-    id: 207,
-    name: "Visual Studio",
-    image:
-      "https://1000logos.net/wp-content/uploads/2023/04/Visual-Studio-logo.png",
-  },
-  {
-    id: 208,
-    name: "WordPress",
-    image:
-      "https://www.vectorlogo.zone/logos/wordpress/wordpress-icon.svg",
-  },
-],
+    skills: [
+      {
+        id: 210,
+        name: "Adobe After Effects",
+        image:
+          "https://1000logos.net/wp-content/uploads/2020/07/After-Effects-Logo.png",
+      },
+      {
+        id: 211,
+        name: "Adobe Premier Pro",
+        image: premPro,
+      },
+      {
+        id: 205,
+        name: "Arduino",
+        image: Arduino,
+      },
+      {
+        id: 216,
+        name: "Blender",
+        image:
+          "https://www.wittystore.com/image/cache/data/brands_logos/blender-free-3d-creation-suite-wittystore-650x650.png",
+      },
+      {
+        id: 215,
+        name: "Canva",
+        image: "https://www.vectorlogo.zone/logos/canva/canva-icon.svg",
+      },
+      {
+        id: 204,
+        name: "ExpoGo",
+        image:
+          "https://play-lh.googleusercontent.com/algsmuhitlyCU_Yy3IU7-7KYIhCBwx5UJG4Bln-hygBjjlUVCiGo1y8W5JNqYm9WW3s",
+      },
+      {
+        id: 212,
+        name: "Final Cut Pro",
+        image:
+          "https://upload.wikimedia.org/wikipedia/en/9/9f/2015_Final_Cut_Pro_Logo.png",
+      },
+      {
+        id: 213,
+        name: "Figma",
+        image:
+          "https://i.pinimg.com/originals/63/a7/b1/63a7b1894b3210d07e434e9d12170586.png",
+      },
+      {
+        id: 209,
+        name: "Flutter",
+        image:
+          "https://cdn-images-1.medium.com/max/1200/1*5-aoK8IBmXve5whBQM90GA.png",
+      },
+      {
+        id: 218,
+        name: "Fusion360",
+        image: fus360,
+      },
+      {
+        id: 201,
+        name: "Git",
+        image: "https://avatars.githubusercontent.com/u/18133?s=280&v=4",
+      },
+      {
+        id: 202,
+        name: "GitHub",
+        image:
+          "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+      },
+      {
+        id: 214,
+        name: "Miro",
+        image:
+          "https://store-images.s-microsoft.com/image/apps.47763.13959754522315136.87be3224-9693-4fd4-8cd4-af6362fb8d37.b3c24453-164b-4d03-b561-e77aec7c076a",
+      },
+      {
+        id: 217,
+        name: "OBS",
+        image:
+          "https://www.logo.wine/a/logo/Open_Broadcaster_Software/Open_Broadcaster_Software-Logo.wine.svg",
+      },
+      {
+        id: 203,
+        name: "Vercel",
+        image: "https://i.ibb.co/VjL9zJH/Vercel.png",
+      },
+      {
+        id: 206,
+        name: "VS Code",
+        image: VSCODE,
+      },
+      {
+        id: 207,
+        name: "Visual Studio",
+        image:
+          "https://1000logos.net/wp-content/uploads/2023/04/Visual-Studio-logo.png",
+      },
+      {
+        id: 208,
+        name: "WordPress",
+        image: "https://www.vectorlogo.zone/logos/wordpress/wordpress-icon.svg",
+      },
+    ],
   },
 ];
 
@@ -397,7 +392,7 @@ const portfolio = [
     demo: "https://www.loom.com/share/6dd46234ec9e41f89be515aca8fd4194?sid=200e036b-c995-4980-8f6a-4014ec306aa4",
     tag: "REACT C# .NET SQL Cloudinary",
   },
-  
+
   {
     id: 2,
     gif: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXU0a3VnbXdxbjRjZnhkZWttNmtkNzFpOGNqeXh3NXhjc2lieHphNyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/H3BatSwdp5tIXfDaCW/giphy-downsized-large.gif",
@@ -415,7 +410,7 @@ const portfolio = [
     demo: "https://robert-brunner.github.io/RB-Airship/",
     tag: "Vanilla: JavaScript HTML CSS",
   },
-  
+
   {
     id: 4,
     gif: "https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMzkydzh5MWVvYWVtNmhtdjY3ZDFhOHY3b2t5eDlheTVkeGtqamh4ZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/IoR2RzYnmzr48znOFK/giphy.gif",
@@ -433,7 +428,7 @@ const portfolio = [
     demo: "https://www.loom.com/share/e3a442e852b74415bd88897fcf99c32f?sid=0573307b-8b0c-495f-b247-6f392d9879ea",
     tag: "REACT",
   },
-  
+
   // {
   //   id: 6,
   //   gif: "https://uploads-ssl.webflow.com/624ffa8926c9b353747d449f/626117bf88153d043bf91d37_preview.gif",
@@ -442,7 +437,7 @@ const portfolio = [
   //   demo: "https://www.google.co/",
   //   tag: "#Tech #Tech #Tech",
   // },
-  
+
   // {
   //   id: 7,
   //   gif: "https://uploads-ssl.webflow.com/624ffa8926c9b353747d449f/626117bf88153d043bf91d37_preview.gif",
@@ -451,8 +446,6 @@ const portfolio = [
   //   demo: "https://www.google.co/",
   //   tag: "#Tech #Tech #Tech",
   // },
-  
-
 ];
 
 const testimonial = [
@@ -528,7 +521,6 @@ const testimonial = [
     source: NorthStar,
   },
 
-
   // {
   //   index: 21,
   //   avatar: client21,
@@ -558,6 +550,4 @@ const testimonial = [
   // },
 ];
 
-
 export { experiences, skills, portfolio, testimonial };
-

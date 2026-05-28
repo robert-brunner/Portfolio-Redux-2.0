@@ -24,7 +24,7 @@ const CONFIG = {
 
   waveSpeed:    2,      // samples advanced per interval tick
   waveInterval: 8,      // ms per wave tick — lower is faster
-  charDelay:    20,     // frames between each character — lower is faster
+  charDelay:    100,     // frames between each character — lower is faster
   wordPause:    600,    // ms between words
   morphSpeed:   0.07,   // hex-to-char flip speed per frame — higher is faster
   cursorOffset: 30,     // px gap between last char and cursor
@@ -59,7 +59,7 @@ function wordToSamples(word, hi, lo) {
   return s;
 }
 
-const OscilloscopeLoader = () => {
+const OscilloscopeLoader = ({ onComplete }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -131,11 +131,11 @@ const OscilloscopeLoader = () => {
       waveBuffer   = [];
     }
 
-    // ── Typing state (runs in rAF loop) ───────────────────────
+    // ── Typing state (timestamp-based — consistent on any machine) ──
     let typingTokenIdx = 0;
     let wordIdx        = 0;
     let wordCharIdx    = 0;
-    let charTimer      = 0;
+    let lastCharTime   = performance.now();
     let waitingForNext = false;
 
     function triggerMorph(i) {
@@ -160,11 +160,12 @@ const OscilloscopeLoader = () => {
       if (tok.isSpace) {
         tokenState[typingTokenIdx].phase = "char";
         typingTokenIdx++;
+        lastCharTime = performance.now();
         return;
       }
-      charTimer++;
-      if (charTimer < CONFIG.charDelay) return;
-      charTimer = 0;
+      const now = performance.now();
+      if (now - lastCharTime < CONFIG.charDelay) return;
+      lastCharTime = now;
       tokenState[typingTokenIdx].phase = "hex";
       if (typingTokenIdx > 0) triggerMorph(typingTokenIdx - 1);
       typingTokenIdx++;
@@ -178,6 +179,11 @@ const OscilloscopeLoader = () => {
           wordIdx        = next;
           waitingForNext = false;
           startWordWave(next);
+          lastCharTime   = performance.now();
+          // fire onComplete after the last word finishes + morph settles
+          if (next >= CONFIG.words.length && onComplete) {
+            setTimeout(onComplete, 600);
+          }
         }, CONFIG.wordPause);
       }
     }
@@ -286,7 +292,7 @@ const OscilloscopeLoader = () => {
       }
 
       // blinking cursor
-      if (typingTokenIdx < tokens.length) {
+      if (typingTokenIdx <= tokens.length) {
         let cx = TEXT_X;
         for (let i = 0; i < typingTokenIdx; i++) {
           if (tokens[i].isSpace) { cx += spaceW; continue; }

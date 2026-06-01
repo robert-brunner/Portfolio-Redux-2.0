@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import React from 'react'
-import Resume from '../../assets/4-20-24 Resume.pdf'
+import Resume from '../../assets/5-31-25_Resume.pdf'
 
 const CTA = () => {
   return (
@@ -10,7 +10,7 @@ const CTA = () => {
         initial={{x: '-100vw'}}
         animate={{x: 0 }} 
         transition={{ type: 'spring', bounce:0.3, duration: 2 }}
-        href={Resume} download="Resume.pdf" className='btn'>Download Resume
+        href={Resume} download="RobertBrunnerResume.pdf" className='btn'>Download Resume
         </motion.a>
 
         

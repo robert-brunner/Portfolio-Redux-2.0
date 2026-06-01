@@ -1,160 +1,311 @@
 import { useRef, useEffect } from "react";
+// import Scope from "../../assets/manchester/retroAlphaOcilloscope.png";
+import Scope from "../../assets/manchester/retroAlphaTrans.webp";
 
-// ============================================================
-const CONFIG = {
-  words: ["Creative,", "Driven,", "Passionate"],   // words to decode
+const CRT_DURATION = 200;
 
-  colorTrace:       "#00e5ff",   // wave line color
-  colorTraceShadow: "#00e5ff",   // wave glow color
-  colorScanDot:     "#ffffff",   // leading edge dot color
-  colorHex:         "#00e5ff",   // hex token color e.g. 0x43
-  colorChar:        "#b76bf5",   // character color after morph
-  colorCursor:      "#b76bf5",   // blinking cursor color
-  colorGrid:        "rgba(0,229,255,0.04)",   // faint grid lines
-  colorGridMid:     "rgba(0,229,255,0.10)",   // center grid line
-  colorLabel:       "rgba(0,229,255,0.28)",   // channel label text
-  colorBackground:  "#060a0f",   // canvas background
-
-  waveStartX:   0.25,   // wave panel left edge (0.0–1.0 of canvas width)
-  waveWidth:    0.25,   // wave panel width (0.0–1.0 of canvas width)
-  textStartX:   0.45,   // text left edge (0.0–1.0 of canvas width)
-  textY:        0.50,   // text vertical center (0.5 = middle)
-  waveTop:      0.22,   // wave HIGH level (0.0–1.0 of canvas height)
-  waveBot:      0.52,   // wave LOW level (0.0–1.0 of canvas height)
-
-  waveSpeed:    2,      // samples advanced per interval tick
-  waveInterval: 8,      // ms per wave tick — lower is faster
-  charDelay:    100,     // frames between each character — lower is faster
-  wordPause:    600,    // ms between words
-  morphSpeed:   0.07,   // hex-to-char flip speed per frame — higher is faster
-  cursorOffset: 30,     // px gap between last char and cursor
-
-  bitWidth:     4,      // px per Manchester bit half-period — lower is denser
-  leadBits:     6,      // idle LOW samples before each word's wave
-
-  fontSize:     0.0165, // text size as fraction of canvas height
-  fontFamily:   "monospace",   // font — monospace keeps spacing consistent
-  tokenGap:     0,      // px between character tokens
-
-  label:        "CH1  Manchester  9600 baud",   // wave panel label text
-};
-// ============================================================
-
-function charToHex(c) {
-  return "0x" + c.charCodeAt(0).toString(16).toUpperCase().padStart(2, "0");
-}
-
-function wordToSamples(word, hi, lo) {
-  const s = [];
-  for (let i = 0; i < CONFIG.leadBits; i++) s.push(lo);
-  for (const c of word) {
-    const code = c.charCodeAt(0);
-    for (let i = 7; i >= 0; i--) {
-      const b = (code >> i) & 1;
-      if (b === 1) { s.push(lo); s.push(hi); }
-      else         { s.push(hi); s.push(lo); }
-    }
-  }
-  for (let i = 0; i < CONFIG.leadBits; i++) s.push(lo);
-  return s;
-}
-
-const OscilloscopeLoader = ({ onComplete }) => {
+const CRTCollapse = ({ onDone }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    let animId, waveIntervalId;
-    let frame = 0;
-
-    // ── Canvas setup ──────────────────────────────────────────
-    const dpr  = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const rect = canvas.getBoundingClientRect();
-    canvas.width  = rect.width  * dpr;
+    canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
     const cw = rect.width;
     const ch = rect.height;
+    const start = performance.now();
+    let animId;
 
-    const WAVE_X    = cw * CONFIG.waveStartX;
-    const WAVE_W    = cw * CONFIG.waveWidth;
-    const WAVE_TOP  = ch * CONFIG.waveTop;
-    const WAVE_BOT  = ch * CONFIG.waveBot;
-    const TEXT_X    = cw * CONFIG.textStartX;
-    const TEXT_Y    = ch * CONFIG.textY;
-    const FONT_SIZE = Math.floor(ch * CONFIG.fontSize);
-    const HALF      = CONFIG.bitWidth / 2;
-    const MAX_BUF   = Math.floor(WAVE_W / HALF);
+    const loop = (now) => {
+      ctx.fillStyle = "rgba(0,0,0,1)";
+      ctx.fillRect(0, 0, cw, ch);
+      animId = requestAnimationFrame(loop);
+      const t = Math.min((now - start) / CRT_DURATION, 1);
+      // ctx.clearRect(0, 0, cw, ch);
+      ctx.fillStyle = "#000000";
+      ctx.fillRect(0, 0, cw, ch);
+      const midY = ch / 2.29;
+      const lineH = Math.max(1, ch * (1 - t) * 0.5);
+      const lineW = cw * Math.min(t * 1.6, 1);
+      const lineX = (cw - lineW) / 2;
 
-    // ── Tokens ────────────────────────────────────────────────
-    const allText = CONFIG.words.join(" ");
-    const tokens  = [];
-    for (const c of allText) {
-      tokens.push({ hex: c === " " ? "   " : charToHex(c), char: c, isSpace: c === " " });
+      const grad = ctx.createLinearGradient(0, midY - lineH, 0, midY + lineH);
+      grad.addColorStop(0, "rgba(255,255,255,0)");
+      grad.addColorStop(0.3, `rgba(200,220,255,${0.08 * (1 - t)})`);
+      grad.addColorStop(0.5, `rgba(255,255,255,${0.18 * (1 - t)})`);
+      grad.addColorStop(0.7, `rgba(200,220,255,${0.08 * (1 - t)})`);
+      grad.addColorStop(1, "rgba(255,255,255,0)");
+      ctx.fillStyle = grad;
+      ctx.fillRect(lineX, midY - lineH, lineW, lineH * 2);
+
+      const brightness = t < 0.7 ? 1 : 1 - (t - 0.7) / 0.3;
+      ctx.beginPath();
+      ctx.moveTo(lineX, midY);
+      ctx.lineTo(lineX + lineW, midY);
+      ctx.strokeStyle = `rgba(255,255,255,${brightness * 0.9})`;
+      ctx.lineWidth = Math.max(0.5, 2 * (1 - t * 0.5));
+      ctx.shadowColor = "#ffffff";
+      ctx.shadowBlur = 20 * brightness;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      const flashT = Math.max(0, 1 - Math.abs(t - 0.55) * 5);
+      if (flashT > 0) {
+        const fx = cw * 0.53;
+        const fg = ctx.createRadialGradient(
+          fx,
+          midY,
+          0,
+          fx,
+          midY,
+          200 * flashT,
+        );
+        fg.addColorStop(0, `rgba(255,255,255,${flashT * 0.95})`);
+        fg.addColorStop(0.2, `rgba(200,230,255,${flashT * 0.5})`);
+        fg.addColorStop(0.6, `rgba(100,160,255,${flashT * 0.15})`);
+        fg.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = fg;
+        ctx.fillRect(0, 0, cw, ch);
+      }
+
+      if (t >= 1) {
+        cancelAnimationFrame(animId);
+        onDone();
+      }
+    };
+
+    animId = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(animId);
+  }, [onDone]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
+        zIndex: 2,
+      }}
+    />
+  );
+};
+
+// ═══════════════════════════════════════════════════════════════
+//  CONFIG — edit anything here freely
+// ═══════════════════════════════════════════════════════════════
+const CONFIG = {
+  // ── Words to decode ─────────────────────────────────────────
+  words: ["Creative,", "Driven,", "Passionate"],
+
+  // ── Oscilloscope screen bounds (fractions of PNG: 1025×628) ─
+  // Move these if the wave drifts outside the screen
+  screenLeft: 0.32,
+  screenRight: 0.85,
+  screenTop: 0.088,
+  screenBottom: 0.78,
+
+  // ── Wave position within the screen (fractions of screen H) ─
+  waveTopFrac: 0.25, // how high the HIGH level sits
+  waveBotFrac: 0.75, // how low the LOW level sits
+
+  // ── Wave appearance ──────────────────────────────────────────
+  waveColor: "#00e5ff",
+  waveGlowColor: "#00e5ff",
+  waveGlowBlur: 5,
+  waveLineWidth: 3.8,
+  scanDotColor: "#ffffff",
+  scanDotRadius: 3,
+  scanDotGlow: 10,
+
+  // ── Wave speed & density ─────────────────────────────────────
+  bitWidth: 12, // px per half-bit — lower = denser wave, higher = stretched out
+  leadBits: 6, // idle samples before/after each word
+  waveSpeed: 2, // samples drawn per interval tick — higher = faster scroll
+  waveInterval: 8, // ms per wave tick
+
+  // ── Grid ─────────────────────────────────────────────────────
+  gridColor: "rgba(0,229,255,0.04)",
+  gridMidColor: "rgba(0,229,255,0.10)",
+  gridCols: 6,
+  gridRows: 5,
+
+  // ── Label ────────────────────────────────────────────────────
+  labelText: "CH1  Manchester  9600 baud",
+  labelColor: "rgba(0,229,255,0.28)",
+
+  // ── Text below oscilloscope ──────────────────────────────────
+  textFontSize: 38, // px
+  textFontFamily: "monospace",
+  textHeight: 60, // px — height of the text strip below the scope
+  textMarginTop: 12, // px — gap between scope and text
+  tokenGap: 0, // px between character tokens
+
+  hexColor: "#00e5ff",
+  charColor: "#b76bf5",
+  cursorColor: "#b76bf5",
+  cursorOffset: 30, // px gap between last char and cursor
+
+  // ── Text matte / feather (white knockout behind characters) ──
+  matteLineWidth: 0, // thickness of white stroke behind text — increase for more extrusion
+  matteColor: "#010101",
+  matteGlowColor: "rgba(0, 0, 0, 0.9)",
+  matteGlowBlur: 0, // feather softness — increase for more bleed
+
+  // ── Colored glow on top of characters ───────────────────────
+  charGlowBlur: 9, // glow on settled chars
+  hexGlowBlur: 0, // glow on hex tokens
+
+  // ── Timing ───────────────────────────────────────────────────
+  charDelay: 100, // ms between each character appearing
+  wordPause: 600, // ms pause between words
+  morphSpeed: 0.07, // flip speed hex→char per frame (0–1)
+};
+// ═══════════════════════════════════════════════════════════════
+
+const charToHex = (c) =>
+  "0x" + c.charCodeAt(0).toString(16).toUpperCase().padStart(2, "0");
+
+const wordToSamples = (word, hi, lo) => {
+  const s = [];
+  for (let i = 0; i < CONFIG.leadBits; i++) s.push(lo);
+  for (const c of word) {
+    const code = c.charCodeAt(0);
+    for (let i = 7; i >= 0; i--) {
+      const b = (code >> i) & 1;
+      b === 1 ? (s.push(lo), s.push(hi)) : (s.push(hi), s.push(lo));
     }
+  }
+  for (let i = 0; i < CONFIG.leadBits; i++) s.push(lo);
+  return s;
+};
+
+const OscilloscopeLoader = ({ onComplete, showCRT }) => {
+  const containerRef = useRef(null);
+  const waveCanvasRef = useRef(null);
+  const textCanvasRef = useRef(null);
+
+  useEffect(() => {
+    const waveCanvas = waveCanvasRef.current;
+    const textCanvas = textCanvasRef.current;
+    if (!waveCanvas || !textCanvas) return;
+
+    const wCtx = waveCanvas.getContext("2d");
+    const tCtx = textCanvas.getContext("2d");
+    let animId, waveIntervalId;
+    let frame = 0;
+
+    // ── Canvas sizing ────────────────────────────────────────────
+    const PW = 1025;
+    const PH = 628;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    waveCanvas.width = PW * dpr;
+    waveCanvas.height = PH * dpr;
+    wCtx.scale(dpr, dpr);
+
+    textCanvas.width = PW * dpr;
+    textCanvas.height = CONFIG.textHeight * dpr;
+    tCtx.scale(dpr, dpr);
+
+    // ── Screen bounds ─────────────────────────────────────────────
+    const SCREEN_L = PW * CONFIG.screenLeft;
+    const SCREEN_R = PW * CONFIG.screenRight;
+    const SCREEN_T = PH * CONFIG.screenTop;
+    const SCREEN_B = PH * CONFIG.screenBottom;
+    const SCREEN_W = SCREEN_R - SCREEN_L;
+    const SCREEN_H = SCREEN_B - SCREEN_T;
+
+    const WAVE_X = SCREEN_L;
+    const WAVE_W = SCREEN_W;
+    const WAVE_TOP = SCREEN_T + SCREEN_H * CONFIG.waveTopFrac;
+    const WAVE_BOT = SCREEN_T + SCREEN_H * CONFIG.waveBotFrac;
+    const HALF = CONFIG.bitWidth / 2;
+    const MAX_BUF = Math.floor(WAVE_W / HALF);
+
+    // ── Tokens ───────────────────────────────────────────────────
+    const tokens = [...CONFIG.words.join(" ")].map((c) => ({
+      hex: c === " " ? "   " : charToHex(c),
+      char: c,
+      isSpace: c === " ",
+    }));
     const tokenState = tokens.map(() => ({ phase: "hidden", morphT: 0 }));
 
-    // ── Wave state (runs on its own interval) ─────────────────
-    let waveSamples  = wordToSamples(CONFIG.words[0], WAVE_TOP, WAVE_BOT);
+    // ── Wave state ───────────────────────────────────────────────
+    let waveSamples = wordToSamples(CONFIG.words[0], WAVE_TOP, WAVE_BOT);
     let waveSampHead = 0;
-    let waveDone     = false;
-    let waveWordIdx  = 0;
-    let waveBuffer   = [];
+    let waveDone = false;
+    let waveBuffer = [];
 
-    function advanceWave() {
+    const advanceWave = () => {
       if (waveDone) return;
       for (let s = 0; s < CONFIG.waveSpeed; s++) {
-        if (waveSampHead >= waveSamples.length) { waveDone = true; break; }
-        const y  = waveSamples[waveSampHead++];
+        if (waveSampHead >= waveSamples.length) {
+          waveDone = true;
+          break;
+        }
+        const y = waveSamples[waveSampHead++];
         const sx = WAVE_X + waveBuffer.length * HALF;
         waveBuffer.push({ sx, y });
         if (waveBuffer.length > MAX_BUF) {
           waveBuffer.shift();
-          waveBuffer.forEach(p => { p.sx -= HALF; });
-          if (waveBuffer.length > 0) {
-            const drift = waveBuffer[0].sx - WAVE_X;
-            if (drift > 0) waveBuffer.forEach(p => { p.sx -= drift; });
-          }
+          waveBuffer.forEach((p) => {
+            p.sx -= HALF;
+          });
+          const drift = waveBuffer[0]?.sx - WAVE_X;
+          if (drift > 0)
+            waveBuffer.forEach((p) => {
+              p.sx -= drift;
+            });
         }
       }
-    }
+    };
 
-    function startWordWave(idx) {
+    const startWordWave = (idx) => {
       if (idx >= CONFIG.words.length) return;
-      waveSamples  = wordToSamples(CONFIG.words[idx], WAVE_TOP, WAVE_BOT);
+      waveSamples = wordToSamples(CONFIG.words[idx], WAVE_TOP, WAVE_BOT);
       waveSampHead = 0;
-      waveDone     = false;
-      waveWordIdx  = idx;
-      waveBuffer   = [];
-    }
+      waveDone = false;
+      waveBuffer = [];
+    };
 
-    // ── Typing state (timestamp-based — consistent on any machine) ──
+    // ── Typing state ─────────────────────────────────────────────
     let typingTokenIdx = 0;
-    let wordIdx        = 0;
-    let wordCharIdx    = 0;
-    let lastCharTime   = performance.now();
+    let wordIdx = 0;
+    let wordCharIdx = 0;
+    let lastCharTime = performance.now();
     let waitingForNext = false;
 
-    function triggerMorph(i) {
-      if (i >= 0 && i < tokens.length && !tokens[i].isSpace && tokenState[i].phase === "hex") {
-        tokenState[i].phase  = "morphing";
+    const triggerMorph = (i) => {
+      if (
+        i >= 0 &&
+        i < tokens.length &&
+        !tokens[i].isSpace &&
+        tokenState[i].phase === "hex"
+      ) {
+        tokenState[i].phase = "morphing";
         tokenState[i].morphT = 0;
       }
-    }
+    };
 
-    function advanceMorphs() {
-      for (let i = 0; i < tokenState.length; i++) {
-        if (tokenState[i].phase === "morphing") {
-          tokenState[i].morphT = Math.min(1, tokenState[i].morphT + CONFIG.morphSpeed);
-          if (tokenState[i].morphT >= 1) tokenState[i].phase = "char";
+    const advanceMorphs = () => {
+      tokenState.forEach((ts) => {
+        if (ts.phase === "morphing") {
+          ts.morphT = Math.min(1, ts.morphT + CONFIG.morphSpeed);
+          if (ts.morphT >= 1) ts.phase = "char";
         }
-      }
-    }
+      });
+    };
 
-    function advanceTyping() {
+    const advanceTyping = () => {
       if (waitingForNext || typingTokenIdx >= tokens.length) return;
       const tok = tokens[typingTokenIdx];
       if (tok.isSpace) {
@@ -172,172 +323,219 @@ const OscilloscopeLoader = ({ onComplete }) => {
       wordCharIdx++;
       if (wordCharIdx >= CONFIG.words[wordIdx].length) {
         triggerMorph(typingTokenIdx - 1);
-        wordCharIdx    = 0;
+        wordCharIdx = 0;
         waitingForNext = true;
         const next = wordIdx + 1;
         setTimeout(() => {
-          wordIdx        = next;
+          wordIdx = next;
           waitingForNext = false;
           startWordWave(next);
-          lastCharTime   = performance.now();
-          // fire onComplete after the last word finishes + morph settles
-          if (next >= CONFIG.words.length && onComplete) {
+          lastCharTime = performance.now();
+          if (next >= CONFIG.words.length && onComplete)
             setTimeout(onComplete, 600);
-          }
         }, CONFIG.wordPause);
       }
-    }
+    };
 
-    // ── Draw ──────────────────────────────────────────────────
+    // ── Draw wave canvas ─────────────────────────────────────────
+    const drawWaveCanvas = () => {
+      
+      wCtx.clearRect(0, 0, PW, PH);
+      wCtx.save();
+      wCtx.beginPath();
+      wCtx.rect(SCREEN_L, SCREEN_T, SCREEN_W, SCREEN_H);
+      wCtx.clip();
 
-    function drawGrid() {
-      ctx.strokeStyle = CONFIG.colorGrid;
-      ctx.lineWidth   = 0.5;
-      const cols = 6, rows = 5;
-      for (let i = 0; i <= cols; i++) {
-        ctx.beginPath();
-        ctx.moveTo(WAVE_X + (WAVE_W / cols) * i, 0);
-        ctx.lineTo(WAVE_X + (WAVE_W / cols) * i, ch);
-        ctx.stroke();
+      // grid
+      wCtx.strokeStyle = CONFIG.gridColor;
+      wCtx.lineWidth = 0.5;
+      for (let i = 0; i <= CONFIG.gridCols; i++) {
+        wCtx.beginPath();
+        wCtx.moveTo(WAVE_X + (WAVE_W / CONFIG.gridCols) * i, SCREEN_T);
+        wCtx.lineTo(WAVE_X + (WAVE_W / CONFIG.gridCols) * i, SCREEN_B);
+        wCtx.stroke();
       }
-      for (let i = 0; i <= rows; i++) {
-        ctx.beginPath();
-        ctx.moveTo(WAVE_X, (ch / rows) * i);
-        ctx.lineTo(WAVE_X + WAVE_W, (ch / rows) * i);
-        ctx.stroke();
+      for (let i = 0; i <= CONFIG.gridRows; i++) {
+        wCtx.beginPath();
+        wCtx.moveTo(WAVE_X, SCREEN_T + (SCREEN_H / CONFIG.gridRows) * i);
+        wCtx.lineTo(
+          WAVE_X + WAVE_W,
+          SCREEN_T + (SCREEN_H / CONFIG.gridRows) * i,
+        );
+        wCtx.stroke();
       }
-      ctx.strokeStyle = CONFIG.colorGridMid;
+      wCtx.strokeStyle = CONFIG.gridMidColor;
       const midY = (WAVE_TOP + WAVE_BOT) / 2;
-      ctx.beginPath(); ctx.moveTo(WAVE_X, midY); ctx.lineTo(WAVE_X + WAVE_W, midY); ctx.stroke();
-    }
+      wCtx.beginPath();
+      wCtx.moveTo(WAVE_X, midY);
+      wCtx.lineTo(WAVE_X + WAVE_W, midY);
+      wCtx.stroke();
 
-    function drawWave() {
-      if (waveBuffer.length < 2) return;
-      ctx.beginPath();
-      ctx.strokeStyle = CONFIG.colorTrace;
-      ctx.lineWidth   = 1.8;
-      ctx.shadowColor = CONFIG.colorTraceShadow;
-      ctx.shadowBlur  = 5;
-      ctx.lineJoin    = "miter";
-      ctx.lineCap     = "square";
-      let prevY = null;
-      for (let i = 0; i < waveBuffer.length; i++) {
-        const { sx, y } = waveBuffer[i];
-        if (i === 0) { ctx.moveTo(sx, y); prevY = y; continue; }
-        if (y !== prevY) { ctx.lineTo(sx, prevY); ctx.lineTo(sx, y); }
-        ctx.lineTo(sx + HALF, y);
-        prevY = y;
-      }
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-      if (!waveDone) {
-        const last = waveBuffer[waveBuffer.length - 1];
-        ctx.beginPath();
-        ctx.arc(last.sx, last.y, 3, 0, Math.PI * 2);
-        ctx.fillStyle   = CONFIG.colorScanDot;
-        ctx.shadowColor = CONFIG.colorScanDot;
-        ctx.shadowBlur  = 10;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-      }
-    }
+      // label
+      wCtx.font = `9px ${CONFIG.textFontFamily}`;
+      wCtx.fillStyle = CONFIG.labelColor;
+      wCtx.textBaseline = "top";
+      wCtx.fillText(CONFIG.labelText, WAVE_X + 4, SCREEN_T + 4);
+      wCtx.fillText("H", WAVE_X + WAVE_W + 3, WAVE_TOP);
+      wCtx.fillText("L", WAVE_X + WAVE_W + 3, WAVE_BOT);
 
-    function drawTokens() {
-      ctx.font         = `${FONT_SIZE}px ${CONFIG.fontFamily}`;
-      ctx.textBaseline = "middle";
-      const refW   = ctx.measureText("W").width * 1.1;
+      // wave
+      if (waveBuffer.length >= 2) {
+        wCtx.beginPath();
+        wCtx.strokeStyle = CONFIG.waveColor;
+        wCtx.lineWidth = CONFIG.waveLineWidth;
+        wCtx.shadowColor = CONFIG.waveGlowColor;
+        wCtx.shadowBlur = CONFIG.waveGlowBlur;
+        wCtx.lineJoin = "miter";
+        wCtx.lineCap = "square";
+        let prevY = null;
+        waveBuffer.forEach(({ sx, y }, i) => {
+          if (i === 0) {
+            wCtx.moveTo(sx, y);
+            prevY = y;
+            return;
+          }
+          if (y !== prevY) {
+            wCtx.lineTo(sx, prevY);
+            wCtx.lineTo(sx, y);
+          }
+          wCtx.lineTo(sx + HALF, y);
+          prevY = y;
+        });
+        wCtx.stroke();
+        wCtx.shadowBlur = 0;
+
+        if (!waveDone) {
+          const last = waveBuffer[waveBuffer.length - 1];
+          wCtx.beginPath();
+          wCtx.arc(last.sx, last.y, CONFIG.scanDotRadius, 0, Math.PI * 2);
+          wCtx.fillStyle = CONFIG.scanDotColor;
+          wCtx.shadowColor = CONFIG.scanDotColor;
+          wCtx.shadowBlur = CONFIG.scanDotGlow;
+          wCtx.fill();
+          wCtx.shadowBlur = 0;
+        }
+      }
+
+      wCtx.restore();
+    };
+
+    // ── Draw text canvas ─────────────────────────────────────────
+    const drawTextCanvas = () => {
+      const FS = CONFIG.textFontSize;
+      tCtx.clearRect(0, 0, PW, CONFIG.textHeight);
+      tCtx.font = `${FS}px ${CONFIG.textFontFamily}`;
+      tCtx.textBaseline = "middle";
+
+      const refW = tCtx.measureText("W").width * 1.1;
       const spaceW = refW * 0.6;
-      let x = TEXT_X;
+      const totalW = tokens.reduce(
+        (acc, t) => acc + (t.isSpace ? spaceW : refW + CONFIG.tokenGap),
+        0,
+      );
+      let x = (PW - totalW) / 2;
+      const TEXT_Y = CONFIG.textHeight / 2;
 
-      for (let i = 0; i < tokens.length; i++) {
-        const tok = tokens[i];
-        const ts  = tokenState[i];
-        if (ts.phase === "hidden") { x += tok.isSpace ? spaceW : refW + CONFIG.tokenGap; continue; }
-        if (tok.isSpace)           { x += spaceW; continue; }
+      tokens.forEach((tok, i) => {
+        const ts = tokenState[i];
+        if (ts.phase === "hidden") {
+          x += tok.isSpace ? spaceW : refW + CONFIG.tokenGap;
+          return;
+        }
+        if (tok.isSpace) {
+          x += spaceW;
+          return;
+        }
 
         let text, color, alpha;
         if (ts.phase === "hex") {
-          text = tok.hex; color = CONFIG.colorHex; alpha = 0.8;
+          text = tok.hex;
+          color = CONFIG.hexColor;
+          alpha = 0.8;
         } else if (ts.phase === "morphing") {
           const t = ts.morphT;
-          if (t < 0.5) { text = tok.hex;  color = CONFIG.colorHex;  alpha = 1 - t * 1.6; }
-          else          { text = tok.char; color = CONFIG.colorChar; alpha = (t - 0.5) * 2; }
+          text = t < 0.5 ? tok.hex : tok.char;
+          color = t < 0.5 ? CONFIG.hexColor : CONFIG.charColor;
+          alpha = t < 0.5 ? 1 - t * 1.6 : (t - 0.5) * 2;
         } else {
-          text = tok.char; color = CONFIG.colorChar; alpha = 1;
+          text = tok.char;
+          color = CONFIG.charColor;
+          alpha = 1;
         }
 
-        ctx.shadowColor = color;
-        ctx.shadowBlur  = ts.phase === "char" ? 9 : 4;
-        ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+        tCtx.globalAlpha = Math.max(0, Math.min(1, alpha));
+
+        const drawWithMatte = (tx, ty, scale = null) => {
+          if (scale !== null) tCtx.scale(1, scale);
+          // matte pass
+          tCtx.lineWidth = CONFIG.matteLineWidth;
+          tCtx.strokeStyle = CONFIG.matteColor;
+          tCtx.shadowColor = CONFIG.matteGlowColor;
+          tCtx.shadowBlur = CONFIG.matteGlowBlur;
+          tCtx.strokeText(text, tx, ty);
+          tCtx.shadowBlur = 0;
+          // colored glow pass
+          tCtx.shadowColor = color;
+          tCtx.shadowBlur =
+            ts.phase === "char" ? CONFIG.charGlowBlur : CONFIG.hexGlowBlur;
+          tCtx.fillStyle = color;
+          tCtx.fillText(text, tx, ty);
+          tCtx.shadowBlur = 0;
+        };
 
         if (ts.phase === "morphing") {
-          const scaleY = ts.morphT < 0.5
-            ? Math.max(0.05, 1 - ts.morphT * 2)
-            : Math.max(0.05, (ts.morphT - 0.5) * 2);
-          const tw = ctx.measureText(text).width;
-          ctx.save();
-          ctx.translate(x + tw / 2, TEXT_Y);
-          ctx.scale(1, scaleY);
-          ctx.fillStyle = color;
-          ctx.fillText(text, -tw / 2, 0);
-          ctx.restore();
+          const scaleY =
+            ts.morphT < 0.5
+              ? Math.max(0.05, 1 - ts.morphT * 2)
+              : Math.max(0.05, (ts.morphT - 0.5) * 2);
+          const tw = tCtx.measureText(text).width;
+          tCtx.save();
+          tCtx.translate(x + tw / 2, TEXT_Y);
+          drawWithMatte(-tw / 2, 0, scaleY);
+          tCtx.restore();
         } else {
-          ctx.fillStyle = color;
-          ctx.fillText(text, x, TEXT_Y);
+          drawWithMatte(x, TEXT_Y);
         }
 
-        ctx.globalAlpha = 1;
-        ctx.shadowBlur  = 0;
+        tCtx.globalAlpha = 1;
         x += refW + CONFIG.tokenGap;
-      }
+      });
 
-      // blinking cursor
+      // cursor
       if (typingTokenIdx <= tokens.length) {
-        let cx = TEXT_X;
+        let cx = (PW - totalW) / 2;
         for (let i = 0; i < typingTokenIdx; i++) {
-          if (tokens[i].isSpace) { cx += spaceW; continue; }
-          cx += refW + CONFIG.tokenGap;
+          cx += tokens[i].isSpace ? spaceW : refW + CONFIG.tokenGap;
         }
         if (frame % 18 < 10) {
-          ctx.fillStyle   = CONFIG.colorCursor;
-          ctx.globalAlpha = 1;
-          ctx.fillRect(cx + CONFIG.cursorOffset, TEXT_Y - FONT_SIZE / 2, FONT_SIZE * 0.45, FONT_SIZE);
+          tCtx.fillStyle = CONFIG.cursorColor;
+          tCtx.globalAlpha = 1;
+          tCtx.fillRect(
+            cx + CONFIG.cursorOffset,
+            TEXT_Y - FS / 2,
+            FS * 0.45,
+            FS,
+          );
         }
       }
-    }
+    };
 
-    function drawLabel() {
-      ctx.font         = `9px ${CONFIG.fontFamily}`;
-      ctx.fillStyle    = CONFIG.colorLabel;
-      ctx.textBaseline = "top";
-      ctx.fillText(CONFIG.label, WAVE_X + 2, 5);
-      ctx.fillText("H", WAVE_X + WAVE_W + 3, WAVE_TOP);
-      ctx.fillText("L", WAVE_X + WAVE_W + 3, WAVE_BOT);
-    }
-
-    // ── Loops ─────────────────────────────────────────────────
-
-    // Wave: own interval, never blocks rAF
+    // ── Loop ─────────────────────────────────────────────────────
     waveIntervalId = setInterval(advanceWave, CONFIG.waveInterval);
 
-    // Render + typing: rAF
-    function loop() {
+    const loop = () => {
       animId = requestAnimationFrame(loop);
       frame++;
-      ctx.clearRect(0, 0, cw, ch);
-      drawGrid();
-      drawLabel();
       advanceTyping();
       advanceMorphs();
-      // morph any remaining hex when all typed
       if (typingTokenIdx >= tokens.length) {
-        for (let i = 0; i < tokenState.length; i++) {
-          if (tokenState[i].phase === "hex") triggerMorph(i);
-        }
+        tokenState.forEach((ts, i) => {
+          if (ts.phase === "hex") triggerMorph(i);
+        });
       }
-      drawWave();
-      drawTokens();
-    }
+      drawWaveCanvas();
+      drawTextCanvas();
+    };
 
     loop();
 
@@ -348,10 +546,43 @@ const OscilloscopeLoader = ({ onComplete }) => {
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{ display: "block", width: "100%", height: "100%" }}
-    />
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <div style={{ position: "relative", width: `${CONFIG.scopeMaxWidth}px` }}>
+        <canvas
+          ref={waveCanvasRef}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+        {showCRT && <CRTCollapse onDone={() => {}} />}
+        <img
+          src={Scope}
+          alt="oscilloscope"
+          style={{
+            width: "100%",
+            display: "block",
+            position: "relative",
+            zIndex: 3,
+          }}
+        />
+      </div>
+      <canvas
+        ref={textCanvasRef}
+        style={{
+          width: `${CONFIG.scopeMaxWidth}px`,
+          height: `${CONFIG.textHeight}px`,
+          marginTop: `${CONFIG.textMarginTop}px`,
+        }}
+      />
+    </div>
   );
 };
 

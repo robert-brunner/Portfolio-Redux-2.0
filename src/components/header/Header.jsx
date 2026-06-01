@@ -176,7 +176,7 @@ const Header = () => {
 
             <div>
               <a href="#about">
-                <div className="scroll-down"></div>
+                <div className="scroll-down" ></div>
               </a>
             </div>
 

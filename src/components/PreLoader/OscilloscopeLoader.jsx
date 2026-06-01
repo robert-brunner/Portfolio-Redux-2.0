@@ -148,6 +148,7 @@ const CONFIG = {
   textHeight: 60, // px — height of the text strip below the scope
   textMarginTop: 12, // px — gap between scope and text
   tokenGap: 0, // px between character tokens
+  scopeMaxWidth:  750,
 
   hexColor: "#00e5ff",
   charColor: "#b76bf5",

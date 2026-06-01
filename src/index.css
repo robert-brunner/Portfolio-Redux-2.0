@@ -60,6 +60,12 @@ body {
   background-image: url(../src/assets/bg-texture.png);
 }
 
+.mx-auto div .vertical-timeline .vertical-timeline-element .vertical-timeline-element-icon {
+  width: 60px;
+  height: 60px;
+  margin-left: -30px;
+}
+
 
 
 /* General Styles*/

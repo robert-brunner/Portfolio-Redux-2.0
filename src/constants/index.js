@@ -105,7 +105,7 @@ const experiences = [
     company_name: "Northstar Alarm Services, LLC",
     icon: NorthStar,
     iconBg: "#E6DEDD",
-    date: "May 2014 - June 2024)",
+    date: "May 2014 - August 2024",
     points: [
       "Trained and managed technicians in new techniques and assisted in installations ",
       "Assisted customers concerning initial installs and service calls ",

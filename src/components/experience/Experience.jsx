@@ -1,72 +1,77 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // You can also use <link> for styles
-import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timeline-component';
-import 'react-vertical-timeline-component/style.min.css';
+import AOS from "aos";
+import "aos/dist/aos.css"; // You can also use <link> for styles
+import {
+  VerticalTimeline,
+  VerticalTimelineElement,
+} from "react-vertical-timeline-component";
+import "react-vertical-timeline-component/style.min.css";
 import { experiences } from "../../constants";
 import { SectionWrapper } from "../../hoc";
 // import { styles } from "../../styles.js";
 import { textVariant } from "../../utils/motion";
-import './Experience.css'
-
+import "./Experience.css";
 
 const ExperienceCard = ({ experience }) => {
-
   return (
     <VerticalTimelineElement
-    className='verticalTimeline'
-      style={{overflowX : "hidden"}}
+      key={`experience-${index}`}
+      visible={true}
+      className="verticalTimeline"
+      style={{ overflowX: "hidden" }}
       contentStyle={{
         background: "#030618",
-        color: "#f0f0f0"
+        color: "#f0f0f0",
       }}
       contentArrowStyle={{ borderRight: "7px solid  #232631" }}
       date={experience.date}
       iconStyle={{ background: experience.iconBg, marginTop: "5px" }}
       icon={
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          height: '100%'
-        }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100%",
+          }}
+        >
           <img
             src={experience.icon}
             alt={experience.company_name}
-            style={{ width: '80%', height: '80%', objectFit: 'contain' }}
+            style={{ width: "80%", height: "80%", objectFit: "contain" }}
           />
         </div>
       }
     >
       <div>
-        <h3 style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: 'bold' }}>{experience.title}</h3>
-        <p
-          style={{ fontSize: '16px', fontWeight: '600', margin: 0  }}
-        >
+        <h3 style={{ color: "#FFFFFF", fontSize: "24px", fontWeight: "bold" }}>
+          {experience.title}
+        </h3>
+        <p style={{ fontSize: "16px", fontWeight: "600", margin: 0 }}>
           {experience.company_name}
         </p>
       </div>
 
-      <ul style={{ marginTop: '1.25rem',  marginLeft: '1.25rem'}}>
+      <ul style={{ marginTop: "1.25rem", marginLeft: "1.25rem" }}>
         {experience.points.map((point, index) => {
           if (point.startsWith("---") && point.endsWith("---")) {
             return (
-              <h4 
+              <h4
                 key={`experience-header-${index}`}
-                style={{ 
-                  listStyleType: 'none', 
-                  marginLeft: '-20px', 
-                  marginTop: '25px',
-                  marginBottom: '12px',
-                  fontWeight: 'bold',
-                  fontSize: '15px',
-                  letterSpacing: '0.5px',
-                  color: '#b86df5' 
+                style={{
+                  listStyleType: "none",
+                  marginLeft: "-20px",
+                  marginTop: "25px",
+                  marginBottom: "12px",
+                  fontWeight: "bold",
+                  fontSize: "15px",
+                  letterSpacing: "0.5px",
+                  color: "#b86df5",
                 }}
               >
-                {point.replace(/---/g, '').trim()}
+                {point.replace(/---/g, "").trim()}
               </h4>
             );
           }
@@ -74,7 +79,13 @@ const ExperienceCard = ({ experience }) => {
           return (
             <li
               key={`experience-point-${index}`}
-              style={{ color: '#fff', fontSize: '14px', listStyleType: 'disc', paddingLeft: '0.25rem', marginBottom: '0.50rem' }}
+              style={{
+                color: "#fff",
+                fontSize: "14px",
+                listStyleType: "disc",
+                paddingLeft: "0.25rem",
+                marginBottom: "0.50rem",
+              }}
             >
               {point}
             </li>
@@ -86,7 +97,6 @@ const ExperienceCard = ({ experience }) => {
 };
 
 const Experience = () => {
-    
   useEffect(() => {
     AOS.init({
       duration: 1200,
@@ -95,70 +105,89 @@ const Experience = () => {
 
   return (
     <>
-      <div data-aos="fade-up" variants={textVariant()}
-      id='experience'>
-        
-
-        <h2 style={{textAlign: "center", color: "#b86df5"}}>
-          Experience
-        </h2>
+      <div data-aos="fade-up" variants={textVariant()} id="experience">
+        <h2 style={{ textAlign: "center", color: "#b86df5" }}>Experience</h2>
       </div>
 
-      <div style={{marginTop: "5rem", display: 'flex', flexDirection:'column'}} >
+      <div
+        style={{ marginTop: "5rem", display: "flex", flexDirection: "column" }}
+      >
         <VerticalTimeline>
           {experiences.map((experience, index) => (
             <VerticalTimelineElement
               key={`experience-${index}`}
-              className='verticalTimeline'
+              visible={true} 
+              key={`experience-${index}`}
+              className="verticalTimeline"
               style={{ overflowX: "hidden" }}
               contentStyle={{
                 background: "#030618",
-                color: "#f0f0f0"
+                color: "#f0f0f0",
               }}
               contentArrowStyle={{ borderRight: "7px solid  #232631" }}
               date={experience.date}
               iconStyle={{ background: experience.iconBg, marginTop: "5px" }}
               icon={
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
-                  height: '100%'
-                }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
                   <img
                     src={experience.icon}
                     alt={experience.company_name}
-                    style={{ width: '80%', height: '80%', objectFit: 'contain' }}
+                    style={{
+                      width: "80%",
+                      height: "80%",
+                      objectFit: "contain",
+                    }}
                   />
                 </div>
               }
             >
-              <h3 style={{ color: '#FFFFFF', fontSize: '24px', fontWeight: 'bold' }}>{experience.title}</h3>
-              <p style={{ fontSize: '16px', fontWeight: '600' }}>
+              <h3
+                style={{
+                  color: "#FFFFFF",
+                  fontSize: "24px",
+                  fontWeight: "bold",
+                }}
+              >
+                {experience.title}
+              </h3>
+              <p style={{ fontSize: "16px", fontWeight: "600" }}>
                 {experience.company_name}
               </p>
-              <p style={{ color: '#dcdcdc', fontSize: '15px', marginTop: '10px' }}>
+              <p
+                style={{
+                  color: "#dcdcdc",
+                  fontSize: "15px",
+                  marginTop: "10px",
+                }}
+              >
                 {experience.role_description}
               </p>
-              <ul style={{ marginTop: '1.25rem', marginLeft: '1.25rem' }}>
+              <ul style={{ marginTop: "1.25rem", marginLeft: "1.25rem" }}>
                 {experience.points.map((point, index) => {
                   if (point.startsWith("---") && point.endsWith("---")) {
                     return (
-                      <h4 
+                      <h4
                         key={`experience-header-${index}`}
-                        style={{ 
-                          listStyleType: 'none', 
-                          marginLeft: '-20px', 
-                          marginTop: '25px',
-                          marginBottom: '12px',
-                          fontWeight: 'bold',
-                          fontSize: '15px',
-                          letterSpacing: '0.5px',
-                          color: '#b86df5' 
+                        style={{
+                          listStyleType: "none",
+                          marginLeft: "-20px",
+                          marginTop: "25px",
+                          marginBottom: "12px",
+                          fontWeight: "bold",
+                          fontSize: "15px",
+                          letterSpacing: "0.5px",
+                          color: "#b86df5",
                         }}
                       >
-                        {point.replace(/---/g, '').trim()}
+                        {point.replace(/---/g, "").trim()}
                       </h4>
                     );
                   }
@@ -166,7 +195,13 @@ const Experience = () => {
                   return (
                     <li
                       key={`experience-point-${index}`}
-                      style={{ color: '#fff', fontSize: '14px', listStyleType: 'disc', paddingLeft: '0.25rem', marginBottom: '0.50rem' }}
+                      style={{
+                        color: "#fff",
+                        fontSize: "14px",
+                        listStyleType: "disc",
+                        paddingLeft: "0.25rem",
+                        marginBottom: "0.50rem",
+                      }}
                     >
                       {point}
                     </li>

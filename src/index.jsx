@@ -4,6 +4,8 @@ import App from './App';
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+window.history.scrollRestoration = 'manual';
 root.render(
   <React.StrictMode>
     <App />

@@ -28,12 +28,13 @@ function App() {
       setIsMobile(window.innerWidth < 768);
     };
 
+
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
+  
   const renderContent = () => {
     if (isMobile) {
       if (initialOrientation === 'portrait' && orientation === 'landscape') {

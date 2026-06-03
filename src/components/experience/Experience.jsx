@@ -115,7 +115,6 @@ const Experience = () => {
         <VerticalTimeline>
           {experiences.map((experience, index) => (
             <VerticalTimelineElement
-              key={`experience-${index}`}
               visible={true} 
               key={`experience-${index}`}
               className="verticalTimeline"

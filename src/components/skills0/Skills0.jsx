@@ -134,7 +134,7 @@ const Skills0 = () => {
     >
       <Container>
         <Wrapper>
-          <h5 style={{ color: "rgba(255, 255, 255, 0.6)" }}>What are my</h5>
+          {/* <h5 style={{ color: "rgba(255, 255, 255, 0.6)" }}>What are my</h5> */}
           <h2 style={{ color: "#b86df5" }}>Skills</h2>
           {/* <Title>Skills</Title>
         <Desc>Here are some of my skills on which I have been working on for the past 2 years.

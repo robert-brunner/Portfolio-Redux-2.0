@@ -18,7 +18,7 @@ const Skills = () => {
     <section
    id='skills'>
 
-      <h5>What are my</h5>
+      {/* <h5>What are my</h5> */}
       <h2>Skills</h2>
 
       <div 

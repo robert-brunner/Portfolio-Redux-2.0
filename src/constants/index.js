@@ -29,6 +29,13 @@ import VSCODE from "../assets/tech_logos/vsCodeLogo.png";
 import premPro from "../assets/tech_logos/premierPro.png";
 import CPlusPlus from "../assets/tech_logos/cPlusPlus.png";
 import ASM from "../assets/tech_logos/microChip.png";
+import Esp32 from "../assets/tech_logos/esp32.png";
+import Embedded from "../assets/tech_logos/embedded.png";
+import BLE from "../assets/tech_logos/ble.png";
+import Ionic from "../assets/tech_logos/ionic.webp";
+import Capacitor from "../assets/tech_logos/capacitor.png";
+import AndroidStudio from "../assets/tech_logos/AndroidStudio.webp";
+import MpLabX from "../assets/tech_logos/mpLabX.png";
 
 const experiences = [
   {
@@ -164,218 +171,217 @@ const experiences = [
 
 const skills = [
   {
-    id: 210,
+    id: 400,
     title: "Low Level",
     skills: [
       {
-        id: 211,
+        id: 401,
+        name: "Arduino",
+        image: Arduino,
+      },
+      {
+        id: 402,
+        name: "BLE",
+        image: BLE,
+      },
+      {
+        id: 403,
         name: "C++",
         image: CPlusPlus,
       },
       {
-        id: 212,
-        name: "Assembly",
-        image: ASM,
+        id: 404,
+        name: "Embedded Systems",
+        image: Embedded,
+      },
+      {
+        id: 405,
+        name: "Esp32",
+        image: Esp32,
       },
     ],
   },
   {
-    id: 999,
+    id: 500,
     title: "Frontend",
     skills: [
       {
-        id: 2,
-        name: "React Js",
-        image:
-          "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K",
-      },
-
-      {
-        id: 3,
-        name: "Three.js",
-        image: ThreeJS,
-      },
-
-      // {
-      //   id: 4,
-      //   name: "Redux",
-      //   image:
-      //     "https://d33wubrfki0l68.cloudfront.net/0834d0215db51e91525a25acf97433051f280f2f/c30f5/img/redux.svg",
-      // },
-
-      {
-        id: 5,
-        name: "HTML",
-        image: "https://www.w3.org/html/logo/badge/html5-badge-h-solo.png",
-      },
-      {
-        id: 6,
-        name: "CSS",
-        image: cssLogo,
-      },
-
-      {
-        id: 7,
-        name: "JavaScript",
-        image: jsLOGO,
-      },
-
-      // {
-      //   id: 8,
-      //   name: "TypeScript",
-      //   image:
-      //     "https://www.vectorlogo.zone/logos/typescriptlang/typescriptlang-icon.svg",
-      // },
-
-      {
-        id: 9,
+        id: 501,
         name: "Bootstrap",
         image:
           "https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo-shadow.png",
       },
       {
-        id: 11,
+        id: 502,
+        name: "Capacitor",
+        image: Capacitor,
+      },
+      {
+        id: 503,
+        name: "CSS",
+        image: cssLogo,
+      },
+      {
+        id: 504,
+        name: "HTML",
+        image: "https://www.w3.org/html/logo/badge/html5-badge-h-solo.png",
+      },
+      {
+        id: 505,
+        name: "Ionic",
+        image: Ionic,
+      },
+      {
+        id: 506,
+        name: "JavaScript",
+        image: jsLOGO,
+      },
+      {
+        id: 507,
+        name: "React Js",
+        image:
+          "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9Ii0xMS41IC0xMC4yMzE3NCAyMyAyMC40NjM0OCI+CiAgPHRpdGxlPlJlYWN0IExvZ288L3RpdGxlPgogIDxjaXJjbGUgY3g9IjAiIGN5PSIwIiByPSIyLjA1IiBmaWxsPSIjNjFkYWZiIi8+CiAgPGcgc3Ryb2tlPSIjNjFkYWZiIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIi8+CiAgICA8ZWxsaXBzZSByeD0iMTEiIHJ5PSI0LjIiIHRyYW5zZm9ybT0icm90YXRlKDYwKSIvPgogICAgPGVsbGlwc2Ugcng9IjExIiByeT0iNC4yIiB0cmFuc2Zvcm09InJvdGF0ZSgxMjApIi8+CiAgPC9nPgo8L3N2Zz4K",
+      },
+      {
+        id: 508,
         name: "TailwindCSS",
         image:
           "https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg",
       },
+      {
+        id: 509,
+        name: "Three.js",
+        image: ThreeJS,
+      },
     ],
   },
   {
-    id: 998,
+    id: 600,
     title: "Backend",
     skills: [
       {
-        id: 101,
+        id: 601,
         name: "C#",
         image: CSharp,
       },
       {
-        id: 102,
-        name: "SQL Server",
-        image:
-          "https://user-images.githubusercontent.com/4249331/52232852-e2c4f780-28bd-11e9-835d-1e3cf3e43888.png",
-      },
-      // {
-      //   id: 102,
-      //   name: "Express Js",
-      //   image:
-      //     "https://i.ibb.co/3dssqRk/express-js.png",
-      // },
-
-      {
-        id: 103,
+        id: 602,
         name: "Cloudinary",
         image: "https://s3.amazonaws.com/awsmp-logos/cloudinary.png",
       },
       {
-        id: 104,
+        id: 603,
         name: "Firebase",
         image: "https://www.vectorlogo.zone/logos/firebase/firebase-icon.svg",
+      },
+      {
+        id: 604,
+        name: "SQL Server",
+        image:
+          "https://user-images.githubusercontent.com/4249331/52232852-e2c4f780-28bd-11e9-835d-1e3cf3e43888.png",
       },
     ],
   },
   {
-    id: 997,
+    id: 700,
     title: "Others",
     skills: [
       {
-        id: 210,
+        id: 701,
         name: "Adobe After Effects",
         image:
           "https://1000logos.net/wp-content/uploads/2020/07/After-Effects-Logo.png",
       },
       {
-        id: 211,
+        id: 702,
         name: "Adobe Premier Pro",
         image: premPro,
       },
       {
-        id: 205,
-        name: "Arduino",
-        image: Arduino,
+        id: 703,
+        name: "Android Studio",
+        image: AndroidStudio,
       },
       {
-        id: 216,
+        id: 704,
         name: "Blender",
         image:
           "https://www.wittystore.com/image/cache/data/brands_logos/blender-free-3d-creation-suite-wittystore-650x650.png",
       },
       {
-        id: 215,
+        id: 705,
         name: "Canva",
         image: "https://www.vectorlogo.zone/logos/canva/canva-icon.svg",
       },
       {
-        id: 204,
+        id: 706,
         name: "ExpoGo",
         image:
           "https://play-lh.googleusercontent.com/algsmuhitlyCU_Yy3IU7-7KYIhCBwx5UJG4Bln-hygBjjlUVCiGo1y8W5JNqYm9WW3s",
       },
       {
-        id: 212,
-        name: "Final Cut Pro",
-        image:
-          "https://upload.wikimedia.org/wikipedia/en/9/9f/2015_Final_Cut_Pro_Logo.png",
-      },
-      {
-        id: 213,
+        id: 707,
         name: "Figma",
         image:
           "https://i.pinimg.com/originals/63/a7/b1/63a7b1894b3210d07e434e9d12170586.png",
       },
       {
-        id: 209,
-        name: "Flutter",
+        id: 708,
+        name: "Final Cut Pro",
         image:
-          "https://cdn-images-1.medium.com/max/1200/1*5-aoK8IBmXve5whBQM90GA.png",
+          "https://upload.wikimedia.org/wikipedia/en/9/9f/2015_Final_Cut_Pro_Logo.png",
       },
       {
-        id: 218,
+        id: 709,
         name: "Fusion360",
         image: fus360,
       },
       {
-        id: 201,
+        id: 710,
         name: "Git",
         image: "https://avatars.githubusercontent.com/u/18133?s=280&v=4",
       },
       {
-        id: 202,
+        id: 711,
         name: "GitHub",
         image:
           "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
       },
       {
-        id: 214,
+        id: 712,
         name: "Miro",
         image:
           "https://store-images.s-microsoft.com/image/apps.47763.13959754522315136.87be3224-9693-4fd4-8cd4-af6362fb8d37.b3c24453-164b-4d03-b561-e77aec7c076a",
       },
       {
-        id: 217,
+        id: 713,
+        name: "MpLabX",
+        image: MpLabX,
+      },
+      {
+        id: 714,
         name: "OBS",
         image:
           "https://www.logo.wine/a/logo/Open_Broadcaster_Software/Open_Broadcaster_Software-Logo.wine.svg",
       },
       {
-        id: 203,
+        id: 715,
         name: "Vercel",
         image: "https://i.ibb.co/VjL9zJH/Vercel.png",
       },
       {
-        id: 206,
-        name: "VS Code",
-        image: VSCODE,
-      },
-      {
-        id: 207,
+        id: 716,
         name: "Visual Studio",
         image:
           "https://1000logos.net/wp-content/uploads/2023/04/Visual-Studio-logo.png",
       },
       {
-        id: 208,
+        id: 717,
+        name: "VS Code",
+        image: VSCODE,
+      },
+      {
+        id: 718,
         name: "WordPress",
         image: "https://www.vectorlogo.zone/logos/wordpress/wordpress-icon.svg",
       },

@@ -35,7 +35,7 @@ import BLE from "../assets/tech_logos/ble.png";
 import Ionic from "../assets/tech_logos/ionic.webp";
 import Capacitor from "../assets/tech_logos/capacitor.png";
 import AndroidStudio from "../assets/tech_logos/AndroidStudio.webp";
-import MpLabX from "../assets/tech_logos/mpLabX.png";
+import MpLabX from "../assets/tech_logos/MpLabX.png";
 
 const experiences = [
   {

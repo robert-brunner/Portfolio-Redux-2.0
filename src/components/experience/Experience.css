@@ -4,6 +4,49 @@
   box-shadow: none;
 }
 
+/* @media screen and (max-width: 600px) {
+  .vertical-timeline-element-icon {
+    margin-left: 5px;
+  }
+  .vertical-timeline::before {
+    left: 23px;
+  }
+
+.mx-auto div .vertical-timeline .vertical-timeline-element .vertical-timeline-element-icon.bounce-in {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    z-index: 9;
+  }
+}
+
+ */
+
+
+ /* ==================== Base Responsive Fixes ======================= */
+
+.vertical-timeline-element-content {
+  box-shadow: none;
+  max-width: 100%;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.vertical-timeline-element-content p,
+.vertical-timeline-element-content li,
+.vertical-timeline-element-content h3,
+.vertical-timeline-element-content h4 {
+  max-width: 100%;
+  overflow-wrap: break-word;
+}
+
+.vertical-timeline {
+  box-sizing: border-box;
+}
+
+/* ==================== Media Queries (Small Devices) ======================= */
+
 @media screen and (max-width: 600px) {
   .vertical-timeline-element-icon {
     margin-left: 5px;
@@ -11,6 +54,70 @@
   .vertical-timeline::before {
     left: 23px;
   }
+
+.mx-auto div .vertical-timeline .vertical-timeline-element .vertical-timeline-element-icon.bounce-in {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    z-index: 9;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .vertical-timeline-element-icon {
+    width: 40px !important;
+    height: 40px !important;
+    margin-left: 0px;
+    box-shadow: none;
+  }
+  .vertical-timeline::before {
+    left: 17px;
+  }
+  .vertical-timeline-element-content {
+    margin-left: 45px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .vertical-timeline-element-icon {
+    width: 26px !important;
+    height: 26px !important;
+    margin-left: 0;
+  }
+  .vertical-timeline::before {
+    left: 13px;
+  }
+  .vertical-timeline-element-content {
+    margin-left: 35px;
+  }
 }
 
 
+/* 1. Move the vertical line track further right and center it */
+.vertical-timeline::before {
+  left: 32px !important; /* Move midline to 32px */
+  width: 4px !important;
+  transform: translateX(-50%) !important;
+}
+
+/* 2. Center the icon on the same 32px midline */
+.vertical-timeline-element-icon {
+  left: 32px !important; /* Match the line's left position */
+  margin-left: 0 !important; /* Remove legacy margins */
+  transform: translateX(-50%) !important; /* Center the icon itself on that point */
+  width: 40px !important;
+  height: 40px !important;
+}
+
+/* 3. Push the text content right to make room for the shifted icon */
+.vertical-timeline-element-content {
+  margin-left: 70px !important; /* Adjusted from 60px to accommodate the shift */
+}
+
+/* 4. Fix for mobile view to ensure it doesn't get squished */
+@media only screen and (max-width: 1169px) {
+  .vertical-timeline-element-content {
+    width: auto !important;
+    float: none !important;
+  }
+}

@@ -22,7 +22,6 @@ header {
   opacity: 70%;
 }
 
-
 @keyframes wiggle {
   0%,
   100% {
@@ -51,14 +50,16 @@ header {
 
 .header_container {
   text-align: center;
-  /* position: relative; */
-  /* height: 101vh; */
 }
 
 .header_info {
   position: absolute;
   top: 33%;
-  right: 38%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: 90vw;
+  text-align: center;
 }
 
 .threeD_portfolio {
@@ -70,7 +71,6 @@ header {
   padding-right: 1rem;
   padding-top: 1rem;
 }
-
 
 /* ===================== CTA ================== */
 
@@ -172,7 +172,6 @@ header {
 
 @keyframes scroll-down {
   0% {
-    /* top:20%; */
     opacity: 0;
   }
   30% {
@@ -206,11 +205,6 @@ header {
     height: 2rem;
   }
 
-  .header_info {
-    position: absolute;
-    top: 33%;
-    right: 23%;
-  }
   .overlay {
     height: 68%;
   }
@@ -237,13 +231,9 @@ header {
   }
 
   .header_info {
-    position: absolute;
     top: 33%;
-    right: 7.5%;
   }
 
-  
-  
 /*row is a self defeating adversary of which there is no cure. Stupendously better looking as a column*/
   .header_socials {
     display: flex;
@@ -271,37 +261,14 @@ header {
 
 /* ==================== Media Queries (Large Devices) ======================= */
 
-/* Target screens with a minimum width of 1920 pixels */
 @media screen and (min-width: 1900px) {
-  
   .header_container {
     text-align: center;
-    /* position: relative; */
-    /* height: 101vh; */
-    
   }
-  
-  .header_info {
-    position: absolute;
-    top: 33%;
-    right: 43%;
-  }
-  
-
 }
 
 @media screen and (min-width:2560px) {
-
   .header_container {
     text-align: center;
-    /* position: relative; */
-    /* height: 101vh; */
   }
-  
-  .header_info {
-    position: absolute;
-    top: 33%;
-    right: 45.8%;
-  }
-  
 }

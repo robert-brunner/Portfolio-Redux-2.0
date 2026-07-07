@@ -40,8 +40,12 @@
 
 .about_cards {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 90%;
 }
 
 .about_card {
@@ -91,15 +95,34 @@
   .about_container {
     grid-template-columns: 1fr;
     gap: 0;
+    width: 100%;
+    height: auto;
   }
 
   .about_me {
     width: 50%;
+    height: auto;
     margin: 2rem auto 4rem;
+  }
+
+  .about_content {
+    text-align: center;
+    margin-top: 4rem;
+    position: relative;
+    z-index: 1;
   }
 
   .about_content p {
     margin: 1rem 0 1.5rem;
+  }
+}
+
+/* Specific adjustment for Tablet/iPad sizes (601px to 1024px) */
+@media screen and (min-width: 601px) and (max-width: 1024px) {
+  .about_cards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+    width: 80%;
   }
 }
 

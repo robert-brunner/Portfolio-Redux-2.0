@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import React from 'react'
-import Resume from '../../assets/5-31-25_Resume.pdf'
+import Resume from '../../assets/5-31-26_Resume.pdf'
 
 const CTA = () => {
   return (

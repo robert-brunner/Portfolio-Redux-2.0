@@ -16,13 +16,12 @@ const Portfolio = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 600); // Check for mobile size
-    };
+    const mql = window.matchMedia("(max-width: 600px)");
+    const handleChange = (e) => setIsMobile(e.matches);
 
-    handleResize(); // Initial check
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    handleChange(mql); // initial check
+    mql.addEventListener("change", handleChange);
+    return () => mql.removeEventListener("change", handleChange);
   }, []);
 
   useEffect(() => {
@@ -40,8 +39,8 @@ const Portfolio = () => {
       <Swiper
         data-aos="fade-up"
         effect={"coverflow"}
-        grabCursor={!isMobile} // Disable grabCursor on mobile
-        allowTouchMove={!isMobile} // Disable touch move on mobile
+        grabCursor={true}
+        allowTouchMove={true}
         centeredSlides={true}
         slidesPerView={"auto"}
         coverflowEffect={{
@@ -52,9 +51,9 @@ const Portfolio = () => {
           slideShadows: true,
         }}
         pagination={{
-          clickable: !isMobile // Make pagination non-clickable on mobile
+          clickable: !isMobile
         }}
-        navigation={isMobile ? { // Enable navigation only on mobile
+        navigation={isMobile ? {
           nextEl: '.swiper-button-next',
           prevEl: '.swiper-button-prev',
         } : false}
@@ -67,7 +66,7 @@ const Portfolio = () => {
             width: isMobile ? '56vh' : '70vh',
             margin: isMobile ? '0px' : 'auto',
             height: '60vh'
-          }} className={isMobile ? "disable-interaction" : ""}>
+          }}>
             <div className="portfolio_item_image">
               <img height={190} src={gif} alt={title} />
               <div className="portfolio_item_content">

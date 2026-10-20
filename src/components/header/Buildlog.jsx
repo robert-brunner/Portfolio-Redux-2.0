@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./BuildLog.css";
+import "./Buildlog.css";
 //test
 const GITHUB_USERNAME = "robert-brunner";
 const PRIVATE_COUNT = 12;

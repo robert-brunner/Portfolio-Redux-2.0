@@ -1,0 +1,107 @@
+.buildlog {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.5rem;
+  z-index: 100;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.buildlog__main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  font-size: 1rem;
+  color: #e8e8e8;
+  letter-spacing: 0.04em;
+}
+
+/* Pulsing red dot */
+.buildlog__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff4d4d;
+  flex-shrink: 0;
+  animation: buildlog-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes buildlog-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(255, 77, 77, 0);
+  }
+}
+
+/* Teal count badge */
+.buildlog__badge {
+  color: #00e5a0;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+/* Blinking block cursor */
+.buildlog__cursor {
+  display: inline-block;
+  width: 9px;
+  height: 1em;
+  background: #00e5a0;
+  vertical-align: -1px;
+  animation: buildlog-blink 1s step-end infinite;
+}
+
+@keyframes buildlog-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Sub-label line */
+.buildlog__sub {
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  font-size: 0.7rem;
+  color: #5a9e7a;
+  padding-left: 16px; /* aligns under the text, past the dot */
+  letter-spacing: 0.02em;
+}
+
+/* Hover: subtle teal glow on title */
+.buildlog:hover .buildlog__main {
+  color: #ffffff;
+  transition: color 0.2s ease;
+}
+
+.buildlog:hover .buildlog__dot {
+  background: #ff6b6b;
+}
+
+/* Mobile: push it down so it clears a hamburger menu if you have one */
+@media (max-width: 768px) {
+  .buildlog {
+    top: 4.5rem;
+    right: 1rem;
+    font-size: 0.85rem;
+  }
+}
+
+.buildlog {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.buildlog--visible {
+  opacity: 1;
+  pointer-events: all;
+}

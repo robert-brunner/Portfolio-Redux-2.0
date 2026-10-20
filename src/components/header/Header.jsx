@@ -21,10 +21,9 @@ import sqlLogo from "../../assets/tech_logos/sql.png";
 import Arduino from "../../assets/tech_logos/Arduino.png";
 import { useMediaQuery } from "react-responsive";
 import Traces from "./ElectricTraces";
+import BuildLog from "./Buildlog";
 
-
-const Header = () => {
-
+const Header = ({ preloaderDone }) => {
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 });
   const isTabletOrMobile = useMediaQuery({ maxWidth: 1224 });
 
@@ -65,6 +64,8 @@ const Header = () => {
             ))}
           </div>
         </div> */}
+        <BuildLog visible={preloaderDone} />
+        {/*  {loading ? "LOADING..." : isActive ? "CONFIRM" : "CHANGE"} */}
         <Traces />
 
         {/* <Particles
@@ -176,7 +177,7 @@ const Header = () => {
 
             <div>
               <a href="#about">
-                <div className="scroll-down" ></div>
+                <div className="scroll-down"></div>
               </a>
             </div>
 

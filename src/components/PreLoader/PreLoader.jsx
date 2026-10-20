@@ -83,17 +83,20 @@ const FADE_DURATION = 100;   // ms — final fade out
 //   );
 // };
 
-const PreLoader = () => {
+const PreLoader = ({ onDone }) => {
   const [visible, setVisible] = useState(true);
   const [showCRT, setShowCRT] = useState(false);
   const [fading,  setFading]  = useState(false);
 
   // Called by OscilloscopeLoader when the last word finishes — no timers, no guessing
-  const handleComplete = () => {
-    setShowCRT(true);
-    setTimeout(() => setFading(true),   CRT_DURATION + HOLD_DURATION);
-    setTimeout(() => setVisible(false), CRT_DURATION + HOLD_DURATION + FADE_DURATION);
-  };
+const handleComplete = () => {
+  setShowCRT(true);
+  setTimeout(() => setFading(true), CRT_DURATION + HOLD_DURATION);
+  setTimeout(() => {
+    onDone();          // add this
+    setVisible(false);
+  }, CRT_DURATION + HOLD_DURATION + FADE_DURATION);
+};
 
   if (!visible) return null;
 

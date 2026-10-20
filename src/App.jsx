@@ -16,10 +16,13 @@ import Testimonials from "./components/testimonials/Testimonials";
 import Experience from './components/experience/Experience';
 import pleaseRotate from './assets/pleaseRotate.png'; // Make sure this path is correct
 
+
 function App() {
   const [orientation, setOrientation] = useState(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
   const [initialOrientation, setInitialOrientation] = useState(orientation);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [preloaderDone, setPreLoaderDone] = useState(false);
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -49,7 +52,7 @@ function App() {
       // For mobile, always return the rest of the components unless the specific condition is met
       return (
         <>
-          <Header />
+          <Header preloaderDone={preloaderDone} />
           <Nav />
           <About />
           <Experience />
@@ -64,7 +67,7 @@ function App() {
     // For desktops, render all components normally
     return (
       <>
-        <Header />
+        <Header preloaderDone={preloaderDone} />
         <Nav />
         <About />
         <Experience />
@@ -80,7 +83,7 @@ function App() {
 
   return (
     <>
-      <PreLoader /> 
+      <PreLoader onDone={() => setPreLoaderDone(true)} /> 
       {renderContent()}
     </>
   );

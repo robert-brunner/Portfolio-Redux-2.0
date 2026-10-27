@@ -125,10 +125,16 @@
 /* ── Mobile ── */
 @media (max-width: 768px) {
   .buildlog {
+    position: absolute;
     top: 4.5rem;
     right: 1rem;
-    font-size: 0.85rem;
+    align-items: flex-end;
   }
+}
+
+.buildlog.buildlog--away {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .buildlog__item--private .buildlog__label::before {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "./Buildlog.css";
-//test
+import "./BuildLog.css";
+
 const GITHUB_USERNAME = "robert-brunner";
 const PRIVATE_COUNT = 12;
 
@@ -14,6 +14,7 @@ const BuildLog = ({ visible }) => {
   const [repoCount, setRepoCount]     = useState(null);
   const [webAppCount, setWebAppCount] = useState(null);
 
+  // GitHub counts
   useEffect(() => {
     fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100`)
       .then((res) => res.json())
@@ -28,9 +29,9 @@ const BuildLog = ({ visible }) => {
   }, []);
 
   const items = [
-    { key: "repos",   label: "public repos",     count: repoCount,    href: LINKS.repos   },
-    { key: "webApps", label: "web apps",          count: webAppCount,  href: LINKS.webApps },
-    { key: "private", label: "", count: PRIVATE_COUNT, href: LINKS.private },
+    { key: "repos",   label: "public repos", count: repoCount,     href: LINKS.repos   },
+    { key: "webApps", label: "web apps",     count: webAppCount,   href: LINKS.webApps },
+    { key: "private", label: "",             count: PRIVATE_COUNT, href: LINKS.private },
   ];
 
   return (
@@ -45,7 +46,11 @@ const BuildLog = ({ visible }) => {
       {/* ── Dropdown menu ── */}
       <div className="buildlog__menu">
         {items.map(({ key, label, count, href }) => (
-          <a key={key} href={href} className={`buildlog__item ${key === "private" ? "buildlog__item--private" : ""}`}>
+          <a
+            key={key}
+            href={href}
+            className={`buildlog__item ${key === "private" ? "buildlog__item--private" : ""}`}
+          >
             <span className="buildlog__count">
               {count !== null ? `[ ${count} ]` : "[ … ]"}
             </span>

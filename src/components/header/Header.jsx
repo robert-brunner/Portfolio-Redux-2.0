@@ -21,7 +21,7 @@ import sqlLogo from "../../assets/tech_logos/sql.png";
 import Arduino from "../../assets/tech_logos/Arduino.png";
 import { useMediaQuery } from "react-responsive";
 import Traces from "./ElectricTraces";
-import BuildLog from "./Buildlog";
+import BuildLog from "../../components/header/Buildlog.jsx";
 
 const Header = ({ preloaderDone }) => {
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 1224 });

@@ -3,8 +3,8 @@ import "../header/Buildlog.css";
 import { PROJECTS, PRIVATE_COUNT } from "../portfolio/Projects";
 
 const GITHUB_USERNAME = "robert-brunner";
-// Web apps = every portfolio project with a live page (Vercel, GitHub Pages, custom domains)
-const WEB_APP_COUNT = PROJECTS.filter((p) => p.live).length;
+// Same number as the web-apps/ [n] folder in the portfolio: every entry in Projects.js
+const WEB_APP_COUNT = PROJECTS.length;
 
 const LINKS = {
   repos:   "#portfolio",

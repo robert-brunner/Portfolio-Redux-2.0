@@ -101,7 +101,16 @@ const LivePreviews = ({ activeId, warm, overlay }) => {
   }, []);
 
   return (
-    <div className="pf-shot" ref={boxRef}>
+    <div
+      className="pf-shot"
+      ref={boxRef}
+      // overflow:hidden boxes can still be scrolled by code inside an iframe;
+      // snap this one back so the preview never shifts inside its frame
+      onScroll={(e) => {
+        e.currentTarget.scrollTop = 0;
+        e.currentTarget.scrollLeft = 0;
+      }}
+    >
       {overlay && <div className="pf-shot__over">{overlay}</div>}
       {activeId && !loaded[activeId] && (
         <div className="pf-shot__ph">loading…</div>
@@ -627,6 +636,58 @@ const Portfolio = () => {
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Iframe guard: a previewed site can scroll YOUR page (scrollIntoView, a
+  // #hash in its URL, focus() on load). Browsers pass that scroll up to the
+  // parent page. Only allow page scrolls that come from something meant to
+  // scroll: wheel, touch drag, scroll keys, or clicking an in-page #link
+  // (nav, BUILD LOG). Plain clicks don't count, so clicking a project row
+  // can't open a window for the new preview to jump the page.
+  useEffect(() => {
+    let lastIntent = 0;
+    let lastAllowed = 0;
+    let saved = window.scrollY;
+    const SCROLL_KEYS = new Set([
+      " ", "PageUp", "PageDown", "Home", "End", "ArrowUp", "ArrowDown",
+    ]);
+
+    const mark = () => {
+      lastIntent = performance.now();
+    };
+    const onKey = (e) => {
+      if (SCROLL_KEYS.has(e.key) && !e.defaultPrevented) mark();
+    };
+    const onClick = (e) => {
+      const a = e.target.closest && e.target.closest('a[href^="#"]');
+      if (a) mark();
+    };
+
+    window.addEventListener("wheel", mark, { passive: true, capture: true });
+    window.addEventListener("touchmove", mark, { passive: true, capture: true });
+    window.addEventListener("keydown", onKey, { capture: false }); // after the terminal's handler
+    window.addEventListener("click", onClick, { capture: true });
+
+    const onScroll = () => {
+      const now = performance.now();
+      const intended = now - lastIntent < 600;   // the visitor just asked to scroll
+      const continuing = now - lastAllowed < 150; // momentum / smooth scroll still running
+      if (intended || continuing) {
+        lastAllowed = now;
+        saved = window.scrollY;
+        return;
+      }
+      window.scrollTo({ top: saved, left: 0, behavior: "instant" });
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("wheel", mark, { capture: true });
+      window.removeEventListener("touchmove", mark, { capture: true });
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("click", onClick, { capture: true });
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
   // Never leave the page locked if the section unmounts mid-hover
   useEffect(() => () => lockPage(false), []);
 
@@ -643,6 +704,11 @@ const Portfolio = () => {
 
       <div
         className="pf-term"
+        onScroll={(e) => {
+          // same as the preview box: never let iframe code shift the terminal
+          e.currentTarget.scrollTop = 0;
+          e.currentTarget.scrollLeft = 0;
+        }}
         onMouseEnter={() => {
           hoverRef.current = true;
           lockPage(true);

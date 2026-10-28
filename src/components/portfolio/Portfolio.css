@@ -31,6 +31,7 @@
   border: 1px solid #1f2a26;
   border-radius: 12px;
   overflow: hidden;
+  overflow: clip; /* clip = not scrollable at all, so iframe code can't shift it */
   font-size: 0.8rem;
   line-height: 1.6;
 }
@@ -279,6 +280,7 @@
   border: 1px solid #2a3330;
   border-radius: 6px;
   overflow: hidden;
+  overflow: clip; /* see .pf-term */
   background: #000;
 }
 

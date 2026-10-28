@@ -46,6 +46,16 @@ export const PROJECTS = [
     repo: "https://github.com/robert-brunner/SketchAFont",
   },
   {
+    id: "tyrant-design",
+    name: "Tyler Andrews Site",
+    stack: "web · app",
+    description:
+      "A site for a wounded warrior",
+    tags: ["React.js", "Vite"],
+    live: "https://tyrant-design.vercel.app/",
+    repo: "private",
+  },
+  {
     id: "brigand",
     name: "Brigand",
     stack: "web · app",

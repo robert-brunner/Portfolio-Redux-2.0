@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./BuildLog.css";
+import { PROJECTS, PRIVATE_COUNT } from "../portfolio/Projects";
 
 const GITHUB_USERNAME = "robert-brunner";
-const PRIVATE_COUNT = 12;
+// Web apps = every portfolio project with a live page (Vercel, GitHub Pages, custom domains)
+const WEB_APP_COUNT = PROJECTS.filter((p) => p.live).length;
 
 const LINKS = {
   repos:   "#portfolio",
@@ -10,9 +12,14 @@ const LINKS = {
   private: "#portfolio",
 };
 
+// Which portfolio folder each link opens (Portfolio.jsx listens for "pf-open")
+const OPENS = {
+  webApps: "web",
+  private: "private",
+};
+
 const BuildLog = ({ visible }) => {
-  const [repoCount, setRepoCount]     = useState(null);
-  const [webAppCount, setWebAppCount] = useState(null);
+  const [repoCount, setRepoCount] = useState(null);
 
   // GitHub counts
   useEffect(() => {
@@ -21,16 +28,13 @@ const BuildLog = ({ visible }) => {
       .then((repos) => {
         if (!Array.isArray(repos)) return;
         setRepoCount(repos.length);
-        setWebAppCount(
-          repos.filter((r) => r.homepage && r.homepage.includes("vercel")).length
-        );
       })
       .catch(() => {});
   }, []);
 
   const items = [
-    { key: "repos",   label: "public repos", count: repoCount,     href: LINKS.repos   },
-    { key: "webApps", label: "web apps",     count: webAppCount,   href: LINKS.webApps },
+    // { key: "repos",   label: "public repos", count: repoCount,     href: LINKS.repos   },
+    { key: "webApps", label: "web apps",     count: WEB_APP_COUNT, href: LINKS.webApps },
     { key: "private", label: "",             count: PRIVATE_COUNT, href: LINKS.private },
   ];
 
@@ -49,6 +53,11 @@ const BuildLog = ({ visible }) => {
           <a
             key={key}
             href={href}
+            onClick={() => {
+              if (OPENS[key]) {
+                window.dispatchEvent(new CustomEvent("pf-open", { detail: OPENS[key] }));
+              }
+            }}
             className={`buildlog__item ${key === "private" ? "buildlog__item--private" : ""}`}
           >
             <span className="buildlog__count">

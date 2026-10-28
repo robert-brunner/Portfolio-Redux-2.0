@@ -192,10 +192,17 @@
   gap: 20px;
 }
 
+/* Fixed height: the terminal never resizes between projects.
+   Only the description scrolls if it's too long. Tweak this one number. */
 .pf-detail__text {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  height: 250px;
+}
+
+.pf-detail__text > * {
+  flex-shrink: 0;
 }
 
 .pf-detail__name {
@@ -210,6 +217,11 @@
   color: #a9b3af;
   font-size: 0.9rem;
   line-height: 1.55;
+  flex: 1 1 0 !important;
+  min-height: 0;
+  overflow-y: scroll; /* space reserved; thumb shows only when text overflows */
+  overscroll-behavior: contain;
+  padding-right: 6px;
 }
 
 .pf-detail__denied {
@@ -259,8 +271,9 @@
   color: #fff;
 }
 
-/* ── Screenshot ── */
+/* ── Live preview box ── */
 .pf-shot {
+  position: relative;
   aspect-ratio: 16 / 10;
   width: 100%;
   border: 1px solid #2a3330;
@@ -269,12 +282,13 @@
   background: #000;
 }
 
-.pf-shot img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
+.pf-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 0;
+  transform-origin: top left;
+  pointer-events: none;
 }
 
 .pf-shot__ph {
@@ -285,6 +299,125 @@
   text-align: center;
   color: #4d625a;
   font-size: 0.75rem;
+}
+
+.pf-shot__ph.pf-red {
+  color: #ff4d4d;
+}
+
+/* ── Desktop: teal border while hovering the live preview ── */
+@media (hover: hover) and (pointer: fine) {
+  .pf-shot:hover {
+    border-color: #00e5a0;
+  }
+}
+
+/* ── Tree area: fixed height = root + 2 folder lines + 7 rows,
+      whether a folder is open or not. The open folder's list fills
+      whatever space is left and scrolls past that. ── */
+.pf-tree {
+  display: flex;
+  flex-direction: column;
+  height: calc(16em + 60px); /* 3×(1.6em+4px) lines + 7×(1.6em+6px) rows + 6px kids margin */
+}
+
+.pf-tree > *,
+.pf-kids > * {
+  flex-shrink: 0;
+}
+
+.pf-tree > .pf-kids {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.pf-kids > .pf-list {
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.pf-list {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* ── Scrollbars: thin bar only, no arrows, hidden when not needed ── */
+/* Chrome / Edge / Safari.
+   Reset the standard props: if any global CSS sets scrollbar-color/width
+   (they inherit), Chrome ignores every ::-webkit-scrollbar rule below. */
+.pf-list,
+.pf-detail__desc {
+  scrollbar-color: auto !important;
+  scrollbar-width: auto !important;
+  -ms-overflow-style: auto !important;
+}
+
+.pf-list::-webkit-scrollbar,
+.pf-detail__desc::-webkit-scrollbar {
+  display: block !important; /* beats a global "::-webkit-scrollbar { display: none }" */
+  width: 6px !important;
+}
+
+.pf-list::-webkit-scrollbar-button,
+.pf-detail__desc::-webkit-scrollbar-button {
+  display: none;
+}
+
+.pf-list::-webkit-scrollbar-track,
+.pf-detail__desc::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Fade-in on hover. Scrollbar pseudo-elements can't transition directly,
+   so the thumb is painted with a border whose color is inherited from the
+   element. The element's (invisible, zero-width) border-color transitions,
+   and the thumb follows it. */
+.pf-list,
+.pf-detail__desc {
+  border-color: rgba(47, 107, 85, 0);
+  transition: border-color 0.3s ease;
+}
+
+.pf-list:hover,
+.pf-detail__desc:hover {
+  border-color: rgba(47, 107, 85, 1);
+}
+
+.pf-list::-webkit-scrollbar-thumb,
+.pf-detail__desc::-webkit-scrollbar-thumb {
+  display: block !important;
+  background: transparent !important;
+  border-color: inherit;
+  border-right-style: inset;
+  border-right-width: calc(100vw + 100vh);
+  border-radius: 3px;
+}
+
+.pf-list::-webkit-scrollbar-thumb:hover,
+.pf-detail__desc::-webkit-scrollbar-thumb:hover {
+  border-color: #00e5a0;
+}
+
+/* Firefox (no arrows on thin scrollbars; scrollbar-color animates natively) */
+@supports not selector(::-webkit-scrollbar) {
+  .pf-list,
+  .pf-detail__desc {
+    scrollbar-width: thin !important;
+    scrollbar-color: transparent transparent !important;
+    transition: scrollbar-color 0.3s ease;
+  }
+
+  .pf-list:hover,
+  .pf-detail__desc:hover {
+    scrollbar-color: #2f6b55 transparent !important;
+  }
+}
+
+/* Page scrollbar keeps its space while it's locked, so nothing jumps sideways */
+html {
+  scrollbar-gutter: stable;
 }
 
 /* ── Blinking cursor ── */
@@ -324,4 +457,49 @@
   .pf-owner {
     display: none;
   }
+}
+
+/* ── Non-live previews (Loom player / still image) ── */
+.pf-frame--fill {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  transform: none;
+}
+
+.pf-img {
+  object-fit: contain;
+  background: #000;
+}
+
+/* ── Private rows that carry a hint ── */
+.pf-row--hinted .pf-stack {
+  color: #5f8f7c;
+}
+
+.pf-hint {
+  color: #5a9e7a;
+  white-space: normal;
+  line-height: 1.5;
+}
+
+/* ── Repo tree preview (projects with no live page or video) ── */
+.pf-tree-view {
+  position: absolute;
+  inset: 0;
+  padding: 10px 12px;
+  background: #050706;
+  color: #9fb1aa;
+  font-size: 0.75rem;
+  line-height: 1.6;
+  white-space: pre;
+  overflow-y: auto;
+}
+
+.pf-tree-dir {
+  color: #b48cf0;
+}
+
+.pf-tree-sum {
+  margin-top: 6px;
 }

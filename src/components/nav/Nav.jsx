@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
-  AiOutlineHome,
-  AiOutlineUser,
-  AiOutlineRocket,
-} from 'react-icons/ai';
-import { BiBook } from 'react-icons/bi';
-import { RiMessage2Line, RiServiceFill } from 'react-icons/ri';
+  TbTerminal2,   // home
+  TbId,          // about
+  TbGitBranch,   // experience
+  TbCpu,         // skills
+  TbFolder,      // portfolio
+  TbAccessPoint, // contact
+} from 'react-icons/tb';
 import './Nav.css';
 
 const Nav = () => {
@@ -49,22 +50,22 @@ useEffect(() => {
   return (
     <nav>
       <a title="Home" href="#" onClick={() => setActiveNav('#')} className={activeNav === '#' ? 'active' : ''}>
-        <AiOutlineHome />
+        <TbTerminal2 />
       </a>
       <a title="About Me" href="#about" onClick={() => setActiveNav('#about')} className={activeNav === '#about' ? 'active' : ''}>
-        <AiOutlineUser />
+        <TbId />
       </a>
       <a title="Experience" href="#experience" onClick={() => setActiveNav('#experience')} className={activeNav === '#experience' ? 'active' : ''}>
-        <AiOutlineRocket />
+        <TbGitBranch />
       </a>
       <a title="Skills" href="#skills0" onClick={() => setActiveNav('#skills0')} className={activeNav === '#skills0' ? 'active' : ''}>
-        <BiBook />
+        <TbCpu />
       </a>
       <a title="Portfolio" href="#portfolio" onClick={() => setActiveNav('#portfolio')} className={activeNav === '#portfolio' ? 'active' : ''}>
-        <RiServiceFill />
+        <TbFolder />
       </a>
       <a title="Contact" href="#contact" onClick={() => setActiveNav('#contact')} className={activeNav === '#contact' ? 'active' : ''}>
-        <RiMessage2Line />
+        <TbAccessPoint />
       </a>
     </nav>
   );

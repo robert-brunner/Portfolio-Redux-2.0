@@ -80,7 +80,7 @@ export const PROJECTS = [
     name: "Play Haaland",
     stack: "web · game",
     description:
-      "Based on the Haaland Meme. A browser sidescroller built in a week to learn game development, with AI-generated video doing the heavy lifting on the visuals. Desktop first, mobile still to do.",
+      "Based on the Haaland Meme. A browser sidescroller built in a week to learn game development, with AI-generated video doing the heavy lifting on the visuals.  A/D (Left/Right) W(Jump) Shift(Sprint) M(Music)",
     tags: ["React.js", "Browser Game"],
     live: "https://playhaaland.com/",
     repo: null,

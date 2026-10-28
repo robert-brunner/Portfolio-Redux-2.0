@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { PROJECTS, PRIVATE_COUNT, PRIVATE_HINTS } from "../portfolio/Projects";
 import "./Portfolio.css";
+import ChessBoard from "./wopr/ChessBoard";
+import GtwMap from "./wopr/GtwMap";
+import { newGame, bestMove, tryUserMove, statusOf } from "./wopr/woprChess";
+import { buildTargets, SIDES } from "./wopr/gtwData";
 
 // Deterministic "redacted" bar widths so the private rows look the same every render
 const REDACTED_WIDTHS = Array.from(
@@ -83,7 +87,7 @@ const RepoTree = ({ project, show, onLoad }) => {
   );
 };
 
-const LivePreviews = ({ activeId, warm, redacted }) => {
+const LivePreviews = ({ activeId, warm, overlay }) => {
   const boxRef = useRef(null);
   const [scale, setScale] = useState(0.2);
   const [loaded, setLoaded] = useState({});
@@ -98,11 +102,7 @@ const LivePreviews = ({ activeId, warm, redacted }) => {
 
   return (
     <div className="pf-shot" ref={boxRef}>
-      {redacted && (
-        <div className="pf-shot__redacted" aria-label="redacted">
-          REDACTED
-        </div>
-      )}
+      {overlay && <div className="pf-shot__over">{overlay}</div>}
       {activeId && !loaded[activeId] && (
         <div className="pf-shot__ph">loading…</div>
       )}
@@ -178,11 +178,17 @@ const lockPage = (on) => {
   document.documentElement.style.overflow = on ? "hidden" : "";
 };
 
-// Easter egg: hover the terminal and type anything. Every key types the
-// next letter of this, whatever key it actually was. Press Enter once it's
-// complete and the panel above turns into a real terminal.
-const HELLO = "Hello World!";
-const QUESTION = "Would you like to play a game...?";
+// Easter egg: hover the terminal and type a greeting ("hello", "hi",
+// "hello world"...) then Enter, and the panel above turns into a terminal.
+// Anything that isn't a greeting is ignored.
+const GREETINGS = new Set(["hello", "hi", "hey", "hiya", "howdy", "greetings", "yo", "sup"]);
+const isGreeting = (text) => {
+  const first = text.toLowerCase().replace(/[^a-z\s]/g, " ").trim().split(/\s+/)[0];
+  return GREETINGS.has(first);
+};
+const YES = new Set(["y", "yes", "yeah", "yep", "sure", "ok", "okay"]);
+const NO = new Set(["n", "no", "nope", "nah"]);
+const GAMES = ["CHESS", "GLOBAL THERMONUCLEAR WAR"];
 const SPIN = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏";
 
 const Spinner = () => {
@@ -201,20 +207,30 @@ const Portfolio = () => {
   const [warm, setWarm] = useState(false);
   const sectionRef = useRef(null);
   const hoverRef = useRef(false);
-  const [typed, setTyped] = useState(0);
 
   // ── Terminal mode ──
   const [termMode, setTermMode] = useState(false);
   const [lines, setLines] = useState([]); // { kind: "cmd" | "out" | "think", text }
   const [input, setInput] = useState("");
   const phaseRef = useRef("hello"); // hello → busy (terminal is talking) → free (your turn)
-  const typedRef = useRef(0);
+  const stageRef = useRef("greet"); // greet → menu → chess | gtw-confirm → gtw-side → gtw-run
   const inputRef = useRef("");
   const termRef = useRef(false);
   const treeRef = useRef(null);
   const timers = useRef([]);
 
-  typedRef.current = typed;
+  // ── Games ──
+  const [game, setGame] = useState(null); // null | "chess" | "gtw"
+  const chessRef = useRef(null);
+  const [, setChessVer] = useState(0); // bump to re-render the board
+  const [selected, setSelected] = useState(null);
+  const [lastMove, setLastMove] = useState(null);
+  const [gtwTargets, setGtwTargets] = useState([]);
+  const [gtwIdx, setGtwIdx] = useState(-1);
+  const [gtwSide, setGtwSide] = useState(null);
+  const [terminated, setTerminated] = useState(null); // full-screen message text
+  const ipRef = useRef(null);
+
   inputRef.current = input;
   termRef.current = termMode;
 
@@ -224,10 +240,12 @@ const Portfolio = () => {
     timers.current = [];
   };
   const push = (line) => setLines((l) => [...l, line]);
+  const bump = () => setChessVer((v) => v + 1);
 
-  // Type a line out one character at a time
+  // Type one line out a character at a time
   const typeOut = (text, done) => {
     push({ kind: "out", text: "" });
+    if (!text) return done && later(done, 0);
     let i = 0;
     const step = () => {
       i += 1;
@@ -236,14 +254,39 @@ const Portfolio = () => {
         c[c.length - 1] = { kind: "out", text: text.slice(0, i) };
         return c;
       });
-      if (i < text.length) later(step, 45);
+      if (i < text.length) later(step, 35);
       else if (done) done();
     };
-    later(step, 45);
+    later(step, 35);
+  };
+
+  // Type several lines, then hand the prompt back
+  const say = (texts, done) => {
+    phaseRef.current = "busy";
+    const next = (i) => {
+      if (i >= texts.length) {
+        phaseRef.current = "free";
+        if (done) done();
+        return;
+      }
+      typeOut(texts[i], () => later(() => next(i + 1), 150));
+    };
+    next(0);
+  };
+
+  // Print lines instantly, teletype style (for long lists)
+  const printLines = (texts, done) => {
+    phaseRef.current = "busy";
+    texts.forEach((t, i) => later(() => push({ kind: "out", text: t }), i * 70));
+    later(() => {
+      phaseRef.current = "free";
+      if (done) done();
+    }, texts.length * 70 + 60);
   };
 
   // Spinner for a moment, then continue
   const think = (ms, then) => {
+    phaseRef.current = "busy";
     push({ kind: "think" });
     later(() => {
       setLines((l) => l.filter((x) => x.kind !== "think"));
@@ -251,21 +294,15 @@ const Portfolio = () => {
     }, ms);
   };
 
-  const reply = (text) => {
-    phaseRef.current = "busy";
-    think(900, () => typeOut(text, () => (phaseRef.current = "free")));
-  };
+  const answer = (texts, done, ms = 700) => think(ms, () => say(texts, done));
 
-  const startTerminal = () => {
+  const startTerminal = (greeting) => {
     phaseRef.current = "busy";
+    stageRef.current = "greet";
     setTermMode(true);
-    setTyped(0);
-    setLines([{ kind: "cmd", text: HELLO }]);
-    later(() => push({ kind: "out", text: HELLO }), 250);
-    later(
-      () => think(1800, () => typeOut(QUESTION, () => (phaseRef.current = "free"))),
-      700
-    );
+    setInput("");
+    setLines([{ kind: "cmd", text: greeting }]);
+    later(() => say(["GREETINGS PROFESSOR FALKEN.", "SHALL WE PLAY A GAME?"]), 300);
   };
 
   const exitTerminal = () => {
@@ -273,21 +310,199 @@ const Portfolio = () => {
     setTermMode(false);
     setLines([]);
     setInput("");
-    setTyped(0);
+    setGame(null);
+    setSelected(null);
+    setLastMove(null);
+    setGtwTargets([]);
+    setGtwIdx(-1);
+    setTerminated(null);
     phaseRef.current = "hello";
+    stageRef.current = "greet";
   };
 
+  // ── Menu ──
+  const listGames = () => {
+    stageRef.current = "menu";
+    think(600, () => printLines(GAMES, () => say(["WHICH GAME?"])));
+  };
+
+  const pickGame = (cmd) => {
+    if (cmd.includes("chess")) {
+      startChess();
+      return true;
+    }
+    if (cmd.includes("thermonuclear") || cmd.includes("global")) {
+      stageRef.current = "gtw-confirm";
+      answer(["WOULDN'T YOU PREFER A GOOD GAME OF CHESS?"]);
+      return true;
+    }
+    if (GAMES.some((g) => g && g.toLowerCase() === cmd)) {
+      answer(["GAME UNAVAILABLE.", "AVAILABLE: CHESS, GLOBAL THERMONUCLEAR WAR."]);
+      return true;
+    }
+    return false;
+  };
+
+  // ── Chess ──
+  const startChess = () => {
+    chessRef.current = newGame();
+    setSelected(null);
+    setLastMove(null);
+    setGame("chess");
+    bump();
+    stageRef.current = "chess";
+    answer([
+      "CHESS. YOU PLAY WHITE.",
+      "TYPE MOVES LIKE E4, NF3 OR E2E4, OR CLICK THE BOARD.",
+      "TYPE QUIT TO LEAVE THE GAME.",
+    ]);
+  };
+
+  const woprReplies = () => {
+    const g = chessRef.current;
+    think(500, () => {
+      const reply = bestMove(g);
+      g.move(reply);
+      setLastMove(reply);
+      bump();
+      const st = statusOf(g);
+      say([`WOPR: ${reply.san}`, ...(st ? [st] : [])]);
+    });
+  };
+
+  const afterYourMove = (m, clicked) => {
+    const g = chessRef.current;
+    setLastMove(m);
+    setSelected(null);
+    bump();
+    if (clicked) push({ kind: "cmd", text: m.san }); // log clicked moves like typed ones
+    const st = statusOf(g);
+    if (g.isGameOver()) return answer([st, "TYPE QUIT TO LEAVE THE GAME."], null, 300);
+    if (st) push({ kind: "out", text: st });
+    woprReplies();
+  };
+
+  const chessCommand = (raw) => {
+    const c = raw.toLowerCase();
+    const g = chessRef.current;
+    if (c === "quit" || c === "resign") {
+      setGame(null);
+      stageRef.current = "menu";
+      return answer(["GAME ABANDONED.", "WHICH GAME?"]);
+    }
+    if (g.isGameOver()) return answer(["GAME OVER. TYPE QUIT."], null, 200);
+    const m = tryUserMove(g, raw);
+    if (!m) return answer(["ILLEGAL MOVE."], null, 200);
+    afterYourMove(m, false);
+  };
+
+  const onSquare = (name) => {
+    const g = chessRef.current;
+    if (!g || phaseRef.current !== "free" || g.turn() !== "w" || g.isGameOver()) return;
+    if (selected) {
+      let m = null;
+      try {
+        m = g.move({ from: selected, to: name, promotion: "q" });
+      } catch {
+        m = null;
+      }
+      if (m) return afterYourMove(m, true);
+    }
+    const pc = g.get(name);
+    setSelected(pc && pc.color === "w" && selected !== name ? name : null);
+  };
+
+  const chessTargets =
+    game === "chess" && selected && chessRef.current
+      ? chessRef.current.moves({ square: selected, verbose: true }).map((m) => m.to)
+      : [];
+
+  // ── Global Thermonuclear War ──
+  const terminate = () => {
+    const ip = ipRef.current;
+    setTerminated(
+      ip ? `UNAUTHORIZED CONNECTION WITH ${ip} TERMINATED` : "UNAUTHORIZED CONNECTION TERMINATED"
+    );
+    later(exitTerminal, 3500);
+  };
+
+  const runGtw = (side) => {
+    // Look up the visitor's public IP now, so it's ready for the ending
+    fetch("https://api.ipify.org?format=json")
+      .then((r) => r.json())
+      .then((d) => (ipRef.current = d.ip))
+      .catch(() => {});
+
+    const list = buildTargets(side);
+    stageRef.current = "gtw-run";
+    setGtwSide(side);
+    setGtwTargets(list);
+    setGtwIdx(-1);
+    setGame("gtw");
+
+    say([`${SIDES[side]} SELECTED.`, "ACQUIRING TARGETS..."], () => {
+      phaseRef.current = "busy"; // nothing typed from here on
+      list.forEach((t, i) =>
+        later(() => {
+          setGtwIdx(i);
+          push({ kind: "out", text: `${t.id}  ${t.city.padEnd(18)} ${t.coords}  LOCKED` });
+        }, 600 + i * 1400)
+      );
+      const end = 600 + list.length * 1400;
+      later(() => push({ kind: "out", text: "ALL TARGETS LOCKED. LAUNCH SEQUENCE INITIATED." }), end);
+      [10, 9, 8, 7, 6, 5, 4].forEach((n, k) =>
+        later(() => push({ kind: "out", text: `T-${n}` }), end + 800 + k * 700)
+      );
+      later(terminate, end + 800 + 7 * 700);
+    });
+  };
+
+  // ── Your input ──
   const submit = (text) => {
-    const cmd = text.trim().toLowerCase();
+    const raw = text.trim();
+    const cmd = raw.toLowerCase();
     push({ kind: "cmd", text });
     setInput("");
+    if (!cmd) return;
     if (cmd === "exit") return exitTerminal();
     if (cmd === "clear") return setLines([]);
-    if (cmd === "help") return reply("commands: help, clear, exit");
-    if (cmd === "y" || cmd === "yes") return reply("Excellent."); // the game starts here
-    if (cmd === "n" || cmd === "no")
-      return reply("A strange game. The only winning move is not to play.");
-    reply(`${QUESTION} (y/n)`);
+
+    const stage = stageRef.current;
+    if (cmd === "help") {
+      return answer(
+        [stage === "chess" ? "MOVES: E4, NF3, E2E4. ALSO: QUIT, CLEAR, EXIT." : "COMMANDS: LIST GAMES, CLEAR, EXIT."],
+        null,
+        300
+      );
+    }
+
+    if (stage === "chess") return chessCommand(raw);
+
+    if (stage === "greet") {
+      if (YES.has(cmd)) return listGames();
+      if (NO.has(cmd)) return answer(["A STRANGE GAME.", "THE ONLY WINNING MOVE IS NOT TO PLAY."]);
+      if (pickGame(cmd)) return;
+      return answer(["SHALL WE PLAY A GAME? (Y/N)"]);
+    }
+
+    if (stage === "menu") {
+      if (YES.has(cmd) || cmd.startsWith("list")) return listGames();
+      if (pickGame(cmd)) return;
+      return answer(["GAME NOT FOUND. TYPE LIST GAMES."]);
+    }
+
+    if (stage === "gtw-confirm") {
+      if (YES.has(cmd) || cmd.includes("chess")) return startChess();
+      return answer(["FINE."], () => {
+        stageRef.current = "gtw-side";
+        say(["WHICH SIDE DO YOU WANT?", "  1. UNITED STATES", "  2. SOVIET UNION"]);
+      });
+    }
+
+    if (stage === "gtw-side") {
+      if (cmd === "1" || cmd === "2") return runGtw(Number(cmd));
+      return answer(["PLEASE ENTER 1 OR 2."], null, 300);
+    }
   };
 
   // Keep the newest terminal line in view; the folders scroll up out of the way
@@ -336,7 +551,7 @@ const Portfolio = () => {
 
       if (e.key === "Escape") {
         if (termRef.current) exitTerminal();
-        else setTyped(0);
+        else setInput("");
         return;
       }
 
@@ -364,27 +579,27 @@ const Portfolio = () => {
         return;
       }
 
-      // Hello phase: every key types the next letter of "Hello World!"
+      // Before the terminal opens: real typing; Enter only does something
+      // if it's a greeting, anything else is quietly ignored
       if (e.key === "Enter") {
         e.preventDefault(); // stop Enter from clicking a focused row
-        if (typedRef.current === HELLO.length) {
-          clearTimeout(clearTimer);
-          startTerminal();
-        }
+        clearTimeout(clearTimer);
+        if (isGreeting(inputRef.current)) startTerminal(inputRef.current.trim());
+        else setInput("");
         return;
       }
       if (e.key === "Backspace") {
         e.preventDefault();
-        setTyped((n) => Math.max(0, n - 1));
+        setInput((v) => v.slice(0, -1));
       } else if (printable) {
         e.preventDefault(); // stop Space from clicking a focused row
-        setTyped((n) => Math.min(HELLO.length, n + 1));
+        setInput((v) => (v + e.key).slice(0, 40));
       } else {
         return; // arrows, Tab, F-keys etc. behave normally
       }
       clearTimeout(clearTimer);
       clearTimer = setTimeout(() => {
-        if (phaseRef.current === "hello") setTyped(0);
+        if (phaseRef.current === "hello") setInput("");
       }, 4000); // clears 4s after the last key
     };
     window.addEventListener("keydown", onKey);
@@ -551,7 +766,61 @@ const Portfolio = () => {
           <div className="pf-detail">
             <div className="pf-detail__grid">
               <div className="pf-detail__text">
-                {project ? (
+                {game === "gtw" ? (
+                  <div className="wopr-brief">
+                    <div className="pf-muted">
+                      <span className="pf-green">$</span> cat briefing.txt
+                    </div>
+                    <h3 className="pf-detail__name pf-red">
+                      {gtwSide ? `${SIDES[gtwSide]} // STRIKE PLAN` : "STRIKE PLAN"}
+                    </h3>
+                    {gtwIdx >= 0 && gtwTargets[gtwIdx] ? (
+                      <div className="wopr-brief__grid">
+                        <span className="pf-muted">DESIGNATOR</span>
+                        <span>{gtwTargets[gtwIdx].id}</span>
+                        <span className="pf-muted">TARGET</span>
+                        <span>{gtwTargets[gtwIdx].city}</span>
+                        <span className="pf-muted">COORDS</span>
+                        <span>{gtwTargets[gtwIdx].coords}</span>
+                        <span className="pf-muted">PRIORITY</span>
+                        <span>{gtwTargets[gtwIdx].priority}</span>
+                        <span className="pf-muted">TIME TO TARGET</span>
+                        <span>{gtwTargets[gtwIdx].eta}</span>
+                        <span className="pf-muted">LOCKED</span>
+                        <span>
+                          {gtwIdx + 1} / {gtwTargets.length}
+                        </span>
+                      </div>
+                    ) : (
+                      <div className="pf-muted">ACQUIRING TARGETS…</div>
+                    )}
+                  </div>
+                ) : game === "chess" && chessRef.current ? (
+                  <div className="wopr-brief">
+                    <div className="pf-muted">
+                      <span className="pf-green">$</span> wopr --game chess
+                    </div>
+                    <h3 className="pf-detail__name">CHESS</h3>
+                    <div className="pf-muted">YOU: WHITE · WOPR: BLACK</div>
+                    <div className="wopr-moves">
+                      {chessRef.current
+                        .history()
+                        .reduce((acc, mv, i) => {
+                          if (i % 2 === 0) acc.push(`${i / 2 + 1}. ${mv}`);
+                          else acc[acc.length - 1] += `  ${mv}`;
+                          return acc;
+                        }, [])
+                        .slice(-6)
+                        .map((row) => (
+                          <div key={row}>{row}</div>
+                        ))}
+                    </div>
+                    <div className="pf-green">
+                      {statusOf(chessRef.current) ||
+                        (chessRef.current.turn() === "w" ? "YOUR MOVE." : "WOPR IS THINKING…")}
+                    </div>
+                  </div>
+                ) : project ? (
                   <>
                     <div className="pf-muted">
                       <span className="pf-green">$</span> cat {project.id}
@@ -616,7 +885,21 @@ const Portfolio = () => {
               <LivePreviews
                 activeId={project?.id ?? null}
                 warm={warm}
-                redacted={termMode}
+                overlay={
+                  game === "chess" && chessRef.current ? (
+                    <ChessBoard
+                      game={chessRef.current}
+                      selected={selected}
+                      targets={chessTargets}
+                      lastMove={lastMove}
+                      onSquare={onSquare}
+                    />
+                  ) : game === "gtw" ? (
+                    <GtwMap targets={gtwTargets.slice(0, gtwIdx + 1)} current={gtwIdx} />
+                  ) : termMode ? (
+                    <div className="pf-shot__redacted">REDACTED</div>
+                  ) : null
+                }
               />
             </div>
           </div>
@@ -625,16 +908,16 @@ const Portfolio = () => {
           <div className="pf-prompt" aria-hidden="true">
             <span className="pf-green">bob@build-log</span>
             <span className="pf-muted">:~$ </span>
-            {termMode ? (
-              <span>{input}</span>
-            ) : (
-              <span className={typed === HELLO.length ? "pf-green" : undefined}>
-                {HELLO.slice(0, typed)}
-              </span>
-            )}
+            <span>{input}</span>
             <span className="pf-cursor" />
           </div>
         </div>
+
+        {terminated && (
+          <div className="wopr-terminated" role="alert">
+            <span>{terminated}</span>
+          </div>
+        )}
       </div>
     </section>
   );

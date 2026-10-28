@@ -83,7 +83,7 @@ const RepoTree = ({ project, show, onLoad }) => {
   );
 };
 
-const LivePreviews = ({ activeId, warm }) => {
+const LivePreviews = ({ activeId, warm, redacted }) => {
   const boxRef = useRef(null);
   const [scale, setScale] = useState(0.2);
   const [loaded, setLoaded] = useState({});
@@ -98,6 +98,11 @@ const LivePreviews = ({ activeId, warm }) => {
 
   return (
     <div className="pf-shot" ref={boxRef}>
+      {redacted && (
+        <div className="pf-shot__redacted" aria-label="redacted">
+          REDACTED
+        </div>
+      )}
       {activeId && !loaded[activeId] && (
         <div className="pf-shot__ph">loading…</div>
       )}
@@ -174,8 +179,20 @@ const lockPage = (on) => {
 };
 
 // Easter egg: hover the terminal and type anything. Every key types the
-// next letter of this, whatever key it actually was.
+// next letter of this, whatever key it actually was. Press Enter once it's
+// complete and the panel above turns into a real terminal.
 const HELLO = "Hello World!";
+const QUESTION = "Would you like to play a game...?";
+const SPIN = "⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏";
+
+const Spinner = () => {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setI((n) => (n + 1) % SPIN.length), 80);
+    return () => clearInterval(t);
+  }, []);
+  return <span className="pf-green">{SPIN[i]}</span>;
+};
 
 const Portfolio = () => {
   const [webOpen, setWebOpen] = useState(true);
@@ -185,6 +202,102 @@ const Portfolio = () => {
   const sectionRef = useRef(null);
   const hoverRef = useRef(false);
   const [typed, setTyped] = useState(0);
+
+  // ── Terminal mode ──
+  const [termMode, setTermMode] = useState(false);
+  const [lines, setLines] = useState([]); // { kind: "cmd" | "out" | "think", text }
+  const [input, setInput] = useState("");
+  const phaseRef = useRef("hello"); // hello → busy (terminal is talking) → free (your turn)
+  const typedRef = useRef(0);
+  const inputRef = useRef("");
+  const termRef = useRef(false);
+  const treeRef = useRef(null);
+  const timers = useRef([]);
+
+  typedRef.current = typed;
+  inputRef.current = input;
+  termRef.current = termMode;
+
+  const later = (fn, ms) => timers.current.push(setTimeout(fn, ms));
+  const clearTimers = () => {
+    timers.current.forEach(clearTimeout);
+    timers.current = [];
+  };
+  const push = (line) => setLines((l) => [...l, line]);
+
+  // Type a line out one character at a time
+  const typeOut = (text, done) => {
+    push({ kind: "out", text: "" });
+    let i = 0;
+    const step = () => {
+      i += 1;
+      setLines((l) => {
+        const c = l.slice();
+        c[c.length - 1] = { kind: "out", text: text.slice(0, i) };
+        return c;
+      });
+      if (i < text.length) later(step, 45);
+      else if (done) done();
+    };
+    later(step, 45);
+  };
+
+  // Spinner for a moment, then continue
+  const think = (ms, then) => {
+    push({ kind: "think" });
+    later(() => {
+      setLines((l) => l.filter((x) => x.kind !== "think"));
+      then();
+    }, ms);
+  };
+
+  const reply = (text) => {
+    phaseRef.current = "busy";
+    think(900, () => typeOut(text, () => (phaseRef.current = "free")));
+  };
+
+  const startTerminal = () => {
+    phaseRef.current = "busy";
+    setTermMode(true);
+    setTyped(0);
+    setLines([{ kind: "cmd", text: HELLO }]);
+    later(() => push({ kind: "out", text: HELLO }), 250);
+    later(
+      () => think(1800, () => typeOut(QUESTION, () => (phaseRef.current = "free"))),
+      700
+    );
+  };
+
+  const exitTerminal = () => {
+    clearTimers();
+    setTermMode(false);
+    setLines([]);
+    setInput("");
+    setTyped(0);
+    phaseRef.current = "hello";
+  };
+
+  const submit = (text) => {
+    const cmd = text.trim().toLowerCase();
+    push({ kind: "cmd", text });
+    setInput("");
+    if (cmd === "exit") return exitTerminal();
+    if (cmd === "clear") return setLines([]);
+    if (cmd === "help") return reply("commands: help, clear, exit");
+    if (cmd === "y" || cmd === "yes") return reply("Excellent."); // the game starts here
+    if (cmd === "n" || cmd === "no")
+      return reply("A strange game. The only winning move is not to play.");
+    reply(`${QUESTION} (y/n)`);
+  };
+
+  // Keep the newest terminal line in view; the folders scroll up out of the way
+  useEffect(() => {
+    if (termMode && treeRef.current) {
+      treeRef.current.scrollTop = treeRef.current.scrollHeight;
+    }
+  }, [lines, termMode]);
+
+  useEffect(() => clearTimers, []);
 
   // Start loading all previews once the section is within ~1 screen of view
   useEffect(() => {
@@ -222,27 +335,64 @@ const Portfolio = () => {
       if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
 
       if (e.key === "Escape") {
-        setTyped(0);
+        if (termRef.current) exitTerminal();
+        else setTyped(0);
+        return;
+      }
+
+      const printable = e.key.length === 1;
+      const phase = phaseRef.current;
+
+      // Terminal is talking: swallow typing until it's your turn
+      if (phase === "busy") {
+        if (printable || e.key === "Enter" || e.key === "Backspace") e.preventDefault();
+        return;
+      }
+
+      // Your turn in the terminal: real typing
+      if (phase === "free") {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          submit(inputRef.current);
+        } else if (e.key === "Backspace") {
+          e.preventDefault();
+          setInput((v) => v.slice(0, -1));
+        } else if (printable) {
+          e.preventDefault();
+          setInput((v) => (v + e.key).slice(0, 60));
+        }
+        return;
+      }
+
+      // Hello phase: every key types the next letter of "Hello World!"
+      if (e.key === "Enter") {
+        e.preventDefault(); // stop Enter from clicking a focused row
+        if (typedRef.current === HELLO.length) {
+          clearTimeout(clearTimer);
+          startTerminal();
+        }
         return;
       }
       if (e.key === "Backspace") {
         e.preventDefault();
         setTyped((n) => Math.max(0, n - 1));
-      } else if (e.key.length === 1 || e.key === "Enter") {
-        e.preventDefault(); // stop Space/Enter from clicking a focused row
+      } else if (printable) {
+        e.preventDefault(); // stop Space from clicking a focused row
         setTyped((n) => Math.min(HELLO.length, n + 1));
       } else {
         return; // arrows, Tab, F-keys etc. behave normally
       }
       clearTimeout(clearTimer);
-      clearTimer = setTimeout(() => setTyped(0), 4000); // clears 4s after the last key
+      clearTimer = setTimeout(() => {
+        if (phaseRef.current === "hello") setTyped(0);
+      }, 4000); // clears 4s after the last key
     };
     window.addEventListener("keydown", onKey);
     return () => {
       window.removeEventListener("keydown", onKey);
       clearTimeout(clearTimer);
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Never leave the page locked if the section unmounts mid-hover
   useEffect(() => () => lockPage(false), []);
@@ -275,7 +425,10 @@ const Portfolio = () => {
         </div>
 
         <div className="pf-body">
-          <div className="pf-tree">
+          <div
+            ref={treeRef}
+            className={`pf-tree${termMode ? " pf-tree--term pf-list" : ""}`}
+          >
           <div className="pf-line pf-line--root">~/build-log</div>
 
           {/* ── web-apps/ ── */}
@@ -369,6 +522,29 @@ const Portfolio = () => {
               </div>
             </div>
           )}
+
+          {/* ── Terminal output (after "Hello World!" + Enter) ── */}
+          {termMode && (
+            <div className="pf-term-log">
+              {lines.map((l, i) =>
+                l.kind === "cmd" ? (
+                  <div key={i}>
+                    <span className="pf-green">bob@build-log</span>
+                    <span className="pf-muted">:~$ </span>
+                    {l.text}
+                  </div>
+                ) : l.kind === "think" ? (
+                  <div key={i}>
+                    <Spinner /> <span className="pf-muted">thinking…</span>
+                  </div>
+                ) : (
+                  <div key={i} className="pf-term-out">
+                    {l.text}
+                  </div>
+                )
+              )}
+            </div>
+          )}
           </div>
 
           {/* ── Detail ── */}
@@ -437,7 +613,11 @@ const Portfolio = () => {
                 )}
               </div>
 
-              <LivePreviews activeId={project?.id ?? null} warm={warm} />
+              <LivePreviews
+                activeId={project?.id ?? null}
+                warm={warm}
+                redacted={termMode}
+              />
             </div>
           </div>
 
@@ -445,9 +625,13 @@ const Portfolio = () => {
           <div className="pf-prompt" aria-hidden="true">
             <span className="pf-green">bob@build-log</span>
             <span className="pf-muted">:~$ </span>
-            <span className={typed === HELLO.length ? "pf-green" : undefined}>
-              {HELLO.slice(0, typed)}
-            </span>
+            {termMode ? (
+              <span>{input}</span>
+            ) : (
+              <span className={typed === HELLO.length ? "pf-green" : undefined}>
+                {HELLO.slice(0, typed)}
+              </span>
+            )}
             <span className="pf-cursor" />
           </div>
         </div>

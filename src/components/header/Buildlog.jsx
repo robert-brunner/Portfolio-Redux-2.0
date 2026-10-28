@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../header/buildLog.css";
+import "../header/Buildlog.css";
 import { PROJECTS, PRIVATE_COUNT } from "../portfolio/Projects";
 
 const GITHUB_USERNAME = "robert-brunner";

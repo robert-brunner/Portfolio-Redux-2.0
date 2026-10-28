@@ -518,3 +518,43 @@ html {
 .pf-prompt .pf-cursor {
   margin-left: 1px;
 }
+
+/* ── Terminal mode: the tree area becomes a scrolling terminal log.
+      Folders stay at the top and scroll up out of view as output arrives. ── */
+.pf-tree--term {
+  display: block;
+  overflow-y: auto;
+}
+
+.pf-tree--term .pf-kids,
+.pf-tree--term .pf-list {
+  display: block;
+  flex: none;
+  overflow: visible;
+}
+
+.pf-term-log {
+  margin-top: 10px;
+  padding: 8px 6px 4px;
+  border-top: 1px dashed #1f2a26;
+  color: #cfd8d4;
+  white-space: pre-wrap;
+}
+
+.pf-term-out {
+  color: #cfd8d4;
+}
+
+/* Preview box while in terminal mode */
+.pf-shot__redacted {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #050706;
+  color: #ff4d4d;
+  letter-spacing: 0.3em;
+  font-size: 1rem;
+}

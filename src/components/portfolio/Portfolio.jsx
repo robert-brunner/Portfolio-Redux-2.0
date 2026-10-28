@@ -110,7 +110,13 @@ const LivePreviews = ({ activeId, warm, overlay }) => {
 
       {PROJECTS.map((p) => {
         const show = p.id === activeId;
-        if (!warm && !show) return null; // before warm-up, only the clicked one loads
+        if (IS_DESKTOP) {
+          if (!warm && !show) return null; // before warm-up, only the clicked one loads
+        } else if (!warm || !show) {
+          // Phones (iOS especially) kill the tab if many live sites are loaded at
+          // once, so mobile only ever mounts the one preview you're looking at.
+          return null;
+        }
         const onLoad = () => setLoaded((l) => ({ ...l, [p.id]: true }));
 
         // No live page: Loom player, repo tree, else a still image
@@ -503,6 +509,18 @@ const Portfolio = () => {
       if (cmd === "1" || cmd === "2") return runGtw(Number(cmd));
       return answer(["PLEASE ENTER 1 OR 2."], null, 300);
     }
+  };
+
+  // Enter from the on-screen keyboard (phones). Same rules as the desktop keys.
+  const mobileEnter = () => {
+    if (phaseRef.current === "busy") return;
+    const text = inputRef.current;
+    if (!termRef.current) {
+      if (isGreeting(text)) startTerminal(text.trim());
+      else setInput("");
+      return;
+    }
+    submit(text);
   };
 
   // Keep the newest terminal line in view; the folders scroll up out of the way
@@ -905,11 +923,36 @@ const Portfolio = () => {
           </div>
 
           {/* ── Prompt (easter egg types here) ── */}
-          <div className="pf-prompt" aria-hidden="true">
+          <div className="pf-prompt">
             <span className="pf-green">bob@build-log</span>
             <span className="pf-muted">:~$ </span>
             <span>{input}</span>
             <span className="pf-cursor" />
+            {!IS_DESKTOP && (
+              // Phones need a real input to open the keyboard. It sits invisibly
+              // over the prompt line; tap the prompt to type.
+              <form
+                className="pf-prompt__form"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  mobileEnter();
+                }}
+              >
+                <input
+                  className="pf-prompt__input"
+                  value={input}
+                  onChange={(e) => {
+                    if (phaseRef.current !== "busy") setInput(e.target.value.slice(0, 60));
+                  }}
+                  aria-label="Terminal input"
+                  autoCapitalize="off"
+                  autoCorrect="off"
+                  autoComplete="off"
+                  spellCheck={false}
+                  enterKeyHint="send"
+                />
+              </form>
+            )}
           </div>
         </div>
 

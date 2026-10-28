@@ -173,12 +173,18 @@ const lockPage = (on) => {
   document.documentElement.style.overflow = on ? "hidden" : "";
 };
 
+// Easter egg: hover the terminal and type anything. Every key types the
+// next letter of this, whatever key it actually was.
+const HELLO = "Hello World!";
+
 const Portfolio = () => {
   const [webOpen, setWebOpen] = useState(true);
   const [privOpen, setPrivOpen] = useState(false);
   const [sel, setSel] = useState({ type: "project", id: PROJECTS[0].id });
   const [warm, setWarm] = useState(false);
   const sectionRef = useRef(null);
+  const hoverRef = useRef(false);
+  const [typed, setTyped] = useState(0);
 
   // Start loading all previews once the section is within ~1 screen of view
   useEffect(() => {
@@ -205,6 +211,39 @@ const Portfolio = () => {
     return () => window.removeEventListener("pf-open", open);
   }, []);
 
+  // Easter egg keyboard handler (desktop only, only while hovered)
+  useEffect(() => {
+    if (!IS_DESKTOP) return;
+    let clearTimer;
+    const onKey = (e) => {
+      if (!hoverRef.current) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return; // leave shortcuts alone
+      const t = e.target;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+
+      if (e.key === "Escape") {
+        setTyped(0);
+        return;
+      }
+      if (e.key === "Backspace") {
+        e.preventDefault();
+        setTyped((n) => Math.max(0, n - 1));
+      } else if (e.key.length === 1 || e.key === "Enter") {
+        e.preventDefault(); // stop Space/Enter from clicking a focused row
+        setTyped((n) => Math.min(HELLO.length, n + 1));
+      } else {
+        return; // arrows, Tab, F-keys etc. behave normally
+      }
+      clearTimeout(clearTimer);
+      clearTimer = setTimeout(() => setTyped(0), 4000); // clears 4s after the last key
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      clearTimeout(clearTimer);
+    };
+  }, []);
+
   // Never leave the page locked if the section unmounts mid-hover
   useEffect(() => () => lockPage(false), []);
 
@@ -221,8 +260,14 @@ const Portfolio = () => {
 
       <div
         className="pf-term"
-        onMouseEnter={() => lockPage(true)}
-        onMouseLeave={() => lockPage(false)}
+        onMouseEnter={() => {
+          hoverRef.current = true;
+          lockPage(true);
+        }}
+        onMouseLeave={() => {
+          hoverRef.current = false;
+          lockPage(false);
+        }}
       >
         <div className="pf-bar">
           <span className="pf-dot" aria-hidden="true" />
@@ -377,7 +422,6 @@ const Portfolio = () => {
                         </a>
                       )}
                     </div>
-                    <span className="pf-cursor" aria-hidden="true" />
                   </>
                 ) : (
                   <div className="pf-detail__denied">
@@ -389,13 +433,22 @@ const Portfolio = () => {
                     <div className="pf-muted">
                       {PRIVATE_COUNT} items. Available on request.
                     </div>
-                    <span className="pf-cursor" aria-hidden="true" />
                   </div>
                 )}
               </div>
 
               <LivePreviews activeId={project?.id ?? null} warm={warm} />
             </div>
+          </div>
+
+          {/* ── Prompt (easter egg types here) ── */}
+          <div className="pf-prompt" aria-hidden="true">
+            <span className="pf-green">bob@build-log</span>
+            <span className="pf-muted">:~$ </span>
+            <span className={typed === HELLO.length ? "pf-green" : undefined}>
+              {HELLO.slice(0, typed)}
+            </span>
+            <span className="pf-cursor" />
           </div>
         </div>
       </div>

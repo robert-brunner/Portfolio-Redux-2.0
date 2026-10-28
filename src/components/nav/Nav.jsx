@@ -1,72 +1,102 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   TbTerminal2,   // home
   TbId,          // about
   TbGitBranch,   // experience
   TbCpu,         // skills
   TbFolder,      // portfolio
+  TbQuote,       // testimonials
   TbAccessPoint, // contact
 } from 'react-icons/tb';
 import './Nav.css';
 
+const SECTIONS = ['#', '#about', '#experience', '#skills0', '#portfolio', '#testimonials', '#contact'];
+
 const Nav = () => {
   const [activeNav, setActiveNav] = useState('#');
+  // true from a click until the page has stopped scrolling
+  const clickLock = useRef(false);
+  const scrolledSinceClick = useRef(false);
 
-useEffect(() => {
-    let isClicking = false;
+  useEffect(() => {
+    let stopTimer = null;
+    let frame = null;
 
-    const handleScroll = () => {
-      if (isClicking) return;
-      const scrollPosition = window.scrollY;
-      const sectionPositions = {
-        '#':           0,
-        '#about':      document.getElementById('about').offsetTop,
-        '#experience': document.getElementById('experience').offsetTop,
-        '#skills0':    document.getElementById('skills0').offsetTop,
-        '#portfolio':  document.getElementById('portfolio').offsetTop,
-        '#contact':    document.getElementById('contact').offsetTop,
-      };
-
-      let visibleSection = '#';
-      for (const section in sectionPositions) {
-        if (scrollPosition >= sectionPositions[section]) {
-          visibleSection = section;
-        }
+    // Which section is "current": the last one whose top is above a line
+    // 1/3 down the screen. Measured live each time, so content loading,
+    // AOS, or resizing can never leave it with stale positions.
+    const pickActive = () => {
+      const line = window.innerHeight / 3;
+      let current = '#';
+      for (const hash of SECTIONS.slice(1)) {
+        const el = document.querySelector(hash);
+        if (el && el.getBoundingClientRect().top <= line) current = hash;
       }
-      setActiveNav(visibleSection);
+      // At the very bottom, Contact may never reach that line: count it as current
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      return atBottom ? SECTIONS[SECTIONS.length - 1] : current;
     };
 
-    window.addEventListener('scroll', handleScroll);
+    const onScroll = () => {
+      scrolledSinceClick.current = true;
+      // During a click-scroll, don't light up every section it passes.
+      // Wait until scrolling has been quiet for 150ms, then sync once.
+      clearTimeout(stopTimer);
+      stopTimer = setTimeout(() => {
+        clickLock.current = false;
+        setActiveNav(pickActive());
+      }, 150);
 
-    const handleClick = () => {
-      isClicking = true;
-      setTimeout(() => { isClicking = false; }, 1000);
+      if (clickLock.current) return;
+      if (frame) return; // one update per frame max
+      frame = requestAnimationFrame(() => {
+        frame = null;
+        setActiveNav(pickActive());
+      });
     };
 
-    document.querySelectorAll('nav a').forEach(a => a.addEventListener('click', handleClick));
-
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      clearTimeout(stopTimer);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
+
+  const handleClick = (hash) => {
+    clickLock.current = true;
+    scrolledSinceClick.current = false;
+    setActiveNav(hash);
+    // Clicked the section you're already on: no scroll happens, so release now
+    setTimeout(() => {
+      if (!scrolledSinceClick.current) clickLock.current = false;
+    }, 300);
+    // Safety: if the portfolio terminal's scroll lock is still on
+    // (mouse left it mid-scroll without a mouseleave), release it.
+    document.documentElement.style.overflow = '';
+  };
+
+  const link = (hash, title, Icon) => (
+    <a
+      title={title}
+      href={hash}
+      onClick={() => handleClick(hash)}
+      className={activeNav === hash ? 'active' : ''}
+    >
+      <Icon />
+    </a>
+  );
+
   return (
     <nav>
-      <a title="Home" href="#" onClick={() => setActiveNav('#')} className={activeNav === '#' ? 'active' : ''}>
-        <TbTerminal2 />
-      </a>
-      <a title="About Me" href="#about" onClick={() => setActiveNav('#about')} className={activeNav === '#about' ? 'active' : ''}>
-        <TbId />
-      </a>
-      <a title="Experience" href="#experience" onClick={() => setActiveNav('#experience')} className={activeNav === '#experience' ? 'active' : ''}>
-        <TbGitBranch />
-      </a>
-      <a title="Skills" href="#skills0" onClick={() => setActiveNav('#skills0')} className={activeNav === '#skills0' ? 'active' : ''}>
-        <TbCpu />
-      </a>
-      <a title="Portfolio" href="#portfolio" onClick={() => setActiveNav('#portfolio')} className={activeNav === '#portfolio' ? 'active' : ''}>
-        <TbFolder />
-      </a>
-      <a title="Contact" href="#contact" onClick={() => setActiveNav('#contact')} className={activeNav === '#contact' ? 'active' : ''}>
-        <TbAccessPoint />
-      </a>
+      {link('#', 'Home', TbTerminal2)}
+      {link('#about', 'About Me', TbId)}
+      {link('#experience', 'Experience', TbGitBranch)}
+      {link('#skills0', 'Skills', TbCpu)}
+      {link('#portfolio', 'Portfolio', TbFolder)}
+      {link('#testimonials', 'Testimonials', TbQuote)}
+      {link('#contact', 'Contact', TbAccessPoint)}
     </nav>
   );
 };

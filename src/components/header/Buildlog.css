@@ -137,14 +137,33 @@
   pointer-events: none;
 }
 
+/* Both texts sit stacked in the same spot; hover only swaps which one is
+   visible, so the label is always as wide as the wider one. No jumping. */
+.buildlog__item--private .buildlog__label {
+  display: inline-grid;
+}
+
+.buildlog__item--private .buildlog__label::before,
+.buildlog__item--private .buildlog__label::after {
+  grid-area: 1 / 1;
+}
+
 .buildlog__item--private .buildlog__label::before {
   content: "▓▓▓▓▓▓▓▓▓▓";
-  transition: opacity 0.3s ease;
+}
+
+.buildlog__item--private .buildlog__label::after {
+  content: "REDACTED";
+  color: #ff4d4d;
+  visibility: hidden;
 }
 
 .buildlog__item--private:hover .buildlog__label::before {
-  content: "REDACTED";
-  color: #ff4d4d;
+  visibility: hidden;
+}
+
+.buildlog__item--private:hover .buildlog__label::after {
+  visibility: visible;
 }
 
 .buildlog__menu {

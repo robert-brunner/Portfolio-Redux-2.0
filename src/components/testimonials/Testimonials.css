@@ -1,89 +1,163 @@
-.container.testimonials_container {
-  width: 90%;
-  padding-bottom: 4rem;
-}
-
-.testimonial {
-  background: var(--color-bg-variant);
-  text-align: center;
-  padding: 2rem;
-  border-radius: 2rem;
-  user-select: none;
-  cursor: grab;
-}
-
-.testimonial_logo{
-  display: inline;
-  height: 20px;
-  width: 20px;
-  margin-right: 5px;
-}
-
-.logo_and_text{
-  
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.client_avatar {
-  width: 4rem;
-  aspect-ratio: 1/1;
+/* ── Frame (matches the portfolio terminal) ── */
+.tm-frame {
+  width: var(--container-width-lg);
+  max-width: 980px;
+  margin: 0 auto;
+  background: #0b0d0c;
+  border: 1px solid #1f2a26;
+  border-radius: 12px;
   overflow: hidden;
-  border-radius: 50%;
-  margin: 0 auto 1rem;
-  border: 0.4rem solid var(--color-primary-variant);
+  padding: 22px 0 16px;
 }
 
-.client_title {
-  padding-top: 1rem;
+.tm-green { color: #00e5a0; }
+.tm-muted { color: #5f7a6f; }
+.tm-hash  { color: #ffd700; font-family: "JetBrains Mono", "Courier New", monospace; }
+.tm-dot   { color: #b48cf0; }
+.tm-stars { color: #ffd700; letter-spacing: 1px; }
+.tm-name  { color: #cfd8d4; }
+
+/* Source = branch tag */
+.tm-branch--linkedin { color: #4da3ff; }
+.tm-branch--upwork   { color: #14a800; }
+.tm-branch--local    { color: #cfd8d4; }
+
+/* ── Featured quote ── */
+.tm-feature {
+  text-align: center;
+  padding: 0 24px;
+  transition: opacity 0.4s ease;
 }
 
-.client_review {
-  color: var(--color-light);
-  font-weight: 300;
+.tm-feature.is-fading {
+  opacity: 0;
+}
+
+.tm-cmd {
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  font-size: 0.75rem;
+}
+
+/* Fixed height: the section never resizes between reviews.
+   A long review scrolls inside instead. */
+.tm-quote {
+  height: 9.5rem;
+  margin-top: 6px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.tm-mark {
   display: block;
-  width: 80%;
-  margin: 0.8rem auto 0;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: #b48cf0;
 }
 
-.swiper-pagination-bullet {
-  background: #FFF !important
+.tm-text {
+  max-width: 620px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #cfd8d4;
 }
 
-.linkedin_source {
-  color: #0077b5;
+.tm-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 8px;
+  margin-top: 12px;
+  font-family: "JetBrains Mono", "Courier New", monospace;
+  font-size: 0.75rem;
 }
 
-.local_source {
-  color: white;
+.tm-meta__av {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #1f2a26;
 }
 
-.upwork_source {
-  color: green;
+/* ── Marquee ── */
+.tm-marquee {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #1f2a26;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
 
-.container.testimonials_container {
-  width: 90%;
-  padding-bottom: 0rem;
+/* Rows are positioned by JS (see Marquee in Testimonials.jsx) */
+.tm-row {
+  display: flex;
+  width: max-content;
+  will-change: transform;
 }
 
-/* ==================== Media Queries (Medium Devices) ======================= */
+.tm-chip {
+  all: unset;
+  flex: none;
+  margin-right: 10px; /* margin, not gap: keeps the loop seam exact */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 14px 4px 4px;
+  background: #030618;
+  border: 1px solid #1f2a26;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  color: #cfd8d4;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
 
+.tm-chip:hover {
+  border-color: #2f6b55;
+  background: #08100d;
+}
+
+.tm-chip.is-on {
+  border-color: #00e5a0;
+}
+
+.tm-chip:focus-visible {
+  outline: 1px solid #00e5a0;
+}
+
+.tm-chip__av {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.tm-chip .tm-hash {
+  font-size: 0.72rem;
+}
+
+/* Scrollbar on long quotes: same thin, arrowless bar as the portfolio */
+.tm-quote::-webkit-scrollbar { display: block !important; width: 6px !important; }
+.tm-quote::-webkit-scrollbar-button { display: none; }
+.tm-quote::-webkit-scrollbar-track { background: transparent; }
+.tm-quote::-webkit-scrollbar-thumb { background: #2f6b55 !important; border-radius: 3px; }
+
+/* ── Medium ── */
 @media screen and (max-width: 1024px) {
-  .container.testimonials_container {
-    width: 60%;
-  }
+  .tm-frame { width: var(--container-width-md); }
 }
 
-/* ==================== Media Queries (Small Devices) ======================= */
-
+/* ── Mobile: one row, smaller quote ── */
 @media screen and (max-width: 600px) {
-  .container.testimonials_container {
-    width: var(--container-width-sm);
-  }
-
-  .client_review {
-    width: var(--container-width-sm);
-  }
+  .tm-frame { width: var(--container-width-sm); }
+  .tm-feature { padding: 0 14px; }
+  .tm-text { font-size: 0.95rem; }
+  .tm-quote { height: 11rem; }
 }

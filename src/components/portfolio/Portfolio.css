@@ -377,7 +377,7 @@
 .pf-list,
 .pf-detail__desc {
   border-color: rgba(47, 107, 85, 0);
-  transition: border-color 0.3s ease;
+  transition: border-color 0.1s ease;
 }
 
 .pf-list:hover,
@@ -406,7 +406,7 @@
   .pf-detail__desc {
     scrollbar-width: thin !important;
     scrollbar-color: transparent transparent !important;
-    transition: scrollbar-color 0.3s ease;
+    transition: scrollbar-color 0.1s ease;
   }
 
   .pf-list:hover,
@@ -502,4 +502,19 @@ html {
 
 .pf-tree-sum {
   margin-top: 6px;
+}
+
+/* ── Bottom prompt line (easter egg) ── */
+.pf-prompt {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #1f2a26;
+  color: #cfd8d4;
+  white-space: pre;
+  display: flex;
+  align-items: center;
+}
+
+.pf-prompt .pf-cursor {
+  margin-left: 1px;
 }

@@ -1,51 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import About from './components/about/About';
-import Contact from './components/contact/Contact';
-import Skills0 from './components/skills0/Skills0';
-import Footer from './components/footer/Footer';
-import Header from './components/header/Header';
+import React, { useState, useEffect } from "react";
+import About from "./components/about/About";
+import Contact from "./components/contact/Contact";
+import Skills0 from "./components/skills0/Skills0";
+import Footer from "./components/footer/Footer";
+import Header from "./components/header/Header";
 // import Header from './components/header/PcbHeader';
 // import Header from './components/header/PcbHeader2';
 // import Header from './components/header/PcbHeader3';
 // import Header from './components/header/PcbHeader4';
 // import Header from './components/header/GeminiHeader1';
-import Nav from './components/nav/Nav';
-import Portfolio from './components/portfolio/Portfolio';
+import Nav from "./components/nav/Nav";
+import Portfolio from "./components/portfolio/Portfolio";
 import PreLoader from "./components/PreLoader/PreLoader";
 import Testimonials from "./components/testimonials/Testimonials";
-import Experience from './components/experience/Experience';
-import pleaseRotate from './assets/pleaseRotate.png'; // Make sure this path is correct
-
+import Experience from "./components/experience/Experience";
+import pleaseRotate from "./assets/pleaseRotate.png"; // Make sure this path is correct
 
 function App() {
-  const [orientation, setOrientation] = useState(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
+  const [orientation, setOrientation] = useState(
+    window.innerWidth > window.innerHeight ? "landscape" : "portrait",
+  );
   const [initialOrientation, setInitialOrientation] = useState(orientation);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [preloaderDone, setPreLoaderDone] = useState(false);
 
-
   useEffect(() => {
     const handleResize = () => {
-      const newOrientation = window.innerWidth > window.innerHeight ? 'landscape' : 'portrait';
+      const newOrientation =
+        window.innerWidth > window.innerHeight ? "landscape" : "portrait";
       setOrientation(newOrientation);
       setIsMobile(window.innerWidth < 768);
     };
 
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+    if (window.location.hash) {
+      window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search,
+      );
+    }
+    window.scrollTo(0, 0);
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
-  
+
   const renderContent = () => {
     if (isMobile) {
-      if (initialOrientation === 'portrait' && orientation === 'landscape') {
+      if (initialOrientation === "portrait" && orientation === "landscape") {
         // Show "please rotate" image if the device started in portrait and is now in landscape
         return (
           <div className="container">
-            <img src="https://media1.tenor.com/m/oHvIIZFUf7wAAAAd/shark-rotate.gif" alt="rotateMe" id="rotateMe" />
-            <div id='Flipper' className="overlay-text">Flip Me🔄</div>
+            <img
+              src="https://media1.tenor.com/m/oHvIIZFUf7wAAAAd/shark-rotate.gif"
+              alt="rotateMe"
+              id="rotateMe"
+            />
+            <div id="Flipper" className="overlay-text">
+              Flip Me🔄
+            </div>
           </div>
         );
       }
@@ -79,17 +97,15 @@ function App() {
       </>
     );
   };
-  
 
   return (
     <>
-      <PreLoader onDone={() => setPreLoaderDone(true)} /> 
+      <PreLoader onDone={() => setPreLoaderDone(true)} />
       {renderContent()}
     </>
   );
 }
 
 export default App;
-
 
 // turn preloader back on to see menu

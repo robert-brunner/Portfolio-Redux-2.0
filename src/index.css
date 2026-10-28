@@ -212,3 +212,13 @@ html, body{
   background: rgba(0, 0, 0, 0); /* Optional: adds a semi-transparent background */
   padding: 135px;        /* Adds padding around the text */
 }
+
+
+/* AOS slides elements in with transforms. On a nav target (or anything that
+   wraps one) that makes the browser scroll to the shifted spot, then AOS
+   moves the section and the header slides out of view. Keep the fade,
+   drop the slide, only on these. */
+:is(#about, #experience, #skills0, #portfolio, #testimonials, #contact)[data-aos],
+[data-aos]:has(#about, #experience, #skills0, #portfolio, #testimonials, #contact) {
+  transform: none !important;
+}
